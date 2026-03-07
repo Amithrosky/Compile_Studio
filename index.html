@@ -1,669 +1,903 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="h-full dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DevStudio V 2.0</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        dark: { 
+                            bg: '#09090b', 
+                            panel: '#18181b', 
+                            surface: '#27272a', 
+                            border: '#3f3f46', 
+                            text: '#e4e4e7',
+                            accent: '#3b82f6'
+                        }
+                    },
+                    animation: {
+                        'pulse-fast': 'pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'bounce-slow': 'bounce 3s infinite',
+                        'in-pop': 'popIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+                    },
+                    keyframes: {
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.95)' },
+                            '100%': { opacity: '1', transform: 'scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- CodeMirror & Addons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/ttcn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/scroll/simplescrollbars.min.css">
 
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- External Libs -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
+
+    <!-- CodeMirror Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
+    
+    <!-- CodeMirror Addons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closetag.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/xml-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/search.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/searchcursor.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/comment/comment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/keymap/sublime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/scroll/simplescrollbars.min.js"></script>
+    
+    <!-- Emmet Support -->
+    <script src="https://emmet.io/js/browser-script.js"></script>
+
+    <style>
+        :root {
+            --bg-body: #09090b;
+            --bg-panel: #18181b;
+            --bg-header: #09090b;
+            --border-color: #27272a;
+            --text-main: #e4e4e7;
+            --text-muted: #a1a1aa;
+            --accent: #3b82f6;
+            --tab-active-bg: #18181b;
+            --tab-inactive-bg: #09090b;
+            /* One UI Smooth Curve */
+            --ease-one-ui: cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        
+        :root.light-theme {
+            --bg-body: #f8fafc;
+            --bg-panel: #ffffff;
+            --bg-header: #f1f5f9;
+            --border-color: #e2e8f0;
+            --text-main: #334155;
+            --text-muted: #64748b;
+            --accent: #0ea5e9;
+            --tab-active-bg: #ffffff;
+            --tab-inactive-bg: #f1f5f9;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-main); transition: background-color 0.4s var(--ease-one-ui), color 0.4s var(--ease-one-ui); }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; border: 2px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--text-muted); }
+
+        /* CodeMirror Overrides */
+        .CodeMirror { height: 100%; font-family: 'JetBrains Mono', monospace; font-size: 14px; line-height: 1.6; background-color: var(--bg-panel) !important; transition: background 0.3s; border: none; }
+        .CodeMirror-gutters { background-color: var(--bg-panel) !important; border-right: 1px solid var(--border-color) !important; }
+        .CodeMirror-linenumber { color: var(--text-muted) !important; opacity: 0.5; }
+        
+        .light-theme .CodeMirror { color: #334155; }
+        
+        /* Tab Styling */
+        .tab-item { 
+            position: relative; 
+            transition: all 0.3s var(--ease-one-ui); 
+            user-select: none; 
+            border-right: 1px solid var(--border-color);
+            background-color: var(--tab-inactive-bg);
+            color: var(--text-muted);
+        }
+        .tab-item.active { 
+            background-color: var(--tab-active-bg); 
+            color: var(--accent); 
+            border-top: 2px solid var(--accent);
+            font-weight: 500;
+        }
+        .tab-item:not(.active):hover { 
+            background-color: rgba(125,125,125,0.05); 
+            color: var(--text-main); 
+        }
+        .tab-item.dragging { opacity: 0.5; border: 2px dashed var(--accent); }
+
+        /* Loader */
+        .loader { height: 2px; width: 100%; background: transparent; overflow: hidden; position: absolute; top: 0; left: 0; z-index: 50; display: none; }
+        .loader .bar { width: 100%; height: 100%; background: var(--accent); transform: translateX(-100%); animation: load 1.5s infinite ease-in-out; }
+        @keyframes load { 0% { transform: translateX(-100%); } 50% { transform: translateX(0); } 100% { transform: translateX(100%); } }
+
+        /* Utilities */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Smooth Menus */
+        .menu-dropdown {
+            opacity: 0;
+            transform: scale(0.92) translateY(-10px);
+            pointer-events: none;
+            transition: opacity 0.3s var(--ease-one-ui), transform 0.3s var(--ease-one-ui);
+            transform-origin: top right;
+        }
+        .menu-dropdown.open {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+            pointer-events: auto;
+        }
+
+        /* Context Menu */
+        .context-menu {
+            opacity: 0;
+            transform: scale(0.92);
+            pointer-events: none;
+            transition: opacity 0.2s var(--ease-one-ui), transform 0.2s var(--ease-one-ui);
+            transform-origin: top left;
+        }
+        .context-menu.open {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+        /* Animations */
+        .cross-svg path { stroke-dasharray: 100; stroke-dashoffset: 100; animation: draw-cross 0.6s ease-out forwards; }
+        .cross-svg path:nth-child(2) { animation-delay: 0.3s; }
+        .cross-container { animation: shake 3s ease-in-out infinite; }
+        @keyframes draw-cross { to { stroke-dashoffset: 0; } }
+        @keyframes shake { 0%, 100% { transform: rotate(0deg); } 5% { transform: rotate(10deg); } 10% { transform: rotate(-10deg); } 15% { transform: rotate(5deg); } 20% { transform: rotate(-5deg); } 25% { transform: rotate(0deg); } }
+
+        .white-screen-overlay {
+            position: fixed; inset: 0; background: white; z-index: 9999; opacity: 0; pointer-events: none;
+            transition: opacity 1.5s ease-in-out;
+        }
+        .white-screen-overlay.active { opacity: 1; pointer-events: auto; }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            opacity: 0;
+            background: rgba(24, 24, 27, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 99px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 200;
+            transition: all 0.4s var(--ease-one-ui);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col overflow-hidden text-sm selection:bg-blue-500/30">
+
+    <!-- Tab Context Menu (Right Click) -->
+    <div id="tabContextMenu" class="context-menu fixed z-[100] bg-[#18181b]/95 dark:bg-[#18181b]/95 bg-white/95 backdrop-blur-xl border border-slate-700/50 rounded-2xl shadow-2xl py-1.5 w-48 overflow-hidden ring-1 ring-white/5">
+        <div class="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">Tab Actions</div>
+        <button onclick="window.contextActions.rename()" class="w-full text-left px-4 py-2 hover:bg-white/10 flex items-center gap-2.5 transition-colors">
+            <i data-lucide="edit-2" class="w-4 h-4 text-blue-400"></i> <span>Rename</span>
+        </button>
+        <div class="h-px bg-slate-700/50 my-1 mx-2"></div>
+        <button onclick="window.contextActions.close()" class="w-full text-left px-4 py-2 hover:bg-red-500/10 text-red-400 flex items-center gap-2.5 transition-colors">
+            <i data-lucide="trash-2" class="w-4 h-4"></i> <span>Delete</span>
+        </button>
+    </div>
+
+    <!-- Compatibility Popup -->
+    <div id="mobilePopup" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-6">
+        <div class="bg-[#18181b] border border-red-500/30 rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all duration-300 scale-100">
+            <div class="p-8 relative">
+                <div class="flex items-start gap-5">
+                    <div class="cross-container shrink-0 w-12 h-12 rounded-full bg-red-500/10 flex items-center justify-center border border-red-500/20 shadow-lg shadow-red-500/10">
+                        <svg class="cross-svg w-6 h-6 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6L6 18"></path>
+                            <path d="M6 6l12 12"></path>
+                        </svg>
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-xl font-bold text-white mb-2 tracking-tight">Device Error</h2>
+                        <p class="text-slate-400 text-sm leading-relaxed">This professional suite is designed for desktop environments only.</p>
+                    </div>
+                </div>
+                <div class="mt-8 flex gap-3">
+                    <button onclick="window.compatibility.continue()" class="flex-1 bg-white/5 hover:bg-white/10 text-white py-3 rounded-2xl font-medium transition active:scale-95 border border-white/10">Continue</button>
+                    <button onclick="window.compatibility.report()" class="flex-1 bg-red-600 hover:bg-red-500 text-white py-3 rounded-2xl font-medium transition active:scale-95 shadow-lg shadow-red-600/20">Report</button>
+                </div>
+            </div>
+            <div class="h-1.5 w-full bg-[repeating-linear-gradient(45deg,#ef4444,#ef4444_10px,#b91c1c_10px,#b91c1c_20px)]"></div>
+        </div>
+    </div>
+
+    <div id="whiteScreen" class="white-screen-overlay"></div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast">Action Successful</div>
+
+    <!-- Generic Confirmation Modal -->
+    <div id="confirmModal" class="hidden fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-md p-6 transition-opacity duration-300">
+        <div class="bg-[#18181b] border border-slate-700/50 rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden transform transition-all duration-500 cubic-bezier(0.22, 1, 0.36, 1) scale-100 ring-1 ring-white/10">
+            <div class="p-6">
+                <h3 id="modalTitle" class="text-xl font-bold text-white mb-2">Confirmation</h3>
+                <p id="modalMessage" class="text-slate-400 text-sm mb-8 leading-relaxed">Are you sure you want to proceed?</p>
+                <div class="flex gap-3">
+                    <button onclick="window.modal.close()" class="flex-1 bg-white/5 hover:bg-white/10 text-slate-300 py-2.5 rounded-xl font-medium transition border border-white/5">Cancel</button>
+                    <button id="modalConfirmBtn" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-2.5 rounded-xl font-medium transition shadow-lg shadow-blue-600/20">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="h-14 shrink-0 flex items-center justify-between border-b z-20 transition-colors duration-300 relative select-none pl-4 pr-2" style="background-color: var(--bg-header); border-color: var(--border-color);">
+        
+        <!-- Brand -->
+        <div class="flex items-center gap-3 w-48 shrink-0">
+            <div class="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-2 rounded-xl border border-blue-500/20 shadow-inner">
+                <i data-lucide="zap" class="text-blue-400 w-4 h-4 fill-blue-400/20"></i>
+            </div>
+            <span class="font-bold tracking-tight text-lg bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-cyan-400">DevStudio</span>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex-grow flex items-end h-full overflow-x-auto no-scrollbar mask-gradient pt-2" id="tabContainer">
+            <!-- Tabs injected by JS -->
+        </div>
+
+        <!-- Add Tab Button -->
+        <button onclick="window.tabManager.addTab()" class="h-10 w-10 ml-2 mr-2 rounded-xl hover:bg-white/5 transition text-slate-400 hover:text-blue-400 flex items-center justify-center border border-transparent hover:border-white/5" title="New File (Ctrl+N)">
+            <i data-lucide="plus" class="w-5 h-5"></i>
+        </button>
+
+        <!-- Right Actions -->
+        <div class="flex items-center gap-2 shrink-0">
+            <button onclick="window.actions.download()" class="hidden md:flex p-2.5 rounded-xl hover:bg-white/10 text-slate-400 hover:text-blue-400 transition" title="Download">
+                <i data-lucide="download" class="w-4 h-4"></i>
+            </button>
+
+            <!-- Auto-Run -->
+            <label class="flex items-center gap-2 cursor-pointer group px-2 py-1 rounded-xl hover:bg-white/5 transition">
+                <div class="relative">
+                    <input type="checkbox" id="autoRunToggle" class="sr-only" checked>
+                    <div class="block w-9 h-5 bg-slate-700/50 rounded-full transition-colors duration-300 group-hover:bg-slate-600 peer-checked:bg-blue-600/80"></div>
+                    <div class="dot absolute left-1 top-1 bg-white w-3 h-3 rounded-full transition-transform duration-300 cubic-bezier(0.22, 1, 0.36, 1)"></div>
+                </div>
+                <span class="text-[10px] font-bold uppercase tracking-wider opacity-50 group-hover:opacity-100 transition">Live</span>
+            </label>
+
+            <!-- Settings Menu -->
+            <div class="relative ml-1">
+                <button onclick="window.ui.toggleMenu()" class="p-2.5 rounded-xl hover:bg-white/10 transition text-slate-400 hover:text-white" id="menuBtn">
+                    <i data-lucide="more-vertical" class="w-5 h-5"></i>
+                </button>
+                
+                <!-- Dropdown -->
+                <div id="dropdownMenu" class="menu-dropdown absolute right-0 mt-3 w-64 bg-[#18181b]/95 dark:bg-[#18181b]/95 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 py-2 z-50 ring-1 ring-white/10 origin-top-right">
+                    <div class="px-5 py-3 text-xs font-bold text-slate-500 uppercase tracking-wider">System</div>
+                    
+                    <button onclick="window.ui.toggleTheme()" class="w-full text-left px-5 py-3 hover:bg-white/5 flex items-center gap-3 transition-all">
+                        <i id="themeIcon" data-lucide="sun" class="w-4 h-4 text-slate-400"></i> <span id="themeText">Light Mode</span>
+                    </button>
+                    
+                    <button onclick="window.actions.format()" class="w-full text-left px-5 py-3 hover:bg-white/5 flex items-center gap-3 transition-all">
+                        <i data-lucide="wand-2" class="w-4 h-4 text-purple-400"></i> Beautify Code
+                    </button>
+
+                    <button onclick="window.actions.clearCode()" class="w-full text-left px-5 py-3 hover:bg-white/5 flex items-center gap-3 text-yellow-500 hover:text-yellow-400 transition-all">
+                        <i data-lucide="eraser" class="w-4 h-4"></i> Clear Canvas
+                    </button>
+
+                    <div class="h-px bg-slate-700/50 my-2 mx-4"></div>
+                    <div class="px-5 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Support</div>
+
+                    <!-- Added Donate Button -->
+                    <button onclick="window.actions.donate()" class="w-full text-left px-5 py-3 hover:bg-white/5 flex items-center gap-3 text-green-500 hover:text-green-400 transition-all group">
+                        <i data-lucide="heart" class="w-4 h-4 group-hover:fill-green-400 transition-colors"></i> <span>Donate</span>
+                    </button>
+
+                     <!-- Added About Button -->
+                     <button onclick="window.actions.about()" class="w-full text-left px-5 py-3 hover:bg-white/5 flex items-center gap-3 text-blue-500 hover:text-blue-400 transition-all">
+                        <i data-lucide="info" class="w-4 h-4"></i> <span>About Developer</span>
+                    </button>
+
+                    <div class="h-px bg-slate-700/50 my-2 mx-4"></div>
+                    
+                    <button onclick="window.actions.reset()" class="w-full text-left px-5 py-3 text-red-500 hover:bg-red-500/10 flex items-center gap-3 transition-all rounded-b-2xl">
+                        <i data-lucide="refresh-cw" class="w-4 h-4"></i> Factory Reset
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN LAYOUT -->
+    <main class="flex-grow flex flex-col md:flex-row overflow-hidden relative">
+        
+        <!-- EDITOR -->
+        <div id="editorPane" class="flex flex-col h-1/2 md:h-full md:w-1/2 border-b md:border-b-0 md:border-r transition-colors duration-300 relative z-0" style="border-color: var(--border-color);">
+            <div class="flex-grow relative overflow-hidden">
+                <textarea id="codeEditor"></textarea>
+            </div>
+            
+            <!-- Status Bar -->
+            <div class="px-4 h-8 flex items-center justify-between text-[11px] select-none font-mono transition-colors duration-300 border-t" style="background-color: var(--bg-body); color: var(--text-muted); border-color: var(--border-color);">
+                <div class="flex items-center gap-4">
+                    <span id="cursorPos" class="flex items-center gap-1.5"><i data-lucide="move" class="w-3 h-3"></i> Ln 1, Col 1</span>
+                    <span id="selectionInfo" class="hidden text-blue-400"></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span id="saveStatus" class="text-green-500 hidden flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Saved</span>
+                    <span class="opacity-50">HTML Mixed</span>
+                    <span id="docSize" class="bg-white/5 px-2 py-0.5 rounded">0 B</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREVIEW -->
+        <div id="previewPane" class="flex flex-col h-1/2 md:h-full md:w-1/2 relative z-0 bg-slate-50 dark:bg-[#0c0c0e]">
+            
+            <!-- Browser Toolbar -->
+            <div class="h-10 px-3 flex items-center gap-2 shadow-sm border-b transition-colors duration-300 z-10 shrink-0" style="background-color: var(--bg-panel); border-color: var(--border-color);">
+                <button onclick="window.browser.refresh()" class="p-2 rounded-lg hover:bg-slate-200 dark:hover:bg-white/10 text-slate-500 transition active:scale-95">
+                    <i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i>
+                </button>
+
+                <div class="flex-grow relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i id="lockIcon" data-lucide="lock" class="w-3 h-3 text-emerald-500"></i>
+                    </div>
+                    <input type="text" id="addressBar" value="localhost:3000" 
+                        class="w-full h-7 bg-slate-100 dark:bg-black/30 text-slate-600 dark:text-slate-400 text-xs pl-8 pr-3 rounded-lg border border-transparent focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all font-mono shadow-inner"
+                        placeholder="Enter URL...">
+                </div>
+
+                <div class="flex bg-slate-200 dark:bg-white/5 rounded-lg p-0.5 shrink-0 border border-white/5">
+                    <button onclick="window.actions.resizeView('100%')" class="p-1.5 rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-500 transition" title="Desktop">
+                        <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="window.actions.resizeView('375px')" class="p-1.5 rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-500 transition" title="Mobile">
+                        <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+                    </button>
+                    <button onclick="window.actions.toggleFullScreen()" class="p-1.5 rounded-md hover:bg-white dark:hover:bg-white/10 text-slate-500 transition" title="Full Screen">
+                        <i id="fsIcon" data-lucide="expand" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="loader" class="loader"><div class="bar"></div></div>
+
+            <!-- Iframe Container -->
+            <div id="previewContainer" class="flex-grow relative w-full overflow-hidden flex justify-center items-start bg-grid-pattern">
+                <iframe id="previewFrame" class="bg-white shadow-2xl transition-all duration-300 origin-top h-full w-full" sandbox="allow-scripts allow-same-origin allow-popups allow-modals allow-forms"></iframe>
+                
+                <div id="externalOverlay" class="hidden absolute inset-0 flex flex-col items-center justify-center bg-white/95 dark:bg-[#09090b]/95 backdrop-blur z-20 text-center p-6">
+                    <div class="bg-blue-500/10 p-5 rounded-full mb-6 animate-bounce"><i data-lucide="globe" class="w-10 h-10 text-blue-500"></i></div>
+                    <h3 class="font-bold text-slate-800 dark:text-white mb-2 text-xl">Error!</h3>
+                    <p class="text-sm max-w-xs mb-8 text-slate-500 leading-relaxed">You can't browse external websites throuht the previewer.</p>
+                    <button onclick="window.browser.navigate('internal')" class="bg-blue-600 text-white px-8 py-3 rounded-xl text-sm font-bold hover:bg-blue-500 shadow-lg shadow-blue-500/30 transition hover:scale-105 active:scale-95">
+                        Return to Editor
+                    </button>
+                </div>
+            </div>
+
+            <!-- Console Drawer -->
+            <div id="consoleContainer" class="absolute bottom-0 left-0 right-0 max-h-[40%] bg-[#09090b]/90 backdrop-blur-xl text-slate-300 flex flex-col transition-transform duration-500 cubic-bezier(0.22, 1, 0.36, 1) transform translate-y-full z-30 border-t border-slate-700/50 shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+                <div class="flex items-center justify-between px-4 py-2 bg-[#18181b]/50 border-b border-slate-700/50 cursor-ns-resize" title="Console">
+                    <div class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+                        <i data-lucide="terminal" class="w-3 h-3 text-blue-400"></i> Terminal
+                    </div>
+                    <div class="flex gap-1">
+                        <button onclick="window.actions.clearConsole()" class="p-1.5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition" title="Clear"><i data-lucide="ban" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="window.ui.toggleConsole()" class="p-1.5 hover:bg-white/10 rounded-lg text-slate-400 hover:text-white transition" title="Close"><i data-lucide="chevron-down" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                </div>
+                <div id="consoleOutput" class="flex-grow overflow-y-auto font-mono text-xs p-3 space-y-1.5"></div>
+            </div>
+            
+            <!-- Console Toggle Fab -->
+            <button id="consoleToggleBtn" onclick="window.ui.toggleConsole()" class="absolute bottom-5 right-5 bg-[#18181b] border border-slate-700 text-slate-300 p-3 rounded-2xl shadow-xl hover:bg-blue-600 hover:text-white hover:border-blue-500 transition-all duration-300 z-20 hover:scale-110 active:scale-95 group">
+                <i data-lucide="terminal" class="w-5 h-5"></i>
+                <span id="errorBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[9px] font-bold w-5 h-5 rounded-full flex items-center justify-center hidden shadow-sm border border-[#18181b]">0</span>
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // --- CORE UTILS ---
+        const $ = id => document.getElementById(id);
+        const uuid = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
+        
+        // --- TOAST NOTIFICATION ---
+        const toast = {
+            show: (msg) => {
+                const el = $('toast');
+                el.innerText = msg;
+                el.classList.add('show');
+                setTimeout(() => el.classList.remove('show'), 3000);
+            }
+        };
+
+        // --- MODAL UTILS ---
+        const modal = {
+            show: (title, msg, onConfirm) => {
+                $('modalTitle').textContent = title;
+                $('modalMessage').textContent = msg;
+                const btn = $('modalConfirmBtn');
+                
+                // Clone to strip old listeners
+                const newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+                
+                newBtn.onclick = () => {
+                    onConfirm();
+                    modal.close();
+                };
+                
+                $('confirmModal').classList.remove('hidden');
+                setTimeout(() => $('confirmModal').firstElementChild.classList.remove('scale-95', 'opacity-0'), 10);
+            },
+            close: () => {
+                const content = $('confirmModal').firstElementChild;
+                content.classList.add('scale-95', 'opacity-0'); // Scale down animation
+                setTimeout(() => $('confirmModal').classList.add('hidden'), 200);
+            }
+        };
+
+        // --- CONTEXT MENU HANDLER ---
+        const contextMenu = {
+            targetId: null,
+            init: () => {
+                document.addEventListener('click', () => contextMenu.hide());
+                document.addEventListener('contextmenu', (e) => {
+                    // Hide if clicking elsewhere
+                    if (!e.target.closest('#tabContextMenu')) contextMenu.hide();
+                });
+            },
+            show: (e, fileId) => {
+                e.preventDefault();
+                e.stopPropagation();
+                contextMenu.targetId = fileId;
+                
+                const menu = $('tabContextMenu');
+                
+                // Position logic to keep inside viewport
+                let x = e.pageX;
+                let y = e.pageY;
+                
+                menu.style.left = `${x}px`;
+                menu.style.top = `${y + 10}px`;
+                menu.classList.add('open');
+            },
+            hide: () => {
+                $('tabContextMenu').classList.remove('open');
+                contextMenu.targetId = null;
+            }
+        };
+
+        window.contextActions = {
+            rename: () => {
+                if (contextMenu.targetId) tabManager.renameTab(contextMenu.targetId);
+                contextMenu.hide();
+            },
+            close: () => {
+                if (contextMenu.targetId) tabManager.closeTab(null, contextMenu.targetId);
+                contextMenu.hide();
+            }
+        }
+
+        // --- COMPATIBILITY CHECK ---
+        const compatibility = {
+            check: () => {
+                const isMobileUA = /Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                const isIPad = (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1) || /iPad/i.test(navigator.userAgent);
+
+                if (isMobileUA || isIPad) {
+                    const popup = $('mobilePopup');
+                    popup.classList.remove('hidden');
+                }
+            },
+            continue: () => {
+                const popup = $('mobilePopup');
+                popup.querySelector('div').style.transform = "scale(0.9)";
+                popup.querySelector('div').style.opacity = "0";
+                setTimeout(() => {
+                    $('whiteScreen').classList.add('active');
+                }, 200);
+                setTimeout(() => {
+                    document.body.innerHTML = '';
+                    document.body.appendChild($('whiteScreen'));
+                }, 1600);
+            },
+            report: () => window.open('https://forms.gle/mr8NFQP6jAfmg6rp7', '_blank')
+        };
+
+        // --- STATE & DEFAULTS ---
+        const state = { theme: 'dark', files: [], activeFileId: null, autoRun: true, errorCount: 0 };
+        const defaultTemplate = `<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amithrosky</title>
-
-    <meta name="description" content="The personal portfolio of Amithrosky, a student and passionate developer exploring the world of code.">
-    <meta name="keywords" content="Amithrosky, portfolio, developer, python, html, css, javascript, student developer">
-
-    <link href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚀</text></svg>" rel="icon">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Typed.js -->
-    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-
+    <title>DevStudio Project</title>
+    <script src="https://cdn.tailwindcss.com"><\/script>
     <style>
-        /*
-         * CUSTOM STYLES, THEME DEFINITION, AND ANIMATIONS
-         * "Nebula" (dark) and "Supernova" (light) themes with futuristic design.
-         */
-        :root {
-            /* --- NEBULA (DARK) --- */
-            --bg-dark: #0f0c29; /* Darker Space Purple */
-            --text-dark: #e0e7ff; /* Soft Blue-White */
-            --card-dark: rgba(30, 25, 70, 0.7); /* Deep Glass */
-            --primary-dark: #a78bfa; /* Violet/Lavender - Main Accent */
-            --secondary-dark: #4f46e5; /* Indigo - Secondary Accent */
-            --shadow-dark: rgba(79, 70, 229, 0.5);
-
-            /* --- SUPERNOVA (LIGHT) --- */
-            --bg-light: #f8fafc; /* Very Light Gray/Blue */
-            --text-light: #0f172a; /* Slate 900 */
-            --card-light: #ffffff; /* Pure White */
-            --primary-light: #8b5cf6; /* Strong Violet */
-            --secondary-light: #10b981; /* Emerald Green */
-            --shadow-light: rgba(139, 92, 246, 0.15);
+        body { 
+            display: grid; 
+            place-items: center; 
+            min-height: 100vh; 
+            background: linear-gradient(135deg, #0f172a, #1e293b); 
+            color: white; 
+            font-family: sans-serif; 
+            margin: 0;
+            overflow: hidden;
         }
-
-        /* Base styles for theme variables */
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-            transition: background-color 0.5s ease, color 0.5s ease;
+        .card {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: float 6s ease-in-out infinite;
         }
-
-        html.light body {
-            background-color: var(--bg-light);
-            color: var(--text-light);
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        button {
+            background: linear-gradient(to right, #3b82f6, #06b6d4);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
         }
-
-        /* Utility classes based on theme variables */
-        .bg-custom-bg { background-color: var(--bg-dark); }
-        .text-custom-text { color: var(--text-dark); }
-        .bg-custom-card { background-color: var(--card-dark); }
-        .text-primary-var { color: var(--primary-dark); }
-        .text-secondary-var { color: var(--secondary-dark); }
-        .border-primary-var { border-color: var(--primary-dark); }
-        .border-secondary-var { border-color: var(--secondary-dark); }
-        .shadow-primary-var { box-shadow: 0 0 25px var(--shadow-dark); }
-
-        html.light .bg-custom-bg { background-color: var(--bg-light); }
-        html.light .text-custom-text { color: var(--text-light); }
-        html.light .bg-custom-card { background-color: var(--card-light); }
-        html.light .text-primary-var { color: var(--primary-light); }
-        html.light .text-secondary-var { color: var(--secondary-light); }
-        html.light .border-primary-var { border-color: var(--primary-light); }
-        html.light .border-secondary-var { border-color: var(--secondary-light); }
-        html.light .shadow-primary-var { box-shadow: 0 10px 30px var(--shadow-light); }
-
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* Neon Glow Effect for Text (Nebula exclusive) */
-        .text-glow {
-            text-shadow:
-                0 0 5px var(--primary-dark),
-                0 0 10px var(--primary-dark),
-                0 0 20px var(--secondary-dark);
-        }
-        html.light .text-glow {
-            text-shadow: none;
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            background-image: linear-gradient(90deg, var(--primary-light), var(--secondary-light));
-        }
-
-        /* Glassmorphism Card Effect */
-        .glass-card {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        }
-        html.light .glass-card {
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
-            backdrop-filter: none;
-            -webkit-backdrop-filter: none;
-        }
-        
-        .glass-card:hover {
-            border-color: var(--primary-dark);
-        }
-        html.light .glass-card:hover {
-            border-color: var(--primary-light);
-        }
-
-        /* Animated Gradient Button */
-        .btn-primary {
-            background-image: linear-gradient(135deg, var(--primary-dark), var(--secondary-dark));
-            box-shadow: 0 4px 15px var(--shadow-dark);
-            transition: all 0.3s ease-out;
-            position: relative;
-            z-index: 1;
-        }
-        .btn-primary::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: linear-gradient(135deg, var(--secondary-dark), var(--primary-dark));
-            z-index: -1;
-            transition: opacity 0.3s ease-out;
-            opacity: 0;
-            border-radius: inherit;
-        }
-        .btn-primary:hover::before {
-            opacity: 1;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--shadow-dark);
-        }
-
-        html.light .btn-primary {
-            background-image: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
-            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
-        }
-        html.light .btn-primary::before {
-            background-image: linear-gradient(135deg, var(--secondary-light), var(--primary-light));
-        }
-        html.light .btn-primary:hover {
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 10px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: var(--primary-dark); border-radius: 10px; border: 2px solid var(--bg-dark); }
-        ::-webkit-scrollbar-thumb:hover { background: var(--secondary-dark); }
-        html.light ::-webkit-scrollbar-track { background: #f1f5f9; }
-        html.light ::-webkit-scrollbar-thumb { background: var(--primary-light); border: 2px solid #f1f5f9; }
-        html.light ::-webkit-scrollbar-thumb:hover { background: var(--secondary-light); }
-
-        /* Fade-in animation for scroll reveals */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.5, 0, 0, 1), transform 0.8s cubic-bezier(0.5, 0, 0, 1);
-        }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Cursor follower (Nebula exclusive) */
-        #cursor-glow {
-            position: fixed;
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--primary-dark) 0%, transparent 70%);
-            pointer-events: none;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.5s ease;
-            z-index: 0;
-            opacity: 0.15;
-            top: -1000px; /* Hide initially */
-            left: -1000px;
-        }
-        html.light #cursor-glow { display: none; }
-        
-        /* Ensure content stays above the cursor glow */
-        header, main, footer, .glass-card {
-            position: relative;
-            z-index: 10;
-        }
+        button:hover { transform: scale(1.05); }
+        button:active { transform: scale(0.95); }
     </style>
-
-    <script>
-        // IIFE to set initial theme based on localStorage or system preference to prevent FOUC
-        (function() {
-            try {
-                const savedTheme = localStorage.getItem('theme');
-                const prefersDark = savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                if (prefersDark) {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.classList.remove('light');
-                } else {
-                    document.documentElement.classList.add('light');
-                    document.documentElement.classList.remove('dark');
-                }
-            } catch (e) {
-                console.error("Could not set initial theme", e);
-            }
-        })();
-    </script>
 </head>
-
-<body class="bg-custom-bg text-custom-text font-sans antialiased overflow-x-hidden selection:bg-primary-var selection:text-white">
-    <!-- Ambient Mouse Glow (Dark Mode Only) -->
-    <div id="cursor-glow"></div>
-
-    <!-- --- HEADER / NAVIGATION --- -->
-    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-custom-bg/80 backdrop-blur-md border-b border-primary-var/20 shadow-sm">
-        <nav class="container mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
-            <a href="#" class="text-2xl sm:text-3xl font-extrabold text-glow transition-colors duration-500 tracking-tight">
-                Amithrosky<span class="text-primary-var">.</span>
-            </a>
-
-            <!-- Desktop Navigation Links and Theme Toggle -->
-            <div class="hidden md:flex items-center space-x-8">
-                <a href="#about" class="nav-link font-medium hover:text-primary-var transition-colors duration-300">About</a>
-                <a href="#skills" class="nav-link font-medium hover:text-primary-var transition-colors duration-300">Skills</a>
-                <a href="#projects" class="nav-link font-medium hover:text-primary-var transition-colors duration-300">Projects</a>
-                <a href="#contact" class="nav-link font-medium hover:text-primary-var transition-colors duration-300">Contact</a>
-
-                <!-- Direct Desktop Theme Toggle -->
-                <button id="theme-toggle-desktop" class="p-2 rounded-full bg-primary-var/10 hover:bg-primary-var/20 transition-all duration-300 transform hover:rotate-12" aria-label="Toggle Theme">
-                    <i id="theme-icon-desktop" data-lucide="sun" class="w-5 h-5 text-primary-var"></i>
-                </button>
-            </div>
-
-            <!-- Mobile Theme Toggle and Menu Button -->
-            <div class="md:hidden flex items-center space-x-3">
-                <!-- Direct Mobile Theme Toggle -->
-                <button id="theme-toggle-mobile" class="p-2 rounded-full bg-primary-var/10 hover:bg-primary-var/20 transition-all duration-300" aria-label="Toggle Theme">
-                    <i id="theme-icon-mobile" data-lucide="sun" class="w-5 h-5 text-primary-var"></i>
-                </button>
-                <button id="mobile-menu-btn" class="p-2 hover:bg-primary-var/10 rounded-lg transition-colors" aria-label="Open Menu">
-                    <i data-lucide="menu" class="w-6 h-6 text-custom-text"></i>
-                </button>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu" class="fixed inset-0 bg-custom-bg/95 backdrop-blur-lg z-[60] transform translate-x-full transition-transform duration-400 ease-in-out md:hidden flex flex-col">
-        <div class="flex justify-between items-center p-6 border-b border-primary-var/10">
-            <h2 class="text-2xl font-extrabold text-glow">Navigation</h2>
-            <button id="mobile-menu-close-btn" class="p-2 bg-primary-var/10 rounded-full hover:bg-primary-var/20 transition-colors" aria-label="Close Menu">
-                <i data-lucide="x" class="w-6 h-6 text-primary-var"></i>
-            </button>
-        </div>
-        <div class="flex flex-col items-center justify-center flex-grow space-y-8 p-8">
-            <a href="#about" class="mobile-nav-link text-3xl font-bold hover:text-primary-var hover:scale-105 transition-all">About</a>
-            <a href="#skills" class="mobile-nav-link text-3xl font-bold hover:text-primary-var hover:scale-105 transition-all">Skills</a>
-            <a href="#projects" class="mobile-nav-link text-3xl font-bold hover:text-primary-var hover:scale-105 transition-all">Projects</a>
-            <a href="#contact" class="mobile-nav-link text-3xl font-bold hover:text-primary-var hover:scale-105 transition-all">Contact</a>
-        </div>
-        <div class="p-8 flex justify-center space-x-6 border-t border-primary-var/10">
-             <a href="https://www.instagram.com/amithrosky" target="_blank" class="text-custom-text/70 hover:text-primary-var transition-colors"><i data-lucide="instagram" class="w-6 h-6"></i></a>
-             <a href="https://github.com" target="_blank" class="text-custom-text/70 hover:text-primary-var transition-colors"><i data-lucide="github" class="w-6 h-6"></i></a>
-        </div>
+<body>
+    <div class="card">
+        <h1 class="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-400">Online HTML</h1>
+        <p class="text-slate-400 text-lg">Experience the future of web editing.</p>
+        <button onclick="celebrate()">Launch</button>
     </div>
-
-    <div id="app-wrapper" class="container mx-auto px-4 sm:px-6 lg:px-8 pt-28 pb-12">
-        <main>
-            <!-- --- HERO SECTION --- -->
-            <section class="min-h-[75vh] flex flex-col justify-center items-center text-center my-8 sm:my-12 reveal">
-                <div class="inline-block mb-4 px-4 py-1.5 rounded-full border border-primary-var/30 bg-primary-var/10 text-primary-var text-sm font-semibold tracking-wide backdrop-blur-sm">
-                    🚀 Welcome to my digital universe
-                </div>
-                <h1 class="text-5xl sm:text-7xl md:text-8xl font-extrabold leading-tight tracking-tight mb-6">
-                    Hey user! <br class="md:hidden" /> <span class="text-glow text-transparent bg-clip-text bg-gradient-to-r from-primary-dark to-secondary-dark">I am Amithrosky</span>
-                </h1>
-                <p class="text-xl sm:text-2xl mt-2 max-w-2xl mx-auto h-12 text-custom-text/80 font-light">
-                    <span id="typed-subtitle"></span>
-                </p>
-                
-                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6">
-                    <a href="#projects" class="btn-primary text-white font-bold py-3.5 px-8 rounded-xl shadow-xl w-full sm:w-auto text-center flex items-center justify-center group">
-                        Explore Projects 
-                        <i data-lucide="arrow-right" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                    
-                    <div class="flex space-x-4">
-                        <a href="https://www.instagram.com/amithrosky" target="_blank" class="p-3.5 rounded-xl border border-primary-var/50 bg-custom-card glass-card hover:bg-primary-var/20 hover:border-primary-var transition-all duration-300 transform hover:-translate-y-1" aria-label="Instagram">
-                            <i data-lucide="instagram" class="w-5 h-5"></i>
-                        </a>
-                        <a href="https://www.facebook.com/people/Amithrosky-MC/pfbid0LtN72qfP8utHTnhzKwcgbhv5j5NDrcZ1X3pnk4uT59aYq4XxLTQao6mpE4kCMHd4l/" target="_blank" class="p-3.5 rounded-xl border border-primary-var/50 bg-custom-card glass-card hover:bg-primary-var/20 hover:border-primary-var transition-all duration-300 transform hover:-translate-y-1" aria-label="Facebook">
-                            <i data-lucide="facebook" class="w-5 h-5"></i>
-                        </a>
-                        <a href="https://github.com" target="_blank" class="p-3.5 rounded-xl border border-primary-var/50 bg-custom-card glass-card hover:bg-primary-var/20 hover:border-primary-var transition-all duration-300 transform hover:-translate-y-1" aria-label="GitHub">
-                            <i data-lucide="github" class="w-5 h-5"></i>
-                        </a>
-                    </div>
-                </div>
-            </section>
-
-            <!-- --- ABOUT SECTION --- -->
-            <section id="about" class="my-32 reveal scroll-mt-24">
-                <div class="flex items-center justify-center mb-12">
-                    <div class="h-[1px] w-12 bg-primary-var"></div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-center mx-4">About Me</h2>
-                    <div class="h-[1px] w-12 bg-primary-var"></div>
-                </div>
-                
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-                    <div class="bg-custom-card glass-card rounded-2xl p-8 hover:shadow-primary-var group">
-                        <div class="w-12 h-12 bg-primary-var/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                            <i data-lucide="user-round" class="text-primary-var w-6 h-6"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">Who I Am</h3>
-                        <p class="text-base leading-relaxed text-custom-text/80">
-                            I'm a curious and passionate student currently studying in school with a massive love for technology. I discovered coding through Scratch and was immediately hooked! Since then, I've been on an exciting journey, learning different languages and exploring how tech can be used to create amazing things. Outside of coding, I enjoy video games, drawing, and figuring out how things work under the hood.
-                        </p>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 gap-8">
-                        <div class="bg-custom-card glass-card rounded-2xl p-8 hover:shadow-primary-var group">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 bg-secondary-var/20 rounded-lg flex items-center justify-center mr-4 group-hover:rotate-12 transition-transform">
-                                    <i data-lucide="rocket" class="text-secondary-var w-5 h-5"></i>
-                                </div>
-                                <h3 class="text-2xl font-bold">My Goals</h3>
-                            </div>
-                            <p class="text-custom-text/80">My mission is to become a versatile developer. I plan to dive deeper into game development with Python. I am currently trying to make a privacy and speed-focused browser.</p>
-                        </div>
-                        
-                        <div class="bg-custom-card glass-card rounded-2xl p-8 hover:shadow-primary-var group">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 bg-primary-var/20 rounded-lg flex items-center justify-center mr-4 group-hover:rotate-12 transition-transform">
-                                    <i data-lucide="sparkles" class="text-primary-var w-5 h-5"></i>
-                                </div>
-                                <h3 class="text-2xl font-bold">My Philosophy</h3>
-                            </div>
-                            <p class="text-custom-text/80">"Start small, dream big." I believe in building projects step-by-step, learning from mistakes, and never being afraid to try something new and completely out of my comfort zone.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- --- SKILLS SECTION --- -->
-            <section id="skills" class="my-32 reveal scroll-mt-24">
-                <div class="flex items-center justify-center mb-12">
-                    <div class="h-[1px] w-12 bg-primary-var"></div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-center mx-4">My Tech Toolbox</h2>
-                    <div class="h-[1px] w-12 bg-primary-var"></div>
-                </div>
-
-                <div class="bg-custom-card glass-card rounded-2xl p-8 lg:p-12 hover:shadow-primary-var">
-                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
-                        <!-- Skill 1 -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="code-2" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">Python</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Logic & Games</p>
-                        </div>
-                        <!-- Skill 2 -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="file-code" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">HTML5</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Web Structure</p>
-                        </div>
-                        <!-- Skill 3 -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="paintbrush" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">CSS3</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Web Styling</p>
-                        </div>
-                        <!-- Skill 4 -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="braces" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">JavaScript</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Web Interactivity</p>
-                        </div>
-                        <!-- Skill 5 -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="gamepad-2" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">Scratch</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">My Starting Point</p>
-                        </div>
-                        <!-- Skill 6 -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="terminal" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">Small Basic</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Learning Fundamentals</p>
-                        </div>
-                        <!-- Skill 7 (Fixed Icon) -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="smartphone" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">Kotlin</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Android App Dev</p>
-                        </div>
-                        <!-- Skill 8 (Fixed Structure) -->
-                        <div class="flex flex-col items-center text-center p-4 rounded-xl hover:bg-primary-var/10 transition-colors group">
-                            <div class="p-3 bg-custom-bg rounded-xl mb-4 group-hover:-translate-y-2 transition-transform duration-300 border border-primary-var/20">
-                                <i data-lucide="git-branch" class="w-10 h-10 text-primary-var"></i>
-                            </div>
-                            <h4 class="font-bold text-lg">Git & GitHub</h4>
-                            <p class="text-sm text-custom-text/60 mt-1">Version Control</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- --- PROJECTS SECTION --- -->
-            <section id="projects" class="my-32 reveal scroll-mt-24">
-                <div class="flex items-center justify-center mb-6">
-                    <div class="h-[1px] w-12 bg-primary-var"></div>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-center mx-4">Future Creations...</h2>
-                    <div class="h-[1px] w-12 bg-primary-var"></div>
-                </div>
-                
-                <p class="text-center max-w-2xl mx-auto mb-16 text-lg text-custom-text/70">
-                    My focus is on mastering new skills. Here are the next generation of projects I'm planning to build in the near future!
-                </p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Project 1 -->
-                    <div class="bg-custom-card glass-card rounded-2xl p-7 flex flex-col hover:-translate-y-3 transition-transform duration-300 border-t-4 border-t-primary-var h-full">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-2xl font-bold">Radius Weather</h3>
-                            <i data-lucide="cloud-sun" class="text-primary-var w-6 h-6"></i>
-                        </div>
-                        <p class="text-custom-text/80 flex-grow mb-6 leading-relaxed">
-                            I am currently creating a fresh weather app for Android to provide galaxy weather features in every phone for free. Thinking about ADS? Nope, I will never allow them to destroy the beauty and user experience.
-                        </p>
-                        <div class="mt-auto pt-4 border-t border-primary-var/10 flex flex-wrap gap-2">
-                            <span class="bg-primary-var/10 border border-primary-var/30 text-primary-var text-xs font-bold px-3 py-1 rounded-full">Kotlin</span>
-                            <span class="bg-primary-var/10 border border-primary-var/30 text-primary-var text-xs font-bold px-3 py-1 rounded-full">Android Studio</span>
-                        </div>
-                    </div>
-
-                    <!-- Project 2 (Completed Code) -->
-                    <div class="bg-custom-card glass-card rounded-2xl p-7 flex flex-col hover:-translate-y-3 transition-transform duration-300 border-t-4 border-t-secondary-var h-full">
-                         <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-2xl font-bold">Tic Tac Toe AI</h3>
-                            <i data-lucide="hash" class="text-secondary-var w-6 h-6"></i>
-                        </div>
-                        <p class="text-custom-text/80 flex-grow mb-6 leading-relaxed">
-                            I will make a new Tic Tac Toe game leveraging Python and Pygame. It will feature an unbeatable AI opponent powered by the Minimax algorithm, packed inside a sleek, neon-styled visual interface with fluid animations.
-                        </p>
-                        <div class="mt-auto pt-4 border-t border-primary-var/10 flex flex-wrap gap-2">
-                            <span class="bg-secondary-var/10 border border-secondary-var/30 text-secondary-var text-xs font-bold px-3 py-1 rounded-full">Python</span>
-                            <span class="bg-secondary-var/10 border border-secondary-var/30 text-secondary-var text-xs font-bold px-3 py-1 rounded-full">Pygame</span>
-                            <span class="bg-secondary-var/10 border border-secondary-var/30 text-secondary-var text-xs font-bold px-3 py-1 rounded-full">Algorithms</span>
-                        </div>
-                    </div>
-
-                    <!-- Project 3 (Added for balance) -->
-                    <div class="bg-custom-card glass-card rounded-2xl p-7 flex flex-col hover:-translate-y-3 transition-transform duration-300 border-t-4 border-t-primary-var h-full md:col-span-2 lg:col-span-1">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-2xl font-bold">Velocity Browser</h3>
-                            <i data-lucide="globe" class="text-primary-var w-6 h-6"></i>
-                        </div>
-                        <p class="text-custom-text/80 flex-grow mb-6 leading-relaxed">
-                            A lightweight, privacy-centric web browser engineered for absolute speed. Stripped of bloatware to give users the fastest, cleanest, and most secure browsing experience possible without tracking.
-                        </p>
-                        <div class="mt-auto pt-4 border-t border-primary-var/10 flex flex-wrap gap-2">
-                            <span class="bg-primary-var/10 border border-primary-var/30 text-primary-var text-xs font-bold px-3 py-1 rounded-full">Python</span>
-                            <span class="bg-primary-var/10 border border-primary-var/30 text-primary-var text-xs font-bold px-3 py-1 rounded-full">PyQt5</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- --- CONTACT SECTION (Newly Added) --- -->
-            <section id="contact" class="my-32 reveal scroll-mt-24">
-                <div class="bg-custom-card glass-card rounded-3xl p-10 md:p-16 text-center relative overflow-hidden">
-                    <!-- Decorative background elements -->
-                    <div class="absolute top-0 right-0 w-64 h-64 bg-primary-var/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                    <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary-var/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-                    
-                    <div class="relative z-10">
-                        <h2 class="text-3xl md:text-5xl font-extrabold mb-6">Let's Build Something Awesome.</h2>
-                        <p class="text-lg text-custom-text/70 max-w-2xl mx-auto mb-10">
-                            Whether you have a question, a project idea, or just want to say hi, I'll try my best to get back to you!
-                        </p>
-                        <a href="mailto:hello@example.com" class="btn-primary inline-flex items-center text-white font-bold py-4 px-10 rounded-xl shadow-xl text-lg">
-                            <i data-lucide="mail" class="mr-3 w-6 h-6"></i> Drop a Message
-                        </a>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <!-- --- FOOTER (Newly Added) --- -->
-    <footer class="border-t border-primary-var/20 bg-custom-bg/50 backdrop-blur-lg mt-20">
-        <div class="container mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="text-center md:text-left">
-                <p class="text-custom-text/60 font-medium">
-                    &copy; <span id="current-year"></span> Amithrosky. All rights reserved.
-                </p>
-                <p class="text-sm text-custom-text/40 mt-1">Designed & coded with passion.</p>
-            </div>
-            <div class="flex space-x-6">
-                <a href="#" class="text-custom-text/60 hover:text-primary-var transition-colors">
-                    <i data-lucide="arrow-up" class="w-6 h-6"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- --- JAVASCRIPT --- -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Initialize Lucide Icons
-            lucide.createIcons();
+        function celebrate() {
+            const btn = document.querySelector('button');
+            btn.textContent = 'Launched! 🚀';
+            btn.style.background = 'linear-gradient(to right, #10b981, #3b82f6)';
+            setTimeout(() => btn.textContent = 'Launch', 2000);
+        }
+    <\/script>
+</body>
+</html>`;
 
-            // 2. Set Current Year in Footer
-            document.getElementById('current-year').textContent = new Date().getFullYear();
+        // --- EDITOR SETUP ---
+        const editor = CodeMirror.fromTextArea($('codeEditor'), {
+            mode: "htmlmixed", theme: "dracula", lineNumbers: true, autoCloseTags: true, autoCloseBrackets: true,
+            matchBrackets: true, styleActiveLine: true, lineWrapping: true, foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"], keyMap: "sublime", indentUnit: 4,
+            indentWithTabs: true, scrollbarStyle: "simple",
+            extraKeys: { "Ctrl-Space": "autocomplete", "Ctrl-Q": cm => cm.foldCode(cm.getCursor()) }
+        });
 
-            // 3. Initialize Typed.js
-            const typed = new Typed('#typed-subtitle', {
-                strings: [
-                    'A passionate student.', 
-                    'An aspiring developer.', 
-                    'Exploring the universe of code.', 
-                    'Building the future, block by block.'
-                ],
-                typeSpeed: 60,
-                backSpeed: 30,
-                backDelay: 1500,
-                startDelay: 500,
-                loop: true,
-                cursorChar: '|',
-                autoInsertCss: true,
-            });
-
-            // 4. Theme Toggle Logic
-            const htmlEl = document.documentElement;
-            const themeBtnDesktop = document.getElementById('theme-toggle-desktop');
-            const themeBtnMobile = document.getElementById('theme-toggle-mobile');
-            const themeIconDesktop = document.getElementById('theme-icon-desktop');
-            const themeIconMobile = document.getElementById('theme-icon-mobile');
-
-            // Function to update icon visual based on current theme
-            const updateThemeIcon = () => {
-                const isDark = htmlEl.classList.contains('dark');
-                // If it's dark mode, show the Sun icon (to switch to light)
-                // If it's light mode, show the Moon icon (to switch to dark)
-                const iconName = isDark ? 'sun' : 'moon';
-                
-                themeIconDesktop.setAttribute('data-lucide', iconName);
-                themeIconMobile.setAttribute('data-lucide', iconName);
-                lucide.createIcons(); // Re-render the specific changed icons
-            };
-
-            // Run once on load to set correct icons
-            updateThemeIcon();
-
-            const toggleTheme = () => {
-                if (htmlEl.classList.contains('dark')) {
-                    htmlEl.classList.remove('dark');
-                    htmlEl.classList.add('light');
-                    localStorage.setItem('theme', 'light');
-                } else {
-                    htmlEl.classList.remove('light');
-                    htmlEl.classList.add('dark');
-                    localStorage.setItem('theme', 'dark');
+        // --- TAB MANAGER ---
+        const tabManager = {
+            init: () => {
+                const saved = localStorage.getItem('dsp_files_v3');
+                if (saved) { try { state.files = JSON.parse(saved); } catch(e) { state.files = []; } }
+                if (state.files.length === 0) tabManager.addTab('index.html', defaultTemplate);
+                else {
+                    const lastActive = localStorage.getItem('dsp_active_id_v3');
+                    const exists = state.files.find(f => f.id === lastActive);
+                    tabManager.switchTab(exists ? exists.id : state.files[0].id);
                 }
-                updateThemeIcon();
-            };
-
-            themeBtnDesktop.addEventListener('click', toggleTheme);
-            themeBtnMobile.addEventListener('click', toggleTheme);
-
-            // 5. Mobile Menu Toggle
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const mobileMenuCloseBtn = document.getElementById('mobile-menu-close-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-
-            const openMenu = () => {
-                mobileMenu.classList.remove('translate-x-full');
-                document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
-            };
-
-            const closeMenu = () => {
-                mobileMenu.classList.add('translate-x-full');
-                document.body.style.overflow = '';
-            };
-
-            mobileMenuBtn.addEventListener('click', openMenu);
-            mobileMenuCloseBtn.addEventListener('click', closeMenu);
-
-            // Close menu when clicking a link
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', closeMenu);
-            });
-
-            // 6. Scroll Reveal Animation using Intersection Observer
-            const revealElements = document.querySelectorAll('.reveal');
-            
-            const revealOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const revealObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Stop observing once revealed
-                    }
-                });
-            }, revealOptions);
-
-            revealElements.forEach(el => {
-                revealObserver.observe(el);
-            });
-
-            // 7. Dynamic Cursor Glow (Nebula / Dark mode only)
-            const cursorGlow = document.getElementById('cursor-glow');
-            
-            document.addEventListener('mousemove', (e) => {
-                // Only move if we are in dark mode (it's hidden in light mode via CSS)
-                if (htmlEl.classList.contains('dark')) {
-                    // Slight delay for a smoother following effect
-                    requestAnimationFrame(() => {
-                        cursorGlow.style.left = e.clientX + 'px';
-                        cursorGlow.style.top = e.clientY + 'px';
+                tabManager.render();
+            },
+            addTab: (name, content = defaultTemplate) => {
+                const id = uuid();
+                state.files.push({ id, title: name || `page_${state.files.length + 1}.html`, content });
+                tabManager.switchTab(id);
+                tabManager.render();
+                return id;
+            },
+            closeTab: (e, id) => {
+                if(e) e.stopPropagation();
+                if (state.files.length <= 1) {
+                    modal.show("Reset File?", "This is your last file. Reset content to default?", () => {
+                        state.files[0].content = defaultTemplate;
+                        editor.setValue(defaultTemplate);
+                        updatePreview();
                     });
+                    return;
                 }
-            });
+                const idx = state.files.findIndex(f => f.id === id);
+                if(idx === -1) return;
+                state.files.splice(idx, 1);
+                if (id === state.activeFileId) {
+                    const nextFile = state.files[idx] || state.files[idx - 1];
+                    tabManager.switchTab(nextFile.id);
+                } else {
+                    tabManager.save();
+                    tabManager.render();
+                }
+            },
+            switchTab: (id) => {
+                if (state.activeFileId) {
+                    const current = state.files.find(f => f.id === state.activeFileId);
+                    if (current) current.content = editor.getValue();
+                }
+                const next = state.files.find(f => f.id === id);
+                if (next) {
+                    state.activeFileId = id;
+                    if(editor.getValue() !== next.content) {
+                        editor.setValue(next.content);
+                        editor.clearHistory();
+                    }
+                    tabManager.save();
+                    tabManager.render();
+                    updatePreview(); 
+                    browser.navigate('internal');
+                }
+            },
+            save: () => {
+                const current = state.files.find(f => f.id === state.activeFileId);
+                if (current) current.content = editor.getValue();
+                localStorage.setItem('dsp_files_v3', JSON.stringify(state.files));
+                localStorage.setItem('dsp_active_id_v3', state.activeFileId);
+                showSaveStatus();
+            },
+            renameTab: (id) => {
+                const file = state.files.find(f => f.id === id);
+                if (!file) return;
+                const newName = prompt("Rename File:", file.title);
+                if (newName && newName.trim()) {
+                    file.title = newName.trim();
+                    tabManager.save();
+                    tabManager.render();
+                }
+            },
+            reorder: (from, to) => {
+                const el = state.files.splice(from, 1)[0];
+                state.files.splice(to, 0, el);
+                tabManager.save();
+                tabManager.render();
+            },
+            render: () => {
+                const container = $('tabContainer');
+                container.innerHTML = '';
+                state.files.forEach((file, index) => {
+                    const isActive = file.id === state.activeFileId;
+                    const div = document.createElement('div');
+                    div.className = `group tab-item flex items-center gap-2 px-4 py-2.5 text-xs cursor-pointer min-w-[140px] max-w-[200px] shrink-0 border-r ${isActive ? 'active' : ''} rounded-t-lg mx-0.5 border-t border-l border-r border-transparent`;
+                    if(isActive) div.classList.add('border-slate-700', 'bg-[#18181b]');
+                    
+                    div.draggable = true;
+                    div.ondragstart = (e) => { e.dataTransfer.setData('text/plain', index); div.classList.add('dragging'); };
+                    div.ondragend = () => div.classList.remove('dragging');
+                    div.ondragover = (e) => e.preventDefault();
+                    div.ondrop = (e) => { e.preventDefault(); tabManager.reorder(parseInt(e.dataTransfer.getData('text/plain')), index); };
+                    
+                    div.onclick = () => tabManager.switchTab(file.id);
+                    // Right Click Handler
+                    div.oncontextmenu = (e) => contextMenu.show(e, file.id);
+                    
+                    div.innerHTML = `
+                        <div class="flex items-center gap-2 overflow-hidden flex-grow">
+                            <i data-lucide="${file.title.endsWith('.css')?'hash':file.title.endsWith('.js')?'file-json':'file-code'}" class="w-3.5 h-3.5 opacity-70 shrink-0"></i>
+                            <span class="truncate font-medium">${file.title}</span>
+                        </div>
+                        <button onclick="window.tabManager.closeTab(event, '${file.id}')" class="opacity-0 group-hover:opacity-100 p-0.5 rounded hover:bg-red-500/20 hover:text-red-400 transition-all shrink-0">
+                            <i data-lucide="x" class="w-3 h-3"></i>
+                        </button>
+                    `;
+                    container.appendChild(div);
+                });
+                lucide.createIcons();
+            }
+        };
 
-            // Show cursor glow only when mouse is inside the window
-            document.addEventListener('mouseenter', () => {
-                 cursorGlow.style.opacity = '0.15';
-            });
-            document.addEventListener('mouseleave', () => {
-                 cursorGlow.style.opacity = '0';
-            });
+        // --- UI ACTIONS ---
+        const actions = {
+            download: () => {
+                const blob = new Blob([editor.getValue()], {type: 'text/html'});
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = state.files.find(f=>f.id===state.activeFileId).title;
+                a.click();
+            },
+            format: () => {
+                editor.setValue(html_beautify(editor.getValue(), { indent_size: 4, wrap_line_length: 80 }));
+                ui.closeMenu();
+            },
+            clearCode: () => {
+                modal.show("Clear Code", "Irreversible action. Proceed?", () => { editor.setValue(''); updatePreview(); ui.closeMenu(); });
+            },
+            clearConsole: () => { $('consoleOutput').innerHTML = ''; state.errorCount = 0; $('errorBadge').classList.add('hidden'); },
+            resizeView: (w) => $('previewFrame').style.maxWidth = w,
+            toggleFullScreen: () => {
+                const hidden = $('editorPane').classList.toggle('hidden');
+                const pp = $('previewPane');
+                const icon = $('fsIcon');
+                if (hidden) { pp.classList.replace('md:w-1/2', 'w-full'); pp.classList.replace('h-1/2', 'h-full'); icon.setAttribute('data-lucide', 'minimize'); }
+                else { pp.classList.replace('w-full', 'md:w-1/2'); pp.classList.replace('h-full', 'h-1/2'); icon.setAttribute('data-lucide', 'expand'); }
+                lucide.createIcons();
+            },
+            reset: () => modal.show("Factory Reset", "Wipe all local data?", () => { localStorage.removeItem('dsp_files_v3'); localStorage.removeItem('dsp_active_id_v3'); state.files=[]; tabManager.init(); actions.clearConsole(); ui.closeMenu(); }),
+            
+            // NEW ACTIONS
+            donate: () => {
+                navigator.clipboard.writeText('+919474612820').then(() => {
+                    toast.show("Number copied for Donation! ❤️");
+                    ui.closeMenu();
+                });
+            },
+            about: () => {
+                window.open('https://amithrosky.github.io/portfolio/', '_blank');
+                ui.closeMenu();
+            }
+        };
+
+        const ui = {
+            toggleMenu: () => {
+                const m = $('dropdownMenu');
+                if (m.classList.contains('open')) m.classList.remove('open');
+                else m.classList.add('open');
+            },
+            closeMenu: () => $('dropdownMenu').classList.remove('open'),
+            toggleTheme: () => {
+                const isDark = document.documentElement.classList.toggle('dark');
+                document.documentElement.classList.toggle('light-theme', !isDark);
+                editor.setOption('theme', isDark ? 'dracula' : 'ttcn');
+                $('themeText').innerText = isDark ? 'Light Mode' : 'Dark Mode';
+                $('themeIcon').setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                lucide.createIcons();
+                ui.closeMenu();
+            },
+            toggleConsole: () => {
+                const c = $('consoleContainer');
+                const btn = $('consoleToggleBtn');
+                const isOpen = !c.classList.contains('translate-y-full');
+                if(isOpen) { c.classList.add('translate-y-full'); btn.classList.remove('rotate-180'); $('errorBadge').classList.add('hidden'); }
+                else { c.classList.remove('translate-y-full'); btn.classList.add('rotate-180'); }
+            }
+        };
+
+        // --- PREVIEW ENGINE ---
+        const browser = {
+            mode: 'internal',
+            navigate: (url) => {
+                const loader = $('loader'); loader.style.display = 'block'; setTimeout(() => loader.style.display='none', 800);
+                if (url === 'internal') {
+                    browser.mode = 'internal'; $('externalOverlay').classList.add('hidden'); $('addressBar').value='localhost:3000'; $('lockIcon').setAttribute('data-lucide','lock'); $('lockIcon').classList.replace('text-slate-400','text-emerald-500'); lucide.createIcons(); updatePreview();
+                } else {
+                    browser.mode = 'external'; let u = url.trim(); if(!u.startsWith('http')) u='https://'+u;
+                    $('addressBar').value = u; $('lockIcon').setAttribute('data-lucide','globe'); $('lockIcon').classList.replace('text-emerald-500','text-slate-400'); lucide.createIcons();
+                    try { $('previewFrame').src = u; $('externalOverlay').classList.remove('hidden'); } catch(e){}
+                }
+            },
+            refresh: () => {
+                const icon = document.querySelector('[data-lucide="rotate-cw"]'); icon.classList.add('animate-spin'); setTimeout(() => icon.classList.remove('animate-spin'), 500);
+                browser.navigate($('addressBar').value.includes('localhost') ? 'internal' : $('addressBar').value);
+            }
+        };
+
+        function updatePreview() {
+            if (browser.mode !== 'internal') return;
+            const code = editor.getValue();
+            const injection = `<script>(function(){const s=(t,a)=>{try{window.parent.postMessage({source:'preview-console',type:t,msg:a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' ')},'*')}catch(e){}};['log','error','warn','info'].forEach(m=>{const o=console[m];console[m]=(...a)=>{o.apply(console,a);s(m,a)}});window.onerror=(m,u,l)=>s('error',[m+' (Line: '+l+')'])})();<\/script>`;
+            $('previewFrame').srcdoc = code.replace(/<head>/, '<head>'+injection) || injection + code;
+            $('docSize').innerText = new Blob([code]).size + ' B';
+            tabManager.save();
+        }
+        function showSaveStatus() { $('saveStatus').classList.remove('hidden'); setTimeout(()=>$('saveStatus').classList.add('hidden'),2000); }
+
+        // --- EVENT LISTENERS ---
+        $('autoRunToggle').addEventListener('change', (e) => {
+            state.autoRun = e.target.checked;
+            e.target.nextElementSibling.nextElementSibling.style.transform = state.autoRun ? 'translateX(100%)' : 'translateX(0)';
+            if(state.autoRun) updatePreview();
+        });
+        $('autoRunToggle').nextElementSibling.nextElementSibling.style.transform = 'translateX(100%)';
+        
+        let debounce;
+        editor.on('change', () => { if(state.autoRun) { clearTimeout(debounce); debounce = setTimeout(updatePreview, 800); } });
+        editor.on('cursorActivity', () => {
+            const pos = editor.getCursor();
+            $('cursorPos').innerHTML = `<i data-lucide="move" class="w-3 h-3 inline"></i> Ln ${pos.line + 1}, Col ${pos.ch + 1}`;
+            lucide.createIcons();
+        });
+        
+        $('addressBar').addEventListener('keydown', e => { if(e.key === 'Enter') browser.navigate(e.target.value); });
+        
+        window.addEventListener('message', e => {
+            if (e.data?.source === 'preview-console') {
+                const {type, msg} = e.data;
+                const div = document.createElement('div');
+                div.className = `border-l-2 pl-2 py-1 font-mono text-xs ${type==='error'?'border-red-500 text-red-400':type==='warn'?'border-yellow-500 text-yellow-400':'border-slate-600 text-slate-300'}`;
+                div.innerHTML = `<span class="opacity-50 font-bold uppercase mr-2">${type}</span>${msg}`;
+                $('consoleOutput').prepend(div);
+                if(type==='error') { state.errorCount++; $('errorBadge').innerText=state.errorCount>9?'9+':state.errorCount; $('errorBadge').classList.remove('hidden'); }
+            }
+        });
+
+        // Click Outside to Close Menu (With Animation Logic)
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#menuBtn') && !e.target.closest('#dropdownMenu')) {
+                ui.closeMenu();
+            }
+        });
+
+        // Keybinds
+        document.addEventListener('keydown', e => { if(e.ctrlKey && e.altKey && e.key === 'n') { e.preventDefault(); tabManager.addTab(); } });
+
+        // --- EXPOSE GLOBALS ---
+        window.tabManager = tabManager;
+        window.ui = ui;
+        window.actions = actions;
+        window.modal = modal;
+        window.browser = browser;
+        window.compatibility = compatibility;
+
+        // Init
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+            tabManager.init();
+            contextMenu.init();
+            compatibility.check();
         });
     </script>
 </body>
