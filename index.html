@@ -15,6 +15,18 @@
                     fontFamily: {
                         sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'system-ui', 'sans-serif'],
                         mono: ['"SF Mono"', 'Menlo', 'monospace']
+                    },
+                    borderRadius: {
+                        // Universal roundness values overriding defaults for a consistent squircle/rounded look
+                        'none': '0',
+                        'sm': '0.5rem',
+                        DEFAULT: '1rem',
+                        'md': '1rem',
+                        'lg': '1.25rem',
+                        'xl': '1.25rem',
+                        '2xl': '1.5rem',
+                        '3xl': '1.5rem',
+                        'full': '1.5rem', // Even 'full' classes map to soft corners to maintain the universal boxy-rounded feel
                     }
                 }
             }
@@ -43,14 +55,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/searchcursor.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/search.min.js"></script>
 
-    <!-- HTML Beautify -->
+    <!-- HTML/CSS/JS Beautify -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
 
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        /* * iOS 26 Futuristic Styles & "1 Trillion Animations" */
+        /* * Futuristic Styles */
         :root {
             --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
             --smooth: cubic-bezier(0.25, 1, 0.5, 1);
@@ -83,7 +97,7 @@
             -webkit-backdrop-filter: blur(40px) saturate(200%);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 30px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
-            transition: all 0.5s var(--smooth);
+            transition: all 0.2s var(--smooth);
         }
         .light-theme .glass {
             background: rgba(255, 255, 255, 0.65);
@@ -93,12 +107,12 @@
 
         /* Universal Spring Button */
         .ios-btn {
-            transition: all 0.4s var(--spring);
+            transition: all 0.2s var(--spring);
             transform-origin: center;
             cursor: pointer;
         }
         .ios-btn:active {
-            transform: scale(0.88) !important;
+            transform: scale(0.92) !important;
         }
 
         /* Pulse & Shimmer Effects */
@@ -129,18 +143,13 @@
             from { opacity: 0; transform: translateY(40px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
-        
-        @keyframes slideUpTab {
-            from { opacity: 0; transform: translateY(20px) scale(0.8); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
 
         .stagger-1 { animation: slideUp 0.8s var(--spring) 0.1s both; }
         .stagger-2 { animation: slideUp 0.8s var(--spring) 0.2s both; }
         .stagger-3 { animation: slideUp 0.8s var(--spring) 0.3s both; }
-        .spring-anim { transition: all 0.6s var(--spring) !important; }
+        .spring-anim { transition: all 0.3s var(--spring) !important; }
 
-        /* CodeMirror Custom iOS Integration - FIXED SELECTOR */
+        /* CodeMirror Custom iOS Integration */
         #editorPane .CodeMirror {
             position: absolute !important;
             inset: 0 !important;
@@ -160,18 +169,28 @@
         }
         .light-theme .CodeMirror-gutters { border-right: 1px solid rgba(0,0,0,0.05) !important; }
 
-        /* Search Dialog Overrides */
+        /* Search Dialog Overrides with Close Button Padding */
         .CodeMirror-dialog {
             background: rgba(30, 30, 35, 0.85) !important;
             backdrop-filter: blur(25px) !important;
             -webkit-backdrop-filter: blur(25px) !important;
             color: #fff !important;
-            border-radius: 1rem !important;
+            border-radius: 1.5rem !important;
             border: 1px solid rgba(255,255,255,0.15) !important;
-            padding: 10px 15px !important;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5) !important;
+            padding: 10px 45px 10px 15px !important;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important;
             font-family: inherit !important;
-            z-index: 50 !important;
+            z-index: 100 !important;
+            
+            /* Snappy Pop-up Styling */
+            position: absolute !important;
+            top: 1rem !important;
+            right: 1rem !important;
+            left: auto !important;
+            bottom: auto !important;
+            width: max-content !important;
+            max-width: calc(100% - 2rem) !important;
+            animation: slideUp 0.3s var(--spring) both;
         }
         .light-theme .CodeMirror-dialog {
             background: rgba(255, 255, 255, 0.85) !important;
@@ -182,7 +201,7 @@
             background: rgba(0,0,0,0.2) !important;
             border: 1px solid rgba(255,255,255,0.2) !important;
             color: inherit !important;
-            border-radius: 0.5rem !important;
+            border-radius: 0.75rem !important;
             padding: 6px 12px !important;
             outline: none !important;
             font-family: monospace !important;
@@ -190,13 +209,35 @@
         .CodeMirror-dialog button {
             background: rgba(255,255,255,0.1) !important;
             border: none !important;
-            border-radius: 0.5rem !important;
+            border-radius: 0.75rem !important;
             padding: 6px 12px !important;
             color: inherit !important;
             cursor: pointer !important;
             transition: all 0.2s !important;
+            margin-left: 8px;
         }
         .CodeMirror-dialog button:hover { background: rgba(255,255,255,0.2) !important; }
+
+        /* Dialog Close Button specific style */
+        .cm-dialog-close-btn {
+            position: absolute !important;
+            right: 12px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            background: rgba(255, 100, 100, 0.2) !important;
+            border-radius: 50% !important;
+            width: 28px !important;
+            height: 28px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            color: #fca5a5 !important;
+        }
+        .cm-dialog-close-btn:hover {
+            background: rgba(255, 100, 100, 0.4) !important;
+            color: #fff !important;
+        }
         
         /* Hide default scrollbars */
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -204,7 +245,7 @@
 
         /* Console Logs */
         .log-entry {
-            animation: slideUp 0.4s var(--spring) both;
+            animation: slideUp 0.3s var(--spring) both;
             border-radius: 1rem;
             padding: 0.75rem 1rem;
             background: rgba(255,255,255,0.03);
@@ -216,12 +257,12 @@
         .log-warn { border-left-color: #f59e0b; color: #fcd34d; background: rgba(245, 158, 11, 0.05); }
 
         /* UI Enhancements */
-        .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.4s var(--smooth); backdrop-filter: blur(25px); z-index: 9999; }
+        .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.2s var(--smooth); backdrop-filter: blur(25px); z-index: 9999; }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { transform: scale(0.85) translateY(20px); opacity: 0; transition: all 0.5s var(--spring); }
+        .modal-content { transform: scale(0.85) translateY(20px); opacity: 0; transition: all 0.3s var(--spring); }
         .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
         
-        .context-menu { opacity: 0; transform: scale(0.9) translateY(-10px); pointer-events: none; transition: all 0.3s var(--spring); transform-origin: top left; z-index: 9998; }
+        .context-menu { opacity: 0; transform: scale(0.9) translateY(-10px); pointer-events: none; transition: all 0.2s var(--spring); transform-origin: top left; z-index: 9998; }
         .context-menu.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
         
         .preview-mobile { width: 100% !important; max-width: 375px !important; margin: 0 auto !important; border-radius: 2.5rem !important; border: 8px solid #1e293b !important; }
@@ -229,6 +270,13 @@
     </style>
 </head>
 <body class="text-slate-200 selection:bg-fuchsia-500/30 font-sans">
+
+    <!-- PC Only Overlay Blocker -->
+    <div id="mobileBlock" class="fixed inset-0 z-[99999] bg-slate-950 text-white flex-col items-center justify-center p-8 text-center hidden">
+        <i data-lucide="monitor-off" class="w-20 h-20 mb-6 text-red-500 animate-pulse"></i>
+        <h2 class="text-3xl font-bold mb-4 tracking-tight">Desktop Required</h2>
+        <p class="text-slate-400 text-lg max-w-md">Compile Studio is highly optimized for PC. Mobile devices are not supported to ensure the best coding experience. Please open this application on a larger screen.</p>
+    </div>
 
     <!-- Fluid Animated Background -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-950 transition-colors duration-700" id="mainBg">
@@ -239,9 +287,9 @@
 
     <!-- Global Modals & Overlays -->
     <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black/60 flex items-center justify-center p-4">
-        <div class="modal-content glass w-full max-w-md rounded-[2.5rem] p-6 border border-white/20 shadow-2xl flex flex-col gap-4">
+        <div class="modal-content glass w-full max-w-md rounded-2xl p-6 border border-white/20 shadow-2xl flex flex-col gap-4">
             <div class="flex items-center gap-3 text-white">
-                <div class="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
+                <div class="w-10 h-10 rounded-2xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
                     <i data-lucide="alert-circle" class="w-5 h-5 text-indigo-400"></i>
                 </div>
                 <h2 id="modalTitle" class="text-xl font-bold tracking-tight">System Message</h2>
@@ -270,11 +318,11 @@
     <div class="h-screen w-screen flex flex-col p-3 md:p-5 gap-4 relative overflow-hidden">
         
         <!-- Glass Navigation Bar -->
-        <nav class="glass rounded-[2rem] p-3 flex items-center justify-between stagger-1 z-50">
+        <nav class="glass rounded-2xl p-3 flex items-center justify-between stagger-1 z-50">
             <!-- Logo Section -->
             <div class="flex items-center gap-3 pl-2 pr-4 md:border-r border-white/10 shrink-0">
-                <div class="logo-pulse w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-fuchsia-500 flex items-center justify-center shadow-lg">
-                    <i data-lucide="Computer" class="w-5 h-5 text-white"></i>
+                <div class="logo-pulse w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-fuchsia-500 flex items-center justify-center shadow-lg">
+                    <i data-lucide="terminal" class="w-5 h-5 text-white"></i>
                 </div>
                 <h1 class="hidden md:block text-xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">CS</h1>
             </div>
@@ -285,41 +333,41 @@
             </div>
             
             <!-- Add Tab Button -->
-            <button onclick="addTab()" class="ios-btn w-10 h-10 rounded-full glass flex items-center justify-center text-slate-300 hover:text-white shrink-0 mr-2 md:mr-4 shadow-sm border border-white/10">
+            <button onclick="addTab()" class="ios-btn w-10 h-10 rounded-2xl glass flex items-center justify-center text-slate-300 hover:text-white shrink-0 mr-2 md:mr-4 shadow-sm border border-white/10">
                 <i data-lucide="plus" class="w-5 h-5"></i>
             </button>
             
             <!-- Contextual Actions -->
             <div class="flex items-center gap-2 pr-2 md:border-l border-white/10 md:pl-4 shrink-0">
-                <button onclick="formatCode()" class="hidden md:flex ios-btn px-4 py-2 rounded-full glass text-sm font-semibold items-center gap-2 text-indigo-300 hover:text-white hover:bg-indigo-500/20 border border-white/5">
+                <button onclick="formatCode()" class="hidden md:flex ios-btn px-4 py-2 rounded-2xl glass text-sm font-semibold items-center gap-2 text-indigo-300 hover:text-white hover:bg-indigo-500/20 border border-white/5">
                     <i data-lucide="wand-2" class="w-4 h-4"></i> Format
                 </button>
-                <button id="runBtn" onclick="runCode()" class="ios-btn run-btn-anim px-5 py-2 rounded-full text-black text-sm font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Run
+                <button id="runBtn" onclick="runCode()" class="ios-btn run-btn-anim px-5 py-2 rounded-2xl text-black text-sm font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Compile
                 </button>
 
                 <!-- Settings Dropdown Wrapper -->
                 <div class="relative ml-2">
-                    <button id="settingsBtn" onclick="toggleSettings()" class="ios-btn w-10 h-10 rounded-full glass flex items-center justify-center text-slate-300 hover:text-white shadow-sm border border-white/10">
+                    <button id="settingsBtn" onclick="toggleSettings()" class="ios-btn w-10 h-10 rounded-2xl glass flex items-center justify-center text-slate-300 hover:text-white shadow-sm border border-white/10">
                         <i data-lucide="settings" class="w-5 h-5 transition-transform duration-500" id="settingsIcon"></i>
                     </button>
                     <!-- Settings Menu -->
-                    <div id="settingsMenu" class="absolute top-14 right-0 w-64 glass rounded-[2rem] p-3 opacity-0 pointer-events-none transform scale-90 translate-y-[-10px] origin-top-right transition-all duration-500 var(--spring) shadow-2xl flex flex-col gap-1 border border-white/10 z-50">
+                    <div id="settingsMenu" class="absolute top-14 right-0 w-64 glass rounded-2xl p-3 opacity-0 pointer-events-none transform scale-90 translate-y-[-10px] origin-top-right transition-all duration-300 var(--spring) shadow-2xl flex flex-col gap-1 border border-white/10 z-50">
                         <div class="px-3 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Preferences</div>
                         <div class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-2xl cursor-pointer ios-btn border border-white/5" onclick="toggleTheme()">
                             <div class="flex items-center gap-3 text-slate-200 text-sm font-semibold">
                                 <i data-lucide="moon" class="w-4 h-4 text-indigo-400" id="themeIcon"></i> Theme
                             </div>
-                            <div class="w-12 h-6 rounded-full bg-indigo-500 relative transition-colors duration-300 p-0.5 shadow-inner" id="themeBg">
-                                <div id="themeHandle" class="w-5 h-5 rounded-full bg-white shadow-md transform translate-x-6 transition-transform duration-400 var(--spring)"></div>
+                            <div class="w-12 h-6 rounded-2xl bg-indigo-500 relative transition-colors duration-300 p-0.5 shadow-inner" id="themeBg">
+                                <div id="themeHandle" class="w-5 h-5 rounded-xl bg-white shadow-md transform translate-x-6 transition-transform duration-300 var(--spring)"></div>
                             </div>
                         </div>
                         <div class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-2xl cursor-pointer ios-btn border border-white/5" onclick="toggleAutoRun()">
                             <div class="flex items-center gap-3 text-slate-200 text-sm font-semibold">
                                 <i data-lucide="zap" class="w-4 h-4 text-fuchsia-400"></i> Auto Run
                             </div>
-                            <div class="w-12 h-6 rounded-full bg-fuchsia-500 relative transition-colors duration-300 p-0.5 shadow-inner" id="autoRunBg">
-                                <div id="autoRunHandle" class="w-5 h-5 rounded-full bg-white shadow-md transform translate-x-6 transition-transform duration-400 var(--spring)"></div>
+                            <div class="w-12 h-6 rounded-2xl bg-fuchsia-500 relative transition-colors duration-300 p-0.5 shadow-inner" id="autoRunBg">
+                                <div id="autoRunHandle" class="w-5 h-5 rounded-xl bg-white shadow-md transform translate-x-6 transition-transform duration-300 var(--spring)"></div>
                             </div>
                         </div>
                         
@@ -346,28 +394,32 @@
             </div>
         </nav>
         
-        <!-- Main Workspace Area - Mobile scroll enabled -->
+        <!-- Main Workspace Area -->
         <div class="flex-1 flex flex-col md:flex-row gap-4 min-h-0 overflow-y-auto md:overflow-hidden no-scrollbar pb-4 md:pb-0">
             
             <!-- Code Editor Pane -->
-            <div id="editorPane" class="min-h-[50vh] md:min-h-0 flex-1 glass rounded-[2.5rem] p-3 flex flex-col relative stagger-2 overflow-hidden spring-anim">
-                <div class="relative flex-1 rounded-[1.5rem] overflow-hidden bg-black/20 dark:bg-black/40 shadow-inner">
+            <div id="editorPane" class="min-h-[50vh] md:min-h-0 flex-1 glass rounded-2xl p-3 flex flex-col relative stagger-2 overflow-hidden spring-anim">
+                <div class="relative flex-1 rounded-2xl overflow-hidden bg-black/20 dark:bg-black/40 shadow-inner">
                     <textarea id="codeEditor"></textarea>
                 </div>
                 
                 <!-- Status Bar -->
-                <div class="h-10 mt-2 px-4 rounded-full bg-white/5 border border-white/10 flex items-center justify-between text-xs font-mono text-slate-400 shrink-0">
+                <div class="h-10 mt-2 px-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-xs font-mono text-slate-400 shrink-0">
                     <div class="flex items-center gap-4">
                         <span id="cursorPos" class="flex items-center gap-1.5"><i data-lucide="crosshair" class="w-3 h-3"></i> Ln 1, Col 1</span>
                         <span class="hidden md:inline-block opacity-50">|</span>
                         <span id="docSize" class="hidden md:flex items-center gap-1.5"><i data-lucide="file-digit" class="w-3 h-3"></i> 0 Bytes</span>
                     </div>
                     <div class="flex items-center">
-                        <span class="px-2 py-1 rounded-md bg-white/5 text-slate-300 mr-4">HTML Mixed</span>
-                        <!-- Find & Replace Buttons added here -->
+                        <span id="currentModeText" class="px-2 py-1 rounded-md bg-white/5 text-slate-300 mr-4">HTML</span>
+                        
+                        <!-- Actions toolbar (Undo, Redo, Find, Replace) -->
                         <div class="hidden sm:flex items-center gap-3 border-r border-white/10 pr-4 mr-4">
-                            <button onclick="editor.execCommand('find')" class="hover:text-white transition-colors" title="Find (Ctrl-F)"><i data-lucide="search" class="w-3.5 h-3.5"></i></button>
-                            <button onclick="editor.execCommand('replace')" class="hover:text-white transition-colors" title="Replace (Shift-Ctrl-F)"><i data-lucide="replace" class="w-3.5 h-3.5"></i></button>
+                            <button onclick="editor.undo()" class="hover:text-white transition-colors ios-btn" title="Undo (Ctrl-Z)"><i data-lucide="undo-2" class="w-4 h-4"></i></button>
+                            <button onclick="editor.redo()" class="hover:text-white transition-colors ios-btn" title="Redo (Ctrl-Y)"><i data-lucide="redo-2" class="w-4 h-4"></i></button>
+                            <div class="w-px h-3 bg-white/10 mx-1"></div>
+                            <button onclick="editor.execCommand('findPersistent')" class="hover:text-white transition-colors ios-btn" title="Find (Ctrl-F)"><i data-lucide="search" class="w-4 h-4"></i></button>
+                            <button onclick="editor.execCommand('replace')" class="hover:text-white transition-colors ios-btn" title="Replace (Shift-Ctrl-F)"><i data-lucide="replace" class="w-4 h-4"></i></button>
                         </div>
                         <span id="saveStatus" class="flex items-center gap-1.5 text-emerald-400 opacity-0 transition-opacity duration-300"><i data-lucide="check-circle-2" class="w-3 h-3"></i> Saved</span>
                     </div>
@@ -375,39 +427,39 @@
             </div>
             
             <!-- Interactive Preview Pane -->
-            <div id="previewPane" class="min-h-[50vh] md:min-h-0 flex-1 glass rounded-[2.5rem] p-3 flex flex-col relative stagger-3 transition-all duration-500 z-40">
+            <div id="previewPane" class="min-h-[50vh] md:min-h-0 flex-1 glass rounded-2xl p-3 flex flex-col relative stagger-3 transition-all duration-300 z-40">
                 
                 <!-- Browser Toolbar -->
-                <div class="h-14 mb-3 rounded-full bg-white/5 border border-white/10 flex items-center justify-between px-2 shrink-0 z-10 backdrop-blur-md">
+                <div class="h-14 mb-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between px-2 shrink-0 z-10 backdrop-blur-md">
                     <div class="flex items-center gap-1">
-                        <button class="ios-btn w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                        <button class="ios-btn w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
-                        <button onclick="updatePreview()" class="ios-btn w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
+                        <button class="ios-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                        <button class="ios-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        <button onclick="updatePreview()" class="ios-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
                     </div>
                     
                     <div class="flex-1 max-w-sm px-2 md:px-4">
-                        <div class="w-full h-9 rounded-full bg-black/20 border border-white/5 flex items-center px-4 gap-2 text-sm text-slate-300 font-mono shadow-inner">
+                        <div class="w-full h-9 rounded-xl bg-black/20 border border-white/5 flex items-center px-4 gap-2 text-sm text-slate-300 font-mono shadow-inner">
                             <i data-lucide="lock" class="w-3 h-3 text-emerald-400 shrink-0"></i>
-                            <span class="truncate opacity-70">localhost:3000</span>
+                            <span id="urlBarText" class="truncate opacity-70">index.html</span>
                         </div>
                     </div>
                     
-                    <div class="flex items-center gap-1 bg-black/20 p-1 rounded-full border border-white/5">
-                        <button onclick="browser.setDevice('desktop')" id="btnDesktop" class="ios-btn w-8 h-8 rounded-full flex items-center justify-center text-white bg-white/10 shadow-sm"><i data-lucide="monitor" class="w-4 h-4"></i></button>
-                        <button onclick="browser.setDevice('mobile')" id="btnMobile" class="ios-btn w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white"><i data-lucide="smartphone" class="w-4 h-4"></i></button>
+                    <div class="flex items-center gap-1 bg-black/20 p-1 rounded-2xl border border-white/5">
+                        <button onclick="browser.setDevice('desktop')" id="btnDesktop" class="ios-btn w-8 h-8 rounded-xl flex items-center justify-center text-white bg-white/10 shadow-sm"><i data-lucide="monitor" class="w-4 h-4"></i></button>
+                        <button onclick="browser.setDevice('mobile')" id="btnMobile" class="ios-btn w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-white"><i data-lucide="smartphone" class="w-4 h-4"></i></button>
                         <div class="w-px h-4 bg-white/10 mx-1"></div>
                         <!-- Fullscreen Toggle Button -->
-                        <button onclick="browser.toggleFullscreen()" id="btnFullscreen" class="ios-btn w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white"><i data-lucide="maximize" id="fullscreenIcon" class="w-4 h-4"></i></button>
+                        <button onclick="browser.toggleFullscreen()" id="btnFullscreen" class="ios-btn w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-white"><i data-lucide="maximize" id="fullscreenIcon" class="w-4 h-4"></i></button>
                     </div>
                 </div>
 
                 <!-- Iframe Wrapper for Snappy Animations -->
-                <div id="frameWrapper" class="flex-1 relative rounded-[2rem] overflow-hidden bg-[#e2e8f0] dark:bg-white/90 backdrop-blur-3xl spring-anim shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-500">
+                <div id="frameWrapper" class="flex-1 relative rounded-2xl overflow-hidden bg-[#e2e8f0] dark:bg-white/90 backdrop-blur-3xl spring-anim shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-300">
                     <iframe id="previewFrame" class="absolute inset-0 w-full h-full border-0 bg-transparent pointer-events-auto"></iframe>
                 </div>
                 
                 <!-- Floating Console Drawer Inside Preview Pane -->
-                <div id="consoleOverlay" class="absolute bottom-4 left-4 right-4 h-[45%] glass rounded-[2rem] shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border border-white/20 transform translate-y-[120%] spring-anim flex flex-col z-20 opacity-0 pointer-events-none">
+                <div id="consoleOverlay" class="absolute bottom-4 left-4 right-4 h-[45%] glass rounded-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border border-white/20 transform translate-y-[120%] spring-anim flex flex-col z-20 opacity-0 pointer-events-none">
                     <!-- Console Header -->
                     <div class="px-5 py-3 border-b border-white/10 flex justify-between items-center bg-white/5">
                         <div class="flex items-center gap-2">
@@ -415,10 +467,10 @@
                             <span class="text-sm font-bold text-slate-200 tracking-wide">Developer Console</span>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="clearConsole()" class="ios-btn p-1.5 rounded-full hover:bg-white/20 text-slate-300">
+                            <button onclick="clearConsole()" class="ios-btn p-1.5 rounded-xl hover:bg-white/20 text-slate-300">
                                 <i data-lucide="ban" class="w-4 h-4"></i>
                             </button>
-                            <button onclick="toggleConsole()" class="ios-btn p-1.5 rounded-full hover:bg-white/20 text-slate-300">
+                            <button onclick="toggleConsole()" class="ios-btn p-1.5 rounded-xl hover:bg-white/20 text-slate-300">
                                 <i data-lucide="minimize-2" class="w-4 h-4"></i>
                             </button>
                         </div>
@@ -430,10 +482,10 @@
                 </div>
                 
                 <!-- Console Launch Button -->
-                <button onclick="toggleConsole()" class="absolute bottom-8 right-8 ios-btn px-5 py-3 rounded-full bg-black/80 backdrop-blur-2xl text-white text-sm font-bold flex items-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-white/10 hover:bg-black group z-30">
-                    <i data-lucide="terminal" class="w-4 h-4 text-fuchsia-400 group-hover:rotate-12 transition-transform duration-300"></i> Console
-                    <!-- iOS style notification badge -->
-                    <div id="errBadge" class="hidden absolute -top-1.5 -right-1.5 w-[22px] h-[22px] bg-red-500 rounded-full text-[10px] items-center justify-center shadow-lg shadow-red-500/50 border-2 border-slate-900">0</div>
+                <button onclick="toggleConsole()" class="absolute bottom-8 right-8 ios-btn px-5 py-3 rounded-2xl bg-black/80 backdrop-blur-2xl text-white text-sm font-bold flex items-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-white/10 hover:bg-black group z-30">
+                    <i data-lucide="terminal" class="w-4 h-4 text-fuchsia-400 group-hover:rotate-12 transition-transform duration-200"></i> Console
+                    <!-- Notification badge -->
+                    <div id="errBadge" class="hidden absolute -top-1.5 -right-1.5 w-[22px] h-[22px] bg-red-500 rounded-lg text-[10px] items-center justify-center shadow-lg shadow-red-500/50 border-2 border-slate-900 font-bold">0</div>
                 </button>
             </div>
             
@@ -442,68 +494,53 @@
 
     <!-- Application Logic -->
     <script>
+        // --- MOBILE CHECK ---
+        function enforceDesktop() {
+            if(window.innerWidth < 768) {
+                document.getElementById('mobileBlock').style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.getElementById('mobileBlock').style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
+        window.addEventListener('resize', enforceDesktop);
+        enforceDesktop();
+
+        // --- INJECT DIALOG CLOSE BUTTON ---
+        // Observes CodeMirror dialog injection and automatically appends a close button
+        const dialogObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.classList && node.classList.contains('CodeMirror-dialog')) {
+                        if(!node.querySelector('.cm-dialog-close-btn')) {
+                            const closeBtn = document.createElement('button');
+                            closeBtn.type = 'button';
+                            closeBtn.className = 'cm-dialog-close-btn ios-btn';
+                            closeBtn.innerHTML = '<i data-lucide="x" style="width:14px; height:14px;"></i>';
+                            closeBtn.onclick = () => {
+                                const input = node.querySelector('input');
+                                if (input) {
+                                    // CodeMirror natively closes dialogs on Escape
+                                    const escEvent = new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true });
+                                    input.dispatchEvent(escEvent);
+                                }
+                            };
+                            node.appendChild(closeBtn);
+                            lucide.createIcons({ root: node });
+                        }
+                    }
+                });
+            });
+        });
+        dialogObserver.observe(document.body, { childList: true, subtree: true });
+
         // --- STATE & DATA ---
-        let files = [{
-            id: '1',
-            name: 'vision.html',
-            content: `<!-- iOS 26 Hyper-Animated Experience -->
-<style>
-  body {
-    margin: 0; height: 100vh;
-    display: flex; justify-content: center; align-items: center;
-    background: #000; font-family: -apple-system, sans-serif;
-    overflow: hidden;
-  }
-  .card {
-    width: 320px; height: 420px;
-    border-radius: 40px;
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(30px);
-    border: 1px solid rgba(255,255,255,0.1);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.2);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    animation: float 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
-    cursor: pointer;
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  }
-  .card:active {
-    transform: scale(0.92) translateY(-10px);
-  }
-  .orb {
-    width: 140px; height: 140px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ec4899, #6366f1);
-    box-shadow: 0 0 50px rgba(236,72,153,0.6);
-    animation: morph 8s ease-in-out infinite alternate;
-  }
-  h1 {
-    color: #fff; margin-top: 35px; font-weight: 800; font-size: 28px;
-    letter-spacing: -1px; text-shadow: 0 4px 20px rgba(255,255,255,0.3);
-  }
-  p {
-    color: #94a3b8; font-size: 14px; margin-top: 10px;
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-25px); }
-  }
-  @keyframes morph {
-    0% { border-radius: 50%; transform: scale(1) rotate(0); }
-    100% { border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; transform: scale(1.15) rotate(45deg); box-shadow: 0 0 80px rgba(99,102,241,0.8); }
-  }
-</style>
-<div class="card" onclick="console.log('Interaction logged: Card tapped!')">
-  <div class="orb"></div>
-  <h1>Future Interface</h1>
-  <p>Tap card to test console</p>
-</div>
-<script>
-  console.log("System initializing...");
-  setTimeout(() => console.info("Vision engine loaded at 120Hz."), 800);
-  setTimeout(() => console.warn("Simulated environment active."), 1600);
-<\/script>`
-        }];
+        let files = [
+            { id: '1', name: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Modern Project</title>\n</head>\n<body class="bg-slate-900 text-white flex flex-col items-center justify-center min-h-screen">\n    <div class="glass-card">\n        <h1 class="main-title text-5xl font-extrabold mb-4">Hello World</h1>\n        <p class="text-slate-400">Edit the tabs to see your code compile across HTML, CSS, and JS files.</p>\n        <button id="actionBtn" class="mt-6 px-6 py-3 bg-indigo-500 rounded-2xl font-bold hover:bg-indigo-400 transition-colors">Click Me</button>\n    </div>\n</body>\n</html>' },
+            { id: '2', name: 'style.css', content: '/* Automatically linked to index.html */\n\n.glass-card {\n    background: rgba(255, 255, 255, 0.05);\n    backdrop-filter: blur(20px);\n    padding: 3rem;\n    border-radius: 1.5rem;\n    border: 1px solid rgba(255, 255, 255, 0.1);\n    text-align: center;\n    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);\n    transition: transform 0.3s ease;\n}\n\n.glass-card:hover {\n    transform: translateY(-5px);\n}' },
+            { id: '3', name: 'script.js', content: '// Automatically linked to index.html\n\nconsole.log("Application started successfully.");\n\ndocument.getElementById("actionBtn").addEventListener("click", () => {\n    const title = document.querySelector(".main-title");\n    \n    // Generate a random color\n    const colors = ["#f472b6", "#818cf8", "#34d399", "#fbbf24"];\n    const randomColor = colors[Math.floor(Math.random() * colors.length)];\n    \n    title.style.color = randomColor;\n    console.info("Title color changed to: " + randomColor);\n});' }
+        ];
         
         let activeId = '1';
         let editor;
@@ -526,7 +563,7 @@
                 if (type === 'prompt') {
                     input.style.display = 'block';
                     input.value = defaultVal;
-                    setTimeout(() => input.focus(), 100);
+                    setTimeout(() => input.focus(), 50);
                 } else {
                     input.style.display = 'none';
                 }
@@ -590,21 +627,20 @@
                 browser.isFullscreen = !browser.isFullscreen;
                 
                 if (browser.isFullscreen) {
-                    pane.classList.remove('relative', 'flex-1', 'rounded-[2.5rem]', 'min-h-[50vh]', 'md:min-h-0');
+                    pane.classList.remove('relative', 'flex-1', 'rounded-2xl', 'min-h-[50vh]', 'md:min-h-0');
                     pane.classList.add('fixed', 'inset-0', 'z-[100]', 'rounded-none', 'm-0');
                     icon.setAttribute('data-lucide', 'minimize');
                     btn.classList.add('bg-white/10', 'text-white');
                     btn.classList.remove('text-slate-500');
                 } else {
-                    pane.classList.add('relative', 'flex-1', 'rounded-[2.5rem]', 'min-h-[50vh]', 'md:min-h-0');
+                    pane.classList.add('relative', 'flex-1', 'rounded-2xl', 'min-h-[50vh]', 'md:min-h-0');
                     pane.classList.remove('fixed', 'inset-0', 'z-[100]', 'rounded-none', 'm-0');
                     icon.setAttribute('data-lucide', 'maximize');
                     btn.classList.remove('bg-white/10', 'text-white');
                     btn.classList.add('text-slate-500');
                 }
                 lucide.createIcons();
-                // Ensure frame sizes correctly update
-                setTimeout(updatePreview, 300);
+                setTimeout(updatePreview, 150);
             }
         };
 
@@ -615,10 +651,11 @@
                 contextMenu.hide();
                 if (!id) return;
                 const file = files.find(f => f.id === id);
-                modal.show("Rename File", "Enter a new name for this document:", "prompt", (newVal) => {
+                modal.show("Rename File", "Enter a new name (e.g. style.css):", "prompt", (newVal) => {
                     if (newVal && newVal.trim()) {
                         file.name = newVal.trim();
                         renderTabs();
+                        switchTab(id); // Reload mode if extension changed
                     }
                 }, file.name);
             },
@@ -637,8 +674,9 @@
             factoryReset: () => {
                 toggleSettings();
                 modal.show("Factory Reset", "This will wipe all your custom files and restore defaults. Are you sure?", "confirm", () => {
-                    files = [files[0]];
-                    files[0].content = `<!-- Reset to Defaults -->\n<h1>Welcome Back</h1>`;
+                    files = [
+                        { id: Date.now().toString(), name: 'index.html', content: '<!DOCTYPE html>\n<html>\n<body>\n  <h1>Reset Complete</h1>\n</body>\n</html>' }
+                    ];
                     activeId = files[0].id;
                     renderTabs();
                     switchTab(activeId);
@@ -646,12 +684,12 @@
             },
             about: () => {
                 toggleSettings();
-                modal.show("Studio 26", "A futuristic, hyper-animated code playground inspired by visionOS. All systems operational.", "confirm");
+                modal.show("Compile Studio", "A powerful multi-file project editor directly in your browser. Auto-compiles HTML, JS, and CSS dynamically.", "confirm");
             },
             download: () => {
                 toggleSettings();
                 const file = files.find(f => f.id === activeId);
-                const blob = new Blob([editor.getValue()], { type: 'text/html' });
+                const blob = new Blob([editor.getValue()], { type: 'text/plain' });
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
                 a.download = file.name;
@@ -659,29 +697,37 @@
             }
         };
 
+        // --- HELPERS ---
+        function getMode(filename) {
+            if (filename.endsWith('.js')) return 'javascript';
+            if (filename.endsWith('.css')) return 'css';
+            return 'htmlmixed';
+        }
+
         // --- INITIALIZATION ---
         document.addEventListener("DOMContentLoaded", () => {
             lucide.createIcons();
             
             // Initialize CodeMirror
             editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
-                mode: 'htmlmixed',
+                mode: getMode(files[0].name),
                 theme: 'dracula',
                 lineNumbers: true,
                 autoCloseTags: true,
                 autoCloseBrackets: true,
-                lineWrapping: true,
-                extraKeys: {"Ctrl-F": "findPersistent"}
+                lineWrapping: true
             });
             
             editor.setValue(files[0].content);
+            $('currentModeText').textContent = 'HTML';
             
             editor.on('change', () => {
                 if (isSwitching) return;
                 saveCode();
                 if(isAutoRun) {
                     clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(updatePreview, 800);
+                    // Snappy 400ms debounce
+                    debounceTimer = setTimeout(updatePreview, 400);
                 }
             });
 
@@ -693,7 +739,7 @@
             });
 
             renderTabs();
-            setTimeout(updatePreview, 100);
+            setTimeout(updatePreview, 50);
 
             // Listen for proxied console messages from the Iframe
             window.addEventListener('message', (e) => {
@@ -712,35 +758,51 @@
             });
         });
 
-        // --- TAB MANAGEMENT ---
+        // --- TAB MANAGEMENT FIXES ---
         function renderTabs() {
             const container = document.getElementById('tabContainer');
-            // Track existing tabs to avoid replaying animation for everything
-            const existingTabIds = new Set(Array.from(container.children).map(c => c.dataset.id));
-            container.innerHTML = '';
             
-            files.forEach((file, index) => {
+            // Remove deleted tabs smoothly
+            Array.from(container.children).forEach(child => {
+                if (!files.find(f => f.id === child.dataset.id)) {
+                    child.style.transform = 'scale(0.8)';
+                    child.style.opacity = '0';
+                    setTimeout(() => child.remove(), 200);
+                }
+            });
+
+            // Add or Update tabs
+            files.forEach(file => {
                 const isActive = file.id === activeId;
-                const tab = document.createElement('div');
-                tab.dataset.id = file.id;
+                let tab = container.querySelector(`[data-id="${file.id}"]`);
                 
-                tab.className = `tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-full cursor-pointer text-sm font-medium transition-all duration-500 border shrink-0 
-                    ${isActive ? 'bg-white/20 border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.15)] scale-105' : 'bg-transparent border-transparent hover:bg-white/10'}`;
-                
-                // Only animate newly added tabs
-                if(!existingTabIds.has(file.id)) {
-                    tab.style.animation = `slideUpTab 0.5s var(--spring) both`;
+                if (!tab) {
+                    tab = document.createElement('div');
+                    tab.dataset.id = file.id;
+                    // Initial hidden state for animation
+                    tab.className = 'tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-2xl cursor-pointer text-sm font-medium transition-all duration-300 border shrink-0 bg-transparent border-transparent opacity-0 transform translate-y-4';
+                    container.appendChild(tab);
+                    // Trigger entrance
+                    setTimeout(() => {
+                        tab.style.opacity = '1';
+                        tab.style.transform = 'translateY(0)';
+                    }, 10);
+                }
+
+                // Update active state classing
+                if (isActive) {
+                    tab.className = 'tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-2xl cursor-pointer text-sm font-medium transition-all duration-300 border shrink-0 bg-white/20 border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.15)] scale-105 z-10';
+                } else {
+                    tab.className = 'tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-2xl cursor-pointer text-sm font-medium transition-all duration-300 border shrink-0 bg-transparent border-transparent hover:bg-white/10 z-0';
                 }
 
                 tab.innerHTML = `
                     <i data-lucide="file-code" class="w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400'}"></i>
                     <span class="truncate max-w-[120px] ${isActive ? 'text-white font-bold' : 'text-slate-400'}">${file.name}</span>
-                    ${files.length > 1 ? `<button class="ios-btn ml-1 p-1 rounded-full hover:bg-black/30 ${isActive ? 'text-white hover:text-red-300' : 'text-slate-400 hover:text-red-400'}" onclick="event.stopPropagation(); closeTab('${file.id}')"><i data-lucide="x" class="w-3 h-3"></i></button>` : ''}
+                    ${files.length > 1 ? `<button class="ios-btn ml-1 p-1 rounded-lg hover:bg-black/30 ${isActive ? 'text-white hover:text-red-300' : 'text-slate-400 hover:text-red-400'}" onclick="event.stopPropagation(); closeTab('${file.id}')"><i data-lucide="x" class="w-3 h-3"></i></button>` : ''}
                 `;
-                
                 tab.onclick = () => switchTab(file.id);
                 tab.oncontextmenu = (e) => contextMenu.show(e, file.id);
-                container.appendChild(tab);
             });
             lucide.createIcons({ root: container });
         }
@@ -752,27 +814,34 @@
             const file = files.find(f => f.id === activeId);
             
             isSwitching = true;
+            
+            // Set Appropriate Code Mode
+            const mode = getMode(file.name);
+            editor.setOption('mode', mode);
+            $('currentModeText').textContent = mode === 'htmlmixed' ? 'HTML' : (mode === 'javascript' ? 'JavaScript' : 'CSS');
+            
+            // Re-apply content & clear history for new tab context
             editor.setValue(file.content || '');
+            editor.clearHistory(); 
+            
             isSwitching = false;
             
             renderTabs();
-            updatePreview();
+            // Automatically update URL text to active file if looking at HTML
+            if(file.name.endsWith('.html')) $('urlBarText').textContent = file.name;
         }
 
         function addTab() {
             const newId = Date.now().toString();
-            files.push({
-                id: newId,
-                name: `Screen_${files.length + 1}.html`,
-                content: `<style>\n  body { background: #000; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }\n  h1 { font-size: 3rem; background: linear-gradient(90deg, #6366f1, #ec4899); -webkit-background-clip: text; color: transparent; animation: pulse 2s infinite alternate; }\n  @keyframes pulse { to { transform: scale(1.1); filter: hue-rotate(30deg); } }\n</style>\n<h1>New App</h1>\n<script>\n  console.log("Started.");\n<\/script>`
+            modal.show("Create File", "Enter file name (e.g., about.html, script.js, style.css):", "prompt", (val) => {
+                let name = val ? val.trim() : `Screen_${files.length + 1}.html`;
+                files.push({ id: newId, name: name, content: `/* New File: ${name} */\n` });
+                switchTab(newId);
+                setTimeout(() => {
+                    const container = document.getElementById('tabContainer');
+                    container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+                }, 50);
             });
-            switchTab(newId);
-            
-            // Smooth scroll to the new tab
-            setTimeout(() => {
-                const container = document.getElementById('tabContainer');
-                container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
-            }, 50);
         }
 
         function closeTab(id) {
@@ -783,7 +852,12 @@
             if(activeId === id) {
                 activeId = files[Math.max(0, idx - 1)].id;
                 isSwitching = true;
-                editor.setValue(files.find(f => f.id === activeId).content);
+                const file = files.find(f => f.id === activeId);
+                const mode = getMode(file.name);
+                editor.setOption('mode', mode);
+                $('currentModeText').textContent = mode === 'htmlmixed' ? 'HTML' : (mode === 'javascript' ? 'JavaScript' : 'CSS');
+                editor.setValue(file.content);
+                editor.clearHistory();
                 isSwitching = false;
                 updatePreview();
             }
@@ -804,24 +878,96 @@
             status.saveTimer = setTimeout(() => status.style.opacity = '0', 2000);
         }
 
-        // --- PREVIEW ENGINE ---
+        // --- COMPILATION & PREVIEW ENGINE ---
         function runCode() {
             const btn = document.getElementById('runBtn');
             btn.style.transform = 'scale(0.85)';
-            setTimeout(() => btn.style.transform = 'scale(1)', 400);
+            // Snappier button release
+            setTimeout(() => btn.style.transform = 'scale(1)', 150);
             updatePreview();
+        }
+
+        function validateSyntax() {
+            let isValid = true;
+            files.forEach(f => {
+                if (f.name.endsWith('.html')) {
+                    if (!f.content.includes('</html>')) {
+                        appendLog('error', [`Syntax Error in ${f.name}: Missing </html> tag. Please close your HTML document.`]);
+                        isValid = false;
+                    }
+                    if (f.content.includes('<body') && !f.content.includes('</body>')) {
+                        appendLog('error', [`Syntax Error in ${f.name}: Missing </body> tag.`]);
+                        isValid = false;
+                    }
+                }
+            });
+            if (!isValid && !isConsoleOpen) {
+                toggleConsole(); // Auto expand console to alert user
+            }
         }
 
         function updatePreview() {
             const frameWrapper = document.getElementById('frameWrapper');
-            // Dramatic "iOS 26" snapshot flash animation
-            frameWrapper.style.transform = 'scale(0.96)';
-            frameWrapper.style.filter = 'blur(5px) brightness(1.1)';
-            frameWrapper.style.opacity = '0.7';
+            // Less dramatic, snappier snapshot animation
+            frameWrapper.style.transform = 'scale(0.98)';
+            frameWrapper.style.opacity = '0.8';
             
+            // Reduced to 100ms for a much snappier update
             setTimeout(() => {
-                const file = files.find(f => f.id === activeId);
-                const code = file ? file.content : '';
+                // Syntactic Validation
+                validateSyntax();
+
+                // Build Multi-File Project
+                let htmlFile = files.find(f => f.name.toLowerCase() === 'index.html') || files.find(f => f.name.endsWith('.html'));
+                let finalHtml = '';
+
+                if (!htmlFile) {
+                    finalHtml = '<!DOCTYPE html><html><body style="background:#111; color:#fff; font-family:sans-serif; text-align:center; padding-top:20%;"><h2>No HTML file found.</h2><p>Please create an index.html file to compile the project.</p></body></html>';
+                    $('urlBarText').textContent = 'about:blank';
+                } else {
+                    $('urlBarText').textContent = htmlFile.name;
+                    finalHtml = htmlFile.content;
+
+                    // Automatically close missing tags to prevent total crash, but user was already warned
+                    if(!finalHtml.includes('</html>')) finalHtml += '\n</html>';
+
+                    // Gather CSS & JS assets
+                    let cssFiles = files.filter(f => f.name.endsWith('.css'));
+                    let jsFiles = files.filter(f => f.name.endsWith('.js'));
+                    
+                    let combinedCss = cssFiles.map(f => `/* --- ${f.name} --- */\n${f.content}`).join('\n');
+                    let combinedJs = jsFiles.map(f => `/* --- ${f.name} --- */\n${f.content}`).join('\n');
+
+                    // Inject Tailwind globally if not present
+                    if(!finalHtml.includes('tailwindcss.com')) {
+                        const tailwindScript = '<script src="https://cdn.tailwindcss.com"><\/script>';
+                        if (finalHtml.includes('<head>')) {
+                            finalHtml = finalHtml.replace('<head>', '<head>\n' + tailwindScript);
+                        } else {
+                            finalHtml = tailwindScript + '\n' + finalHtml;
+                        }
+                    }
+
+                    // Inject CSS
+                    if (combinedCss) {
+                        const styleTag = `<style>\n${combinedCss}\n</style>`;
+                        if (finalHtml.includes('</head>')) {
+                            finalHtml = finalHtml.replace('</head>', `${styleTag}\n</head>`);
+                        } else {
+                            finalHtml = `${styleTag}\n` + finalHtml;
+                        }
+                    }
+
+                    // Inject JS
+                    if (combinedJs) {
+                        const scriptTag = `<script>\n${combinedJs}\n<\/script>`;
+                        if (finalHtml.includes('</body>')) {
+                            finalHtml = finalHtml.replace('</body>', `${scriptTag}\n</body>`);
+                        } else {
+                            finalHtml += `\n${scriptTag}`;
+                        }
+                    }
+                }
                 
                 // Inject our custom console sniffer
                 const consoleProxy = `<script>
@@ -831,20 +977,26 @@
                         const o = console[m];
                         console[m] = (...a) => { s(m,a); o.apply(console,a); };
                     });
-                    window.onerror = (msg, url, line) => s('error', [msg + ' (Line ' + line + ')']);
+                    window.onerror = (msg, url, line) => {
+                        s('error', [msg + ' (Line ' + line + ')']);
+                        return false;
+                    };
                 })();
                 <\/script>`;
                 
-                const finalCode = code.includes('<head>') ? code.replace('<head>', '<head>' + consoleProxy) : consoleProxy + code;
+                if (finalHtml.includes('<head>')) {
+                    finalHtml = finalHtml.replace('<head>', '<head>\n' + consoleProxy);
+                } else {
+                    finalHtml = consoleProxy + '\n' + finalHtml;
+                }
                 
                 const iframe = document.getElementById('previewFrame');
-                iframe.srcdoc = finalCode;
+                iframe.srcdoc = finalHtml;
                 
-                // Restore frame visually
+                // Restore frame visually instantly
                 frameWrapper.style.transform = 'scale(1)';
-                frameWrapper.style.filter = 'blur(0px) brightness(1)';
                 frameWrapper.style.opacity = '1';
-            }, 350);
+            }, 100);
         }
 
         // --- CONSOLE ENGINE ---
@@ -872,7 +1024,9 @@
             
             // Format Arguments smoothly
             const msg = args.map(a => {
-                if (typeof a === 'object') return JSON.stringify(a, null, 2);
+                if (typeof a === 'object') {
+                    try { return JSON.stringify(a, null, 2); } catch(e) { return String(a); }
+                }
                 return String(a).replace(/</g, '&lt;').replace(/>/g, '&gt;');
             }).join(' ');
             
@@ -918,42 +1072,31 @@
             }
         }
 
-        // --- FORMATTING & CLEARING ---
+        // --- FORMATTING ---
         function formatCode() {
             const code = editor.getValue();
-            const formatted = html_beautify(code, { indent_size: 4, wrap_line_length: 80 });
+            const file = files.find(f => f.id === activeId);
+            let formatted = code;
+            
+            if (file.name.endsWith('.js')) {
+                formatted = js_beautify(code, { indent_size: 4 });
+            } else if (file.name.endsWith('.css')) {
+                formatted = css_beautify(code, { indent_size: 4 });
+            } else {
+                formatted = html_beautify(code, { indent_size: 4, wrap_line_length: 80 });
+            }
+            
             isSwitching = true;
             editor.setValue(formatted);
             isSwitching = false;
             saveCode();
             
-            // Beautiful haptic-like animation for format completion
+            // Snappier Haptic-like animation
             const editorEl = document.getElementById('editorPane');
-            editorEl.style.transform = 'scale(0.96) rotate(-0.5deg)';
-            editorEl.style.filter = 'brightness(1.5)';
+            editorEl.style.transform = 'scale(0.98) rotate(-0.5deg)';
             setTimeout(() => {
                 editorEl.style.transform = 'scale(1) rotate(0deg)';
-                editorEl.style.filter = 'brightness(1)';
-            }, 350);
-        }
-
-        function clearCode() {
-            toggleSettings(); 
-            modal.show("Clear Workspace", "Are you sure you want to clear all code from the current tab?", "confirm", () => {
-                isSwitching = true;
-                editor.setValue('');
-                isSwitching = false;
-                saveCode();
-                updatePreview();
-                
-                const editorEl = document.getElementById('editorPane');
-                editorEl.style.transform = 'translateY(20px) scale(0.95)';
-                editorEl.style.opacity = '0.5';
-                setTimeout(() => {
-                    editorEl.style.transform = 'translateY(0) scale(1)';
-                    editorEl.style.opacity = '1';
-                }, 400);
-            });
+            }, 150);
         }
 
         // --- SETTINGS CONTROLS ---
@@ -1013,7 +1156,7 @@
                 blobs.forEach(b => b.classList.replace('mix-blend-screen', 'mix-blend-multiply'));
             }
             lucide.createIcons();
-            renderTabs(); // Refresh active tab colors
+            renderTabs(); 
         }
     </script>
 </body>
