@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Compile Studio</title>
+    <title>Compile Studio Pro - Next-Gen Web IDE</title>
 
-    <!-- Tailwind CSS for rapid styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,20 +13,18 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'system-ui', 'sans-serif'],
-                        mono: ['"SF Mono"', 'Menlo', 'monospace']
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"Segoe UI"', 'Roboto', 'sans-serif'],
+                        mono: ['"SF Mono"', 'Menlo', 'Monaco', 'Consolas', 'monospace']
                     },
-                    borderRadius: {
-                        // Universal roundness values overriding defaults for a consistent squircle/rounded look
-                        'none': '0',
-                        'sm': '0.5rem',
-                        DEFAULT: '1rem',
-                        'md': '1rem',
-                        'lg': '1.25rem',
-                        'xl': '1.25rem',
-                        '2xl': '1.5rem',
-                        '3xl': '1.5rem',
-                        'full': '1.5rem', // Even 'full' classes map to soft corners to maintain the universal boxy-rounded feel
+                    colors: {
+                        studio: {
+                            950: '#07090e',
+                            900: '#0d1117',
+                            850: '#121721',
+                            800: '#161b26',
+                            700: '#212636',
+                            border: 'rgba(255, 255, 255, 0.08)'
+                        }
                     }
                 }
             }
@@ -37,25 +35,39 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/neo.min.css">
-    
-    <!-- CodeMirror Search/Dialog Addons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.css">
 
-    <!-- CodeMirror Scripts -->
+    <!-- CodeMirror Core & Languages -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
+    
+    <!-- CodeMirror Addons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closetag.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closebrackets.min.js"></script>
-    
-    <!-- Search Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/selection/active-line.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/searchcursor.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/search.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/brace-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/xml-fold.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/xml-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/html-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/css-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/javascript-hint.min.js"></script>
 
-    <!-- HTML/CSS/JS Beautify -->
+    <!-- JSZip for Exporting ZIP Archives -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+    <!-- Code Beautifier -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
@@ -63,1227 +75,984 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        // HYPER-OPTIMIZATION: Prevent heavy JS parsing if on mobile.
+        if (window.innerWidth < 768) {
+            window.isMobileDevice = true;
+        }
+    </script>
+
     <style>
-        /* * Futuristic Styles */
         :root {
-            --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-            --smooth: cubic-bezier(0.25, 1, 0.5, 1);
+            --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --smooth: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #000;
+            background-color: #07090e;
+            user-select: none;
         }
 
-        /* Animated Mesh Gradient Blobs */
-        @keyframes blob1 {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(15vw, 15vh) scale(1.2) rotate(45deg); }
-            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        }
-        @keyframes blob2 {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate(-15vw, 20vh) scale(1.3) rotate(-45deg); }
-            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
-        }
-        .animate-blob1 { animation: blob1 15s infinite alternate var(--smooth); }
-        .animate-blob2 { animation: blob2 18s infinite alternate var(--smooth); }
-
-        /* VisionOS Glassmorphism */
+        /* HYPER-OPTIMIZATION: Hardware Acceleration */
         .glass {
-            background: rgba(30, 30, 35, 0.45);
-            backdrop-filter: blur(40px) saturate(200%);
-            -webkit-backdrop-filter: blur(40px) saturate(200%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
-            transition: all 0.2s var(--smooth);
+            background: rgba(13, 17, 23, 0.65);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: translateZ(0); /* GPU Offloading */
+            will-change: transform, backdrop-filter;
         }
         .light-theme .glass {
-            background: rgba(255, 255, 255, 0.65);
+            background: rgba(255, 255, 255, 0.75);
             border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 30px 60px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.8);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.06);
         }
 
-        /* Universal Spring Button */
-        .ios-btn {
-            transition: all 0.2s var(--spring);
-            transform-origin: center;
+        /* Animated Mesh Background - Contain Paint */
+        #mainBg {
+            contain: strict;
+        }
+        @keyframes blob1 {
+            0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate3d(12vw, 12vh, 0) scale(1.15) rotate(60deg); }
+            100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+        }
+        @keyframes blob2 {
+            0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+            50% { transform: translate3d(-10vw, 15vh, 0) scale(1.2) rotate(-60deg); }
+            100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
+        }
+        .animate-blob1 { animation: blob1 22s infinite alternate var(--smooth); will-change: transform; }
+        .animate-blob2 { animation: blob2 26s infinite alternate var(--smooth); will-change: transform; }
+
+        /* Buttons & Interactive Elements */
+        .studio-btn {
+            transition: all 0.2s var(--smooth);
             cursor: pointer;
         }
-        .ios-btn:active {
-            transform: scale(0.92) !important;
+        .studio-btn:active {
+            transform: scale(0.93) !important;
         }
 
-        /* Pulse & Shimmer Effects */
-        @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+        /* Resizable Splitter Handles */
+        .splitter-v {
+            width: 5px;
+            cursor: col-resize;
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+            position: relative;
+            z-index: 30;
         }
-        .run-btn-anim {
-            background: linear-gradient(120deg, #ffffff, #cbd5e1, #ffffff);
-            background-size: 200% auto;
-            animation: shimmer 3s linear infinite;
+        .splitter-v:hover, .splitter-v.dragging { background: #6366f1; }
+        .splitter-h {
+            height: 5px;
+            cursor: row-resize;
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+            position: relative;
+            z-index: 30;
         }
-        .light-theme .run-btn-anim {
-            background: linear-gradient(120deg, #0f172a, #334155, #0f172a);
-            color: #fff !important;
-        }
+        .splitter-h:hover, .splitter-h.dragging { background: #6366f1; }
 
-        @keyframes pulseGlow {
-            from { box-shadow: 0 0 15px rgba(99,102,241,0.5); transform: scale(1); }
-            to { box-shadow: 0 0 35px rgba(217,70,239,0.8); transform: scale(1.05); }
-        }
-        .logo-pulse {
-            animation: pulseGlow 3s var(--spring) infinite alternate;
-        }
-
-        /* Staggered Animations */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(40px) scale(0.95); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        .stagger-1 { animation: slideUp 0.8s var(--spring) 0.1s both; }
-        .stagger-2 { animation: slideUp 0.8s var(--spring) 0.2s both; }
-        .stagger-3 { animation: slideUp 0.8s var(--spring) 0.3s both; }
-        .spring-anim { transition: all 0.3s var(--spring) !important; }
-
-        /* CodeMirror Custom iOS Integration */
-        #editorPane .CodeMirror {
+        /* CodeMirror Customization */
+        .CodeMirror {
             position: absolute !important;
             inset: 0 !important;
             height: 100% !important;
             width: 100% !important;
-            border-radius: 1.5rem !important;
             background: transparent !important;
-            font-size: 15px;
-            padding: 0.5rem;
+            font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace !important;
+            font-size: 14px;
+            line-height: 1.6;
         }
-        .CodeMirror-vscrollbar, .CodeMirror-hscrollbar {
-            display: none !important;
-        }
-        .CodeMirror-gutters {
-            background: transparent !important;
-            border-right: 1px solid rgba(255,255,255,0.05) !important;
-        }
-        .light-theme .CodeMirror-gutters { border-right: 1px solid rgba(0,0,0,0.05) !important; }
+        .CodeMirror-gutters { background: rgba(0,0,0,0.15) !important; border-right: 1px solid rgba(255,255,255,0.06) !important; }
+        .light-theme .CodeMirror-gutters { background: rgba(0,0,0,0.03) !important; border-right: 1px solid rgba(0,0,0,0.06) !important; }
+        .CodeMirror-activeline-background { background: rgba(255, 255, 255, 0.04) !important; }
+        .light-theme .CodeMirror-activeline-background { background: rgba(0, 0, 0, 0.04) !important; }
+        .CodeMirror-linenumber { color: rgba(255, 255, 255, 0.3) !important; }
+        .light-theme .CodeMirror-linenumber { color: rgba(0, 0, 0, 0.3) !important; }
 
-        /* Search Dialog Overrides with Close Button Padding */
-        .CodeMirror-dialog {
-            background: rgba(30, 30, 35, 0.85) !important;
-            backdrop-filter: blur(25px) !important;
-            -webkit-backdrop-filter: blur(25px) !important;
-            color: #fff !important;
-            border-radius: 1.5rem !important;
-            border: 1px solid rgba(255,255,255,0.15) !important;
-            padding: 10px 45px 10px 15px !important;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.4) !important;
-            font-family: inherit !important;
-            z-index: 100 !important;
-            
-            /* Snappy Pop-up Styling */
-            position: absolute !important;
-            top: 1rem !important;
-            right: 1rem !important;
-            left: auto !important;
-            bottom: auto !important;
-            width: max-content !important;
-            max-width: calc(100% - 2rem) !important;
-            animation: slideUp 0.3s var(--spring) both;
-        }
-        .light-theme .CodeMirror-dialog {
-            background: rgba(255, 255, 255, 0.85) !important;
-            color: #000 !important;
-            border: 1px solid rgba(0,0,0,0.15) !important;
-        }
-        .CodeMirror-dialog input {
-            background: rgba(0,0,0,0.2) !important;
-            border: 1px solid rgba(255,255,255,0.2) !important;
-            color: inherit !important;
-            border-radius: 0.75rem !important;
-            padding: 6px 12px !important;
-            outline: none !important;
-            font-family: monospace !important;
-        }
-        .light-theme .CodeMirror-dialog input {
-            background: rgba(255,255,255,0.8) !important;
-            border: 1px solid rgba(0,0,0,0.15) !important;
-        }
-        .CodeMirror-dialog button {
-            background: rgba(255,255,255,0.1) !important;
-            border: none !important;
-            border-radius: 0.75rem !important;
-            padding: 6px 12px !important;
-            color: inherit !important;
-            cursor: pointer !important;
-            transition: all 0.2s !important;
-            margin-left: 8px;
-        }
-        .CodeMirror-dialog button:hover { background: rgba(255,255,255,0.2) !important; }
+        /* Device Frame Simulation */
+        .preview-mobile { width: 375px !important; height: 667px !important; margin: auto !important; border-radius: 2.5rem !important; border: 12px solid #1e293b !important; box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important; }
+        .preview-tablet { width: 768px !important; height: 90% !important; margin: auto !important; border-radius: 1.5rem !important; border: 10px solid #1e293b !important; box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important; }
 
-        /* Dialog Close Button specific style */
-        .cm-dialog-close-btn {
-            position: absolute !important;
-            right: 12px !important;
-            top: 50% !important;
-            transform: translateY(-50%) !important;
-            background: rgba(255, 100, 100, 0.2) !important;
-            border-radius: 50% !important;
-            width: 28px !important;
-            height: 28px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 0 !important;
-            color: #fca5a5 !important;
-        }
-        .cm-dialog-close-btn:hover {
-            background: rgba(255, 100, 100, 0.4) !important;
-            color: #fff !important;
-        }
-        
-        /* Hide default scrollbars */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* Console Logs */
-        .log-entry {
-            animation: slideUp 0.3s var(--spring) both;
-            border-radius: 1rem;
-            padding: 0.75rem 1rem;
-            background: rgba(255,255,255,0.03);
-            border-left: 3px solid rgba(255,255,255,0.2);
-            margin-bottom: 0.5rem;
-        }
-        .light-theme .log-entry { background: rgba(0,0,0,0.03); border-left-color: rgba(0,0,0,0.2); color: #1e293b; }
-        .log-error { border-left-color: #ef4444; color: #fca5a5; background: rgba(239, 68, 68, 0.05); }
-        .light-theme .log-error { color: #b91c1c; background: rgba(239, 68, 68, 0.04); }
-        .log-warn { border-left-color: #f59e0b; color: #fcd34d; background: rgba(245, 158, 11, 0.05); }
-        .light-theme .log-warn { color: #b45309; background: rgba(245, 158, 11, 0.04); }
-
-        /* UI Enhancements */
-        .modal-overlay { opacity: 0; pointer-events: none; transition: opacity 0.2s var(--smooth); backdrop-filter: blur(25px); z-index: 9999; }
+        /* Modal & Overlay Animations */
+        .modal-overlay { opacity: 0; pointer-events: none; transition: all 0.25s var(--smooth); backdrop-filter: blur(16px); }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { transform: scale(0.85) translateY(20px); opacity: 0; transition: all 0.3s var(--spring); }
-        .modal-overlay.active .modal-content { transform: scale(1) translateY(0); opacity: 1; }
-        
-        .context-menu { opacity: 0; transform: scale(0.9) translateY(-10px); pointer-events: none; transition: all 0.2s var(--spring); transform-origin: top left; z-index: 9998; }
-        .context-menu.active { opacity: 1; transform: scale(1) translateY(0); pointer-events: auto; }
-        
-        .preview-mobile { width: 100% !important; max-width: 375px !important; margin: 0 auto !important; border-radius: 2.5rem !important; border: 8px solid #1e293b !important; }
-        .light-theme .preview-mobile { border-color: #cbd5e1 !important; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15); }
+        .modal-card { transform: scale(0.9) translateY(15px); opacity: 0; transition: all 0.3s var(--spring); }
+        .modal-overlay.active .modal-card { transform: scale(1) translateY(0); opacity: 1; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 99px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
+        .console-entry { border-bottom: 1px solid rgba(255,255,255,0.04); font-family: monospace; font-size: 13px; }
     </style>
 </head>
-<body class="text-slate-200 selection:bg-fuchsia-500/30 font-sans">
+<body class="text-slate-200 selection:bg-indigo-500/30 font-sans h-screen w-screen overflow-hidden">
 
-    <!-- PC Only Overlay Blocker -->
+    <!-- Initial Startup Loading Screen -->
+    <div id="loadingScreen" class="fixed inset-0 z-[999999] bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700">
+        <div class="relative w-20 h-20 flex items-center justify-center mb-6">
+            <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-2xl shadow-[0_0_40px_rgba(99,102,241,0.2)]"></div>
+            <div class="absolute inset-0 border-4 border-indigo-500 rounded-2xl border-t-transparent animate-spin"></div>
+            <i data-lucide="code-2" class="w-8 h-8 text-white animate-pulse"></i>
+        </div>
+        <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">Compile Studio <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">Pro</span></h1>
+        <p class="text-slate-400 text-xs font-mono flex items-center gap-2">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Initializing workspace environment...
+        </p>
+        <div class="w-56 h-1 bg-white/10 rounded-full mt-8 overflow-hidden">
+            <div id="loadingProgress" class="h-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 w-0 transition-all duration-1000 ease-out"></div>
+        </div>
+    </div>
+
+    <!-- Mobile Screen Warning Overlay -->
     <div id="mobileBlock" class="fixed inset-0 z-[99999] bg-slate-950 text-white flex-col items-center justify-center p-8 text-center hidden">
-        <i data-lucide="monitor-off" class="w-20 h-20 mb-6 text-red-500 animate-pulse"></i>
-        <h2 class="text-3xl font-bold mb-4 tracking-tight">Desktop Required</h2>
-        <p class="text-slate-400 text-lg max-w-md">Compile Studio is highly optimized for PC. Mobile devices are not supported to ensure the best coding experience. Please open this application on a larger screen.</p>
+        <i data-lucide="monitor-off" class="w-16 h-16 mb-4 text-indigo-400 animate-bounce"></i>
+        <h2 class="text-2xl font-bold mb-2">Desktop Screen Required</h2>
+        <p class="text-slate-400 text-sm max-w-sm">Compile Studio Pro is engineered for high-productivity desktop coding. Please switch to a larger view to continue.</p>
     </div>
 
-    <!-- Fluid Animated Background -->
+    <!-- Dynamic Animated Background Mesh -->
     <div class="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-950 transition-colors duration-700" id="mainBg">
-        <div class="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-600/40 rounded-full blur-[120px] mix-blend-screen animate-blob1" id="blob1"></div>
-        <div class="absolute top-[20%] right-[-10%] w-[40vw] h-[40vw] bg-fuchsia-600/40 rounded-full blur-[120px] mix-blend-screen animate-blob2" id="blob2" style="animation-delay: 2s"></div>
-        <div class="absolute bottom-[-20%] left-[20%] w-[60vw] h-[60vw] bg-blue-600/40 rounded-full blur-[120px] mix-blend-screen animate-blob1" id="blob3" style="animation-delay: 4s; animation-direction: reverse;"></div>
+        <div class="absolute -top-[15%] -left-[10%] w-[55vw] h-[55vw] bg-indigo-600/25 rounded-full blur-[140px] mix-blend-screen animate-blob1" id="blob1"></div>
+        <div class="absolute top-[30%] -right-[10%] w-[45vw] h-[45vw] bg-fuchsia-600/20 rounded-full blur-[140px] mix-blend-screen animate-blob2" id="blob2"></div>
+        <div class="absolute -bottom-[20%] left-[25%] w-[50vw] h-[50vw] bg-cyan-600/20 rounded-full blur-[140px] mix-blend-screen animate-blob1" style="animation-delay: 3s"></div>
     </div>
 
-    <!-- Global Modals & Overlays -->
-    <div id="modalOverlay" class="modal-overlay fixed inset-0 bg-black/60 flex items-center justify-center p-4">
-        <div class="modal-content glass w-full max-w-md rounded-2xl p-6 border border-white/20 shadow-2xl flex flex-col gap-4">
+    <!-- MAIN APP WRAPPER -->
+    <div class="h-screen w-screen flex flex-col relative overflow-hidden" id="workspaceContainer">
+
+        <!-- GLOBAL HEADER NAV -->
+        <header class="h-14 border-b border-white/10 glass px-4 flex items-center justify-between z-40 shrink-0">
+            <!-- Brand & Project Title -->
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-indigo-500/20 flex items-center justify-center border border-indigo-500/30">
-                    <i data-lucide="alert-circle" class="w-5 h-5 text-indigo-400"></i>
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <i data-lucide="code-2" class="w-5 h-5 text-white"></i>
                 </div>
-                <h2 id="modalTitle" class="text-xl font-bold tracking-tight">System Message</h2>
-            </div>
-            <p id="modalDesc" class="text-sm leading-relaxed pl-1"></p>
-            <input type="text" id="modalInput" class="hidden w-full bg-black/30 border border-white/10 rounded-2xl px-4 py-3 focus:outline-none focus:border-indigo-500 transition-colors font-mono text-sm" placeholder="Enter value...">
-            <div class="flex gap-3 mt-2">
-                <button onclick="modal.close()" class="flex-1 py-3 rounded-2xl bg-white/5 hover:bg-white/10 font-semibold transition-colors ios-btn">Cancel</button>
-                <button onclick="modal.confirm()" class="flex-1 py-3 rounded-2xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold shadow-lg shadow-indigo-500/25 transition-colors ios-btn">Confirm</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tab Context Menu -->
-    <div id="contextMenu" class="context-menu fixed glass rounded-2xl p-1.5 w-48 border border-white/10 shadow-2xl flex flex-col gap-1">
-        <button onclick="actions.triggerRename()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-white/10 flex items-center gap-3 text-sm font-medium ios-btn">
-            <i data-lucide="edit-2" class="w-4 h-4 text-indigo-400"></i> Rename File
-        </button>
-        <div class="h-px bg-white/5 my-0.5 mx-2"></div>
-        <button onclick="actions.triggerDelete()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-red-500/20 flex items-center gap-3 text-sm font-medium text-red-400 ios-btn">
-            <i data-lucide="trash-2" class="w-4 h-4"></i> Delete File
-        </button>
-    </div>
-
-    <!-- Main Application Wrapper -->
-    <div class="h-screen w-screen flex flex-col p-3 md:p-5 gap-4 relative overflow-hidden">
-        
-        <!-- Glass Navigation Bar -->
-        <nav class="glass rounded-2xl p-3 flex items-center justify-between stagger-1 z-50">
-            <!-- Logo Section -->
-            <div class="flex items-center gap-3 pl-2 pr-4 md:border-r border-white/10 shrink-0">
-                <div class="logo-pulse w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-500 to-fuchsia-500 flex items-center justify-center shadow-lg">
-                    <i data-lucide="terminal" class="w-5 h-5 text-white"></i>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <input id="projectTitleInput" type="text" value="Compile Studio Project" class="bg-transparent text-sm font-bold text-white focus:outline-none focus:border-b border-indigo-400 tracking-tight w-48 truncate">
+                        <i data-lucide="edit-3" class="w-3 h-3 text-slate-500"></i>
+                    </div>
+                    <span class="text-[10px] text-slate-400 font-mono tracking-wide uppercase">Multi-File Web IDE</span>
                 </div>
-                <h1 id="logoText" class="hidden md:block text-xl font-extrabold tracking-tight text-white dark:text-transparent bg-clip-text bg-gradient-to-r dark:from-white dark:to-slate-400">CS</h1>
             </div>
-            
-            <!-- Dynamic Tab Bar -->
-            <div class="flex-1 overflow-x-auto flex items-center gap-3 px-4 no-scrollbar pb-1" id="tabContainer">
-                <!-- Tabs rendered by JS -->
-            </div>
-            
-            <!-- Add Tab Button -->
-            <button onclick="addTab()" class="ios-btn w-10 h-10 rounded-2xl glass flex items-center justify-center hover:text-white shrink-0 mr-2 md:mr-4 shadow-sm border border-white/10">
-                <i data-lucide="plus" class="w-5 h-5"></i>
-            </button>
-            
-            <!-- Contextual Actions -->
-            <div class="flex items-center gap-2 pr-2 md:border-l border-white/10 md:pl-4 shrink-0">
-                <button onclick="formatCode()" class="hidden md:flex ios-btn px-4 py-2 rounded-2xl glass text-sm font-semibold items-center gap-2 text-indigo-300 dark:text-indigo-300 hover:text-white dark:hover:text-white hover:bg-indigo-500/20 border border-white/5">
-                    <i data-lucide="wand-2" class="w-4 h-4"></i> Format
+
+            <!-- Quick Action Bar -->
+            <div class="flex items-center gap-2">
+                <button onclick="palette.toggle()" class="studio-btn px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-slate-300 hover:bg-white/10 flex items-center gap-2">
+                    <i data-lucide="search" class="w-3.5 h-3.5 text-indigo-400"></i>
+                    <span>Command Palette</span>
+                    <kbd class="px-1.5 py-0.5 rounded bg-black/40 text-[10px] font-mono text-slate-400">Ctrl+K</kbd>
                 </button>
-                <button id="runBtn" onclick="runCode()" class="ios-btn run-btn-anim px-5 py-2 rounded-2xl text-black text-sm font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.3)] dark:shadow-none">
-                    <i data-lucide="play" class="w-4 h-4 fill-current"></i> Compile
+                <button onclick="modals.showTemplates()" class="studio-btn px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/10 flex items-center gap-1.5">
+                    <i data-lucide="layout-template" class="w-3.5 h-3.5 text-fuchsia-400"></i>
+                    <span class="hidden md:inline">Templates</span>
                 </button>
+                <button onclick="modals.showCDN()" class="studio-btn px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/10 flex items-center gap-1.5">
+                    <i data-lucide="box" class="w-3.5 h-3.5 text-cyan-400"></i>
+                    <span class="hidden md:inline">Inject CDN</span>
+                </button>
+                <div class="h-5 w-px bg-white/10 mx-1"></div>
+                <button id="runBtn" onclick="compileAndRun()" class="studio-btn px-4 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-fuchsia-600 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 flex items-center gap-2 hover:brightness-110">
+                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Compile
+                </button>
+                <button onclick="toggleSettingsMenu(event)" id="settingsBtn" class="studio-btn p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </header>
 
-                <!-- Settings Dropdown Wrapper -->
-                <div class="relative ml-2">
-                    <button id="settingsBtn" onclick="toggleSettings()" class="ios-btn w-10 h-10 rounded-2xl glass flex items-center justify-center hover:text-white shadow-sm border border-white/10">
-                        <i data-lucide="settings" class="w-5 h-5 transition-transform duration-500" id="settingsIcon"></i>
-                    </button>
-                    <!-- Settings Menu -->
-                    <div id="settingsMenu" class="absolute top-14 right-0 w-64 glass rounded-2xl p-3 opacity-0 pointer-events-none transform scale-90 translate-y-[-10px] origin-top-right transition-all duration-300 var(--spring) shadow-2xl flex flex-col gap-1 border border-white/10 z-50">
-                        <div class="px-3 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">Preferences</div>
-                        <div class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-2xl cursor-pointer ios-btn border border-white/5" onclick="toggleTheme()">
-                            <div class="flex items-center gap-3 text-sm font-semibold">
-                                <i data-lucide="moon" class="w-4 h-4 text-indigo-400" id="themeIcon"></i> Theme
-                            </div>
-                            <div class="w-12 h-6 rounded-2xl bg-indigo-500 relative transition-colors duration-300 p-0.5 shadow-inner" id="themeBg">
-                                <div id="themeHandle" class="w-5 h-5 rounded-xl bg-white shadow-md transform translate-x-6 transition-transform duration-300 var(--spring)"></div>
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-2xl cursor-pointer ios-btn border border-white/5" onclick="toggleAutoRun()">
-                            <div class="flex items-center gap-3 text-sm font-semibold">
-                                <i data-lucide="zap" class="w-4 h-4 text-fuchsia-400"></i> Auto Run
-                            </div>
-                            <div class="w-12 h-6 rounded-2xl bg-fuchsia-500 relative transition-colors duration-300 p-0.5 shadow-inner" id="autoRunBg">
-                                <div id="autoRunHandle" class="w-5 h-5 rounded-xl bg-white shadow-md transform translate-x-6 transition-transform duration-300 var(--spring)"></div>
-                            </div>
-                        </div>
-                        
-                        <div class="h-px bg-white/10 my-1 mx-2"></div>
-                        <div class="px-3 py-2 text-xs font-bold text-slate-500 uppercase tracking-wider">System</div>
-                        
-                        <div class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-2xl cursor-pointer ios-btn border border-white/5" onclick="actions.download()">
-                            <div class="flex items-center gap-3 text-emerald-400 text-sm font-semibold">
-                                <i data-lucide="download" class="w-4 h-4"></i> Download File
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-2xl cursor-pointer ios-btn border border-white/5" onclick="actions.about()">
-                            <div class="flex items-center gap-3 text-blue-400 text-sm font-semibold">
-                                <i data-lucide="info" class="w-4 h-4"></i> About Studio
-                            </div>
-                        </div>
-                        <div class="flex items-center justify-between p-3 bg-red-500/10 hover:bg-red-500/20 rounded-2xl cursor-pointer ios-btn border border-red-500/10 mt-1" onclick="actions.factoryReset()">
-                            <div class="flex items-center gap-3 text-red-400 text-sm font-semibold">
-                                <i data-lucide="refresh-cw" class="w-4 h-4"></i> Factory Reset
-                            </div>
-                        </div>
-                    </div>
+        <!-- MAIN WORKSPACE LAYOUT -->
+        <div id="mainWorkspace" class="flex-1 flex overflow-hidden relative">
+            <!-- ACTIVITY BAR -->
+            <aside class="w-12 border-r border-white/10 glass flex flex-col items-center py-3 gap-4 shrink-0 z-20">
+                <button onclick="toggleSidebar()" id="sidebarToggleBtn" title="Toggle File Explorer (Ctrl+B)" class="studio-btn p-2 rounded-xl bg-white/10 text-white"><i data-lucide="files" class="w-5 h-5"></i></button>
+                <button onclick="modals.showCDN()" title="CDN Libraries" class="studio-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5"><i data-lucide="layers" class="w-5 h-5"></i></button>
+                <button onclick="modals.showShortcuts()" title="Keyboard Shortcuts" class="studio-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5"><i data-lucide="keyboard" class="w-5 h-5"></i></button>
+                <div class="mt-auto flex flex-col gap-3">
+                    <button onclick="exportProjectZip()" title="Export Project as .ZIP" class="studio-btn p-2 rounded-xl text-emerald-400 hover:bg-emerald-500/10"><i data-lucide="download" class="w-5 h-5"></i></button>
                 </div>
-            </div>
-        </nav>
-        
-        <!-- Main Workspace Area -->
-        <div class="flex-1 flex flex-col md:flex-row gap-4 min-h-0 overflow-y-auto md:overflow-hidden no-scrollbar pb-4 md:pb-0">
-            
-            <!-- Code Editor Pane -->
-            <div id="editorPane" class="min-h-[50vh] md:min-h-0 flex-1 glass rounded-2xl p-3 flex flex-col relative stagger-2 overflow-hidden spring-anim">
-                <div class="relative flex-1 rounded-2xl overflow-hidden bg-black/20 dark:bg-black/40 shadow-inner">
-                    <textarea id="codeEditor"></textarea>
-                </div>
-                
-                <!-- Status Bar -->
-                <div class="h-10 mt-2 px-4 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between text-xs font-mono text-slate-400 dark:text-slate-400 shrink-0">
-                    <div class="flex items-center gap-4">
-                        <span id="cursorPos" class="flex items-center gap-1.5"><i data-lucide="crosshair" class="w-3 h-3"></i> Ln 1, Col 1</span>
-                        <span class="hidden md:inline-block opacity-50">|</span>
-                        <span id="docSize" class="hidden md:flex items-center gap-1.5"><i data-lucide="file-digit" class="w-3 h-3"></i> 0 Bytes</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span id="currentModeText" class="px-2 py-1 rounded-md bg-white/5 text-slate-300 dark:text-slate-300 mr-4">HTML</span>
-                        
-                        <!-- Actions toolbar (Undo, Redo, Find, Replace) -->
-                        <div class="hidden sm:flex items-center gap-3 border-r border-white/10 pr-4 mr-4">
-                            <button onclick="editor.undo()" class="hover:text-white transition-colors ios-btn" title="Undo (Ctrl-Z)"><i data-lucide="undo-2" class="w-4 h-4"></i></button>
-                            <button onclick="editor.redo()" class="hover:text-white transition-colors ios-btn" title="Redo (Ctrl-Y)"><i data-lucide="redo-2" class="w-4 h-4"></i></button>
-                            <div class="w-px h-3 bg-white/10 mx-1"></div>
-                            <button onclick="editor.execCommand('findPersistent')" class="hover:text-white transition-colors ios-btn" title="Find (Ctrl-F)"><i data-lucide="search" class="w-4 h-4"></i></button>
-                            <button onclick="editor.execCommand('replace')" class="hover:text-white transition-colors ios-btn" title="Replace (Shift-Ctrl-F)"><i data-lucide="replace" class="w-4 h-4"></i></button>
-                        </div>
-                        <span id="saveStatus" class="flex items-center gap-1.5 text-emerald-400 opacity-0 transition-opacity duration-300"><i data-lucide="check-circle-2" class="w-3 h-3"></i> Saved</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Interactive Preview Pane -->
-            <div id="previewPane" class="min-h-[50vh] md:min-h-0 flex-1 glass rounded-2xl p-3 flex flex-col relative stagger-3 transition-all duration-300 z-40">
-                
-                <!-- Browser Toolbar -->
-                <div class="h-14 mb-3 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-between px-2 shrink-0 z-10 backdrop-blur-md">
+            </aside>
+
+            <!-- FILE EXPLORER SIDEBAR -->
+            <div id="fileExplorerPanel" class="w-60 border-r border-white/10 glass flex flex-col shrink-0 transition-all duration-300 z-10">
+                <div class="p-3 border-b border-white/10 flex items-center justify-between">
+                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Explorer</span>
                     <div class="flex items-center gap-1">
-                        <button class="ios-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                        <button class="ios-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
-                        <button onclick="updatePreview()" class="ios-btn w-10 h-10 rounded-xl flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
+                        <button onclick="createNewFilePrompt()" title="New File" class="studio-btn p-1 rounded-lg hover:bg-white/10 text-slate-300"><i data-lucide="file-plus" class="w-4 h-4"></i></button>
+                        <button onclick="triggerFileInput()" title="Import File" class="studio-btn p-1 rounded-lg hover:bg-white/10 text-slate-300"><i data-lucide="upload" class="w-4 h-4"></i></button>
                     </div>
-                    
-                    <div class="flex-1 max-w-sm px-2 md:px-4">
-                        <div class="w-full h-9 rounded-xl bg-black/20 border border-white/5 flex items-center px-4 gap-2 text-sm text-slate-300 font-mono shadow-inner">
-                            <i data-lucide="lock" class="w-3 h-3 text-emerald-400 shrink-0"></i>
-                            <span id="urlBarText" class="truncate opacity-70">index.html</span>
-                        </div>
+                </div>
+                <input type="file" id="importFileInput" multiple class="hidden" onchange="handleFileImport(event)">
+                <div class="p-2 border-b border-white/5">
+                    <div class="bg-black/30 border border-white/10 rounded-xl px-2.5 py-1 flex items-center gap-2">
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500"></i>
+                        <input type="text" id="fileSearchInput" oninput="renderExplorerTree()" placeholder="Filter files..." class="bg-transparent text-xs text-white focus:outline-none w-full">
                     </div>
-                    
-                    <div class="flex items-center gap-1 bg-black/20 p-1 rounded-2xl border border-white/5">
-                        <button onclick="browser.setDevice('desktop')" id="btnDesktop" class="ios-btn w-8 h-8 rounded-xl flex items-center justify-center text-white bg-white/10 shadow-sm"><i data-lucide="monitor" class="w-4 h-4"></i></button>
-                        <button onclick="browser.setDevice('mobile')" id="btnMobile" class="ios-btn w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-white"><i data-lucide="smartphone" class="w-4 h-4"></i></button>
-                        <div class="w-px h-4 bg-white/10 mx-1"></div>
-                        <!-- Fullscreen Toggle Button -->
-                        <button onclick="browser.toggleFullscreen()" id="btnFullscreen" class="ios-btn w-8 h-8 rounded-xl flex items-center justify-center text-slate-500 hover:text-white"><i data-lucide="maximize" id="fullscreenIcon" class="w-4 h-4"></i></button>
+                </div>
+                <div id="explorerTree" class="flex-1 overflow-y-auto p-2 flex flex-col gap-1"></div>
+            </div>
+
+            <!-- CODE EDITOR PANE -->
+            <div id="editorPane" class="flex-1 flex flex-col min-w-[200px] relative bg-black/20">
+                <div class="h-10 border-b border-white/10 glass flex items-center px-2 overflow-x-auto no-scrollbar gap-1 shrink-0" id="tabsContainer"></div>
+                <div class="flex-1 relative"><textarea id="codeEditor"></textarea></div>
+                <div class="h-7 border-t border-white/10 glass px-3 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
+                    <div class="flex items-center gap-4">
+                        <span id="cursorPosInfo">Ln 1, Col 1</span>
+                        <span id="fileSizeInfo">0 Bytes</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span id="currentLangInfo" class="uppercase text-indigo-400 font-bold">HTML</span>
+                        <button onclick="formatCode()" title="Format Code (Shift+Alt+F)" class="hover:text-white flex items-center gap-1 studio-btn"><i data-lucide="wand-2" class="w-3 h-3"></i> Format</button>
+                        <span id="saveStatusIndicator" class="text-emerald-400 opacity-0 transition-opacity flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Saved</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VERTICAL SPLITTER HANDLE -->
+            <div id="splitterV" class="splitter-v"></div>
+
+            <!-- PREVIEW & CONSOLE PANE -->
+            <div id="previewPane" class="flex-1 flex flex-col min-w-[250px] relative">
+                <div class="h-10 border-b border-white/10 glass px-3 flex items-center justify-between gap-2 shrink-0 z-10">
+                    <div class="flex items-center gap-1">
+                        <button onclick="reloadPreview()" title="Reload Preview" class="studio-btn p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                    <div class="flex-1 max-w-md bg-black/40 border border-white/10 rounded-xl px-3 py-1 flex items-center gap-2 text-xs font-mono text-slate-300">
+                        <i data-lucide="lock" class="w-3 h-3 text-emerald-400 shrink-0"></i>
+                        <span id="urlDisplay" class="truncate opacity-80">https://compile-studio.local/index.html</span>
+                    </div>
+                    <div class="flex items-center gap-1 bg-black/30 p-0.5 rounded-xl border border-white/5">
+                        <button onclick="setPreviewDevice('desktop')" id="devBtnDesktop" class="studio-btn px-2 py-1 rounded-lg text-xs text-white bg-white/10 flex items-center gap-1"><i data-lucide="monitor" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="setPreviewDevice('tablet')" id="devBtnTablet" class="studio-btn px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white flex items-center gap-1"><i data-lucide="tablet" class="w-3.5 h-3.5"></i></button>
+                        <button onclick="setPreviewDevice('mobile')" id="devBtnMobile" class="studio-btn px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white flex items-center gap-1"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i></button>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button onclick="openDetachedPreview()" title="Open in New Window" class="studio-btn p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></button>
                     </div>
                 </div>
 
-                <!-- Iframe Wrapper for Snappy Animations -->
-                <div id="frameWrapper" class="flex-1 relative rounded-2xl overflow-hidden bg-[#e2e8f0] dark:bg-white/90 backdrop-blur-3xl spring-anim shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] border border-white/20 transition-all duration-300">
-                    <iframe id="previewFrame" class="absolute inset-0 w-full h-full border-0 bg-transparent pointer-events-auto"></iframe>
+                <div class="flex-1 relative bg-white/95 overflow-hidden flex items-center justify-center" id="iframeWrapper">
+                    <iframe id="previewFrame" class="w-full h-full border-0 bg-white transition-all duration-300"></iframe>
                 </div>
-                
-                <!-- Floating Console Drawer Inside Preview Pane -->
-                <div id="consoleOverlay" class="absolute bottom-4 left-4 right-4 h-[45%] glass rounded-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.4)] border border-white/20 transform translate-y-[120%] spring-anim flex flex-col z-20 opacity-0 pointer-events-none">
-                    <!-- Console Header -->
-                    <div class="px-5 py-3 border-b border-white/10 flex justify-between items-center bg-white/5">
-                        <div class="flex items-center gap-2">
-                            <i data-lucide="terminal-square" class="w-4 h-4 text-fuchsia-400"></i>
-                            <span class="text-sm font-bold tracking-wide">Developer Console</span>
+
+                <!-- HORIZONTAL SPLITTER HANDLE -->
+                <div id="splitterH" class="splitter-h"></div>
+
+                <!-- DEVELOPER CONSOLE DRAWER -->
+                <div id="consolePane" class="h-44 border-t border-white/10 glass flex flex-col shrink-0 relative transition-all duration-300">
+                    <div class="h-8 border-b border-white/10 px-3 flex items-center justify-between bg-black/20 text-xs font-semibold shrink-0 cursor-pointer" onclick="toggleConsole(event)">
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-1.5 text-indigo-400 font-mono"><i data-lucide="terminal" class="w-3.5 h-3.5"></i> Console</div>
+                            <div class="flex gap-2 text-[10px]" onclick="event.stopPropagation()">
+                                <button onclick="filterLogs('all')" id="filterBtnAll" class="px-2 py-0.5 rounded bg-white/10 text-white">All</button>
+                                <button onclick="filterLogs('error')" id="filterBtnError" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">Errors</button>
+                                <button onclick="filterLogs('warn')" id="filterBtnWarn" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">Warnings</button>
+                            </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <button onclick="clearConsole()" class="ios-btn p-1.5 rounded-xl hover:bg-white/20">
-                                <i data-lucide="ban" class="w-4 h-4"></i>
-                            </button>
-                            <button onclick="toggleConsole()" class="ios-btn p-1.5 rounded-xl hover:bg-white/20">
-                                <i data-lucide="minimize-2" class="w-4 h-4"></i>
-                            </button>
+                        <div class="flex items-center gap-1">
+                            <button onclick="event.stopPropagation(); clearConsole()" title="Clear Console" class="studio-btn p-1 rounded hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                            <button title="Toggle Console" class="studio-btn p-1 rounded hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="chevron-down" id="consoleChevron" class="w-3.5 h-3.5 transition-transform duration-300"></i></button>
                         </div>
                     </div>
-                    <!-- Log Entries Container -->
-                    <div id="consoleLog" class="flex-1 overflow-y-auto p-4 font-mono text-sm no-scrollbar pb-10">
-                        <div class="opacity-50 text-xs italic text-center mt-4">Console is ready...</div>
+                    <div id="consoleLogList" class="flex-1 overflow-y-auto p-2 font-mono text-xs flex flex-col gap-1"></div>
+                    <div class="h-8 border-t border-white/10 bg-black/40 px-3 flex items-center gap-2 shrink-0">
+                        <span class="text-indigo-400 font-bold font-mono text-xs">&gt;</span>
+                        <input type="text" id="consoleReplInput" onkeydown="handleReplSubmit(event)" placeholder="Type JavaScript and press Enter..." class="bg-transparent text-xs text-white font-mono focus:outline-none w-full">
                     </div>
                 </div>
-                
-                <!-- Console Launch Button -->
-                <button onclick="toggleConsole()" class="absolute bottom-8 right-8 ios-btn px-5 py-3 rounded-2xl bg-black/80 backdrop-blur-2xl text-white text-sm font-bold flex items-center gap-2 shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-white/10 hover:bg-black group z-30">
-                    <i data-lucide="terminal" class="w-4 h-4 text-fuchsia-400 group-hover:rotate-12 transition-transform duration-200"></i> Console
-                    <!-- Notification badge -->
-                    <div id="errBadge" class="hidden absolute -top-1.5 -right-1.5 w-[22px] h-[22px] bg-red-500 rounded-lg text-[10px] items-center justify-center shadow-lg shadow-red-500/50 border-2 border-slate-900 font-bold text-white">0</div>
-                </button>
             </div>
-            
         </div>
     </div>
 
-    <!-- Application Logic -->
+    <!-- SETTINGS MENU -->
+    <div id="settingsMenu" class="absolute top-14 right-4 w-64 glass rounded-2xl p-2 border border-white/10 shadow-2xl z-50 hidden flex-col gap-1">
+        <div class="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Studio Preferences</div>
+        <div onclick="toggleAutoRun()" class="p-2.5 rounded-xl hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn">
+            <span class="text-xs font-semibold flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> Auto Run Code</span>
+            <input type="checkbox" id="autoRunToggle" class="accent-indigo-500" checked>
+        </div>
+        <div onclick="toggleStudioTheme()" class="p-2.5 rounded-xl hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn">
+            <span class="text-xs font-semibold flex items-center gap-2"><i data-lucide="moon" class="w-4 h-4 text-indigo-400"></i> Dark Theme</span>
+            <input type="checkbox" id="darkThemeToggle" class="accent-indigo-500" checked>
+        </div>
+        <div class="h-px bg-white/10 my-1"></div>
+        <div onclick="modals.showResetPrompt()" class="p-2.5 rounded-xl hover:bg-red-500/20 text-red-400 flex items-center gap-2 cursor-pointer studio-btn">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i><span class="text-xs font-bold">Reset Project Defaults</span>
+        </div>
+    </div>
+
+    <!-- COMMAND PALETTE MODAL -->
+    <div id="commandPalette" class="modal-overlay fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/60">
+        <div class="modal-card w-full max-w-lg glass rounded-2xl border border-white/20 shadow-2xl overflow-hidden flex flex-col">
+            <div class="p-3 border-b border-white/10 flex items-center gap-3">
+                <i data-lucide="search" class="w-4 h-4 text-indigo-400"></i>
+                <input type="text" id="paletteInput" oninput="filterPaletteCommands()" placeholder="Type a command or file name..." class="bg-transparent text-sm text-white focus:outline-none w-full font-sans">
+                <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-slate-400 border border-white/10 shadow-sm cursor-pointer hover:bg-white/20 transition-colors" onclick="modals.close('commandPalette')">ESC</kbd>
+            </div>
+            <div id="paletteResults" class="max-h-72 overflow-y-auto p-2 flex flex-col gap-1"></div>
+        </div>
+    </div>
+
+    <!-- CDN INJECTOR MODAL -->
+    <div id="cdnModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+        <div class="modal-card w-full max-w-lg glass rounded-2xl border border-white/20 shadow-2xl p-6 flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2"><i data-lucide="box" class="w-5 h-5 text-cyan-400"></i><h3 class="text-base font-bold text-white">Inject Library / CDN</h3></div>
+                <button onclick="modals.close('cdnModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-slate-400">Click to insert external libraries into <code class="text-indigo-300">index.html</code>.</p>
+            <div class="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto p-1">
+                <button onclick="injectCDN('tailwind')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Tailwind CSS v3</span><span class="text-[10px] text-slate-400">Utility-first CSS framework</span></button>
+                <button onclick="injectCDN('bootstrap')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Bootstrap 5</span><span class="text-[10px] text-slate-400">Responsive UI Library</span></button>
+                <button onclick="injectCDN('react')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">React 18 + Babel</span><span class="text-[10px] text-slate-400">JSX Component Library</span></button>
+                <button onclick="injectCDN('vue')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Vue 3 CDN</span><span class="text-[10px] text-slate-400">Progressive JS Framework</span></button>
+                <button onclick="injectCDN('three')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Three.js</span><span class="text-[10px] text-slate-400">3D WebGL Engine</span></button>
+                <button onclick="injectCDN('gsap')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">GSAP Animations</span><span class="text-[10px] text-slate-400">High-performance animations</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STARTER TEMPLATES MODAL -->
+    <div id="templatesModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+        <div class="modal-card w-full max-w-xl glass rounded-2xl border border-white/20 shadow-2xl p-6 flex flex-col gap-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2"><i data-lucide="layout-template" class="w-5 h-5 text-fuchsia-400"></i><h3 class="text-base font-bold text-white">Select Starter Template</h3></div>
+                <button onclick="modals.close('templatesModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="loadTemplate('modern')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i> Glassmorphic UI</span><span class="text-[11px] text-slate-400">Tailwind HTML, CSS & JS setup</span></div>
+                <div onclick="loadTemplate('canvas')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="palette" class="w-4 h-4 text-cyan-400"></i> Interactive 2D Canvas</span><span class="text-[11px] text-slate-400">Particle animation starter code</span></div>
+                <div onclick="loadTemplate('three')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="box" class="w-4 h-4 text-fuchsia-400"></i> Three.js 3D Cube</span><span class="text-[11px] text-slate-400">WebGL 3D Scene setup</span></div>
+                <div onclick="loadTemplate('vue')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="code" class="w-4 h-4 text-emerald-400"></i> Vue 3 App</span><span class="text-[11px] text-slate-400">Reactive counter application</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GENERAL INPUT / PROMPT MODAL -->
+    <div id="inputModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
+        <div class="modal-card w-full max-w-sm glass rounded-2xl border border-white/20 shadow-2xl p-5 flex flex-col gap-4">
+            <h3 id="inputModalTitle" class="text-base font-bold text-white">System Prompt</h3>
+            <input type="text" id="inputModalField" class="bg-black/40 border border-white/15 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 font-mono">
+            <div class="flex gap-2">
+                <button onclick="modals.close('inputModal')" class="flex-1 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-slate-300 studio-btn">Cancel</button>
+                <button id="inputModalConfirmBtn" class="flex-1 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-xs font-bold text-white studio-btn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // --- MOBILE CHECK ---
-        function enforceDesktop() {
-            if(window.innerWidth < 768) {
-                document.getElementById('mobileBlock').style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.getElementById('mobileBlock').style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        }
-        window.addEventListener('resize', enforceDesktop);
-        enforceDesktop();
+        // --- HYPER-OPTIMIZATION: Global DOM Caching ---
+        const UI = {}; 
+        
+        const DEFAULT_TEMPLATES = {
+            modern: [
+                { id: '1', name: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Compile Studio Project</title>\n    <script src="https://cdn.tailwindcss.com"><\/script>\n    <link rel="stylesheet" href="style.css">\n</head>\n<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-6">\n    <div class="glass-card text-center max-w-md p-8 rounded-3xl border border-white/10 shadow-2xl">\n        <h1 id="headline" class="text-4xl font-extrabold mb-3 bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent">Compile Studio</h1>\n        <p class="text-slate-400 text-sm mb-6">Edit files in real-time across HTML, CSS, and JS.</p>\n        <button id="actionBtn" class="px-6 py-3 rounded-2xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-sm transition-all shadow-lg shadow-indigo-500/30">Interact Now</button>\n    </div>\n    <script src="script.js"><\/script>\n</body>\n</html>' },
+                { id: '2', name: 'style.css', content: '.glass-card {\n    background: rgba(255, 255, 255, 0.03);\n    backdrop-filter: blur(20px);\n    transition: transform 0.3s;\n}\n.glass-card:hover { transform: translateY(-6px); }' },
+                { id: '3', name: 'script.js', content: 'console.log("Studio loaded.");\ndocument.getElementById("actionBtn").addEventListener("click", () => {\n    document.getElementById("headline").classList.toggle("scale-110");\n    console.info("Interactive button clicked!");\n});' }
+            ],
+            canvas: [
+                { id: '1', name: 'index.html', content: '<!DOCTYPE html>\n<html>\n<head>\n  <style>body { margin: 0; overflow: hidden; background: #05070a; }</style>\n</head>\n<body>\n  <canvas id="canvas"></canvas>\n  <script src="script.js"><\/script>\n</body>\n</html>' },
+                { id: '2', name: 'script.js', content: 'const canvas = document.getElementById("canvas");\nconst ctx = canvas.getContext("2d");\nlet width = canvas.width = window.innerWidth;\nlet height = canvas.height = window.innerHeight;\n\nconst particles = Array.from({ length: 60 }, () => ({\n  x: Math.random() * width, y: Math.random() * height,\n  vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2, radius: Math.random() * 3 + 1\n}));\n\nfunction animate() {\n  ctx.fillStyle = "rgba(5, 7, 10, 0.2)"; ctx.fillRect(0, 0, width, height);\n  particles.forEach(p => {\n    p.x += p.vx; p.y += p.vy;\n    if(p.x < 0 || p.x > width) p.vx *= -1; if(p.y < 0 || p.y > height) p.vy *= -1;\n    ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);\n    ctx.fillStyle = "#818cf8"; ctx.fill();\n  });\n  requestAnimationFrame(animate);\n}\nanimate();' }
+            ]
+        };
+        // Filling missing defaults to save space
+        DEFAULT_TEMPLATES.three = DEFAULT_TEMPLATES.vue = DEFAULT_TEMPLATES.modern;
 
-        // --- INJECT DIALOG CLOSE BUTTON ---
-        const dialogObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.classList && node.classList.contains('CodeMirror-dialog')) {
-                        if(!node.querySelector('.cm-dialog-close-btn')) {
-                            const closeBtn = document.createElement('button');
-                            closeBtn.type = 'button';
-                            closeBtn.className = 'cm-dialog-close-btn ios-btn';
-                            closeBtn.innerHTML = '<i data-lucide="x" style="width:14px; height:14px;"></i>';
-                            closeBtn.onclick = () => {
-                                const input = node.querySelector('input');
-                                if (input) {
-                                    const escEvent = new KeyboardEvent('keydown', { key: 'Escape', keyCode: 27, bubbles: true });
-                                    input.dispatchEvent(escEvent);
-                                }
-                            };
-                            node.appendChild(closeBtn);
-                            lucide.createIcons({ root: node });
-                        }
-                    }
-                });
-            });
-        });
-        dialogObserver.observe(document.body, { childList: true, subtree: true });
-
-        // --- STATE & DATA ---
-        const defaultFiles = [
-            { id: '1', name: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>Modern Project</title>\n    <!-- Simulated Linking: -->\n    <link rel="stylesheet" href="style.css">\n</head>\n<body class="bg-slate-900 text-white flex flex-col items-center justify-center min-h-screen">\n    <div class="glass-card">\n        <h1 class="main-title text-5xl font-extrabold mb-4">Hello World</h1>\n        <p class="text-slate-400">Edit and build across HTML, CSS, and JS files dynamically.</p>\n        <button id="actionBtn" class="mt-6 px-6 py-3 bg-indigo-500 rounded-2xl font-bold hover:bg-indigo-400 transition-colors">Click Me</button>\n    </div>\n    <script src="script.js"><\/script>\n</body>\n</html>' },
-            { id: '2', name: 'style.css', content: '/* style.css */\n.glass-card {\n    background: rgba(255, 255, 255, 0.05);\n    backdrop-filter: blur(20px);\n    padding: 3rem;\n    border-radius: 1.5rem;\n    border: 1px solid rgba(255, 255, 255, 0.1);\n    text-align: center;\n    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);\n    transition: transform 0.3s ease;\n}\n.glass-card:hover {\n    transform: translateY(-5px);\n}' },
-            { id: '3', name: 'script.js', content: '// script.js\nconsole.log("Application started successfully.");\n\ndocument.getElementById("actionBtn").addEventListener("click", () => {\n    const title = document.querySelector(".main-title");\n    const colors = ["#f472b6", "#818cf8", "#34d399", "#fbbf24"];\n    const randomColor = colors[Math.floor(Math.random() * colors.length)];\n    title.style.color = randomColor;\n    console.info("Title color changed to: " + randomColor);\n});' }
-        ];
-
+        // --- APP STATE & TIMERS ---
         let files = [];
-        let activeId = '1';
-        let editor;
+        let activeFileId = '1';
+        let editor = null;
         let isAutoRun = true;
-        let isDark = true;
-        let debounceTimer;
-        let isConsoleOpen = false;
-        let errCount = 0;
-        let isSwitching = false;
-
-        const $ = id => document.getElementById(id);
-
-        // --- LOCAL STORAGE CACHE HANDLERS ---
-        function loadProjectFromStorage() {
-            try {
-                const storedFiles = localStorage.getItem('cs_project_files');
-                const storedActive = localStorage.getItem('cs_active_id');
-                const storedAutoRun = localStorage.getItem('cs_autorun');
-                const storedTheme = localStorage.getItem('cs_theme_dark');
-
-                if (storedFiles) {
-                    files = JSON.parse(storedFiles);
-                } else {
-                    files = JSON.parse(JSON.stringify(defaultFiles));
-                }
-
-                if (storedActive && files.some(f => f.id === storedActive)) {
-                    activeId = storedActive;
-                } else {
-                    activeId = files[0].id;
-                }
-
-                if (storedAutoRun !== null) {
-                    isAutoRun = storedAutoRun === 'true';
-                }
-
-                if (storedTheme !== null) {
-                    isDark = storedTheme === 'true';
-                }
-            } catch (e) {
-                console.error("Failed loading from local storage, loading defaults.", e);
-                files = JSON.parse(JSON.stringify(defaultFiles));
-                activeId = '1';
-            }
-        }
-
-        // --- CUSTOM MODALS & MENUS ---
-        const modal = {
-            cb: null,
-            show: (title, desc, type = 'confirm', callback = null, defaultVal = '') => {
-                $('modalTitle').innerText = title;
-                $('modalDesc').innerText = desc;
-                const input = $('modalInput');
-                if (type === 'prompt') {
-                    input.style.display = 'block';
-                    input.value = defaultVal;
-                    setTimeout(() => input.focus(), 50);
-                } else {
-                    input.style.display = 'none';
-                }
-                modal.cb = callback;
-                $('modalOverlay').classList.add('active');
-            },
-            close: () => {
-                $('modalOverlay').classList.remove('active');
-                modal.cb = null;
-            },
-            confirm: () => {
-                const val = $('modalInput').value;
-                if (modal.cb) modal.cb(val);
-                modal.close();
-            }
-        };
-
-        const contextMenu = {
-            targetId: null,
-            show: (e, id) => {
-                e.preventDefault();
-                contextMenu.targetId = id;
-                const menu = $('contextMenu');
-                let x = e.pageX;
-                let y = e.pageY;
-                if (x + 192 > window.innerWidth) x = window.innerWidth - 200;
-                menu.style.left = x + 'px';
-                menu.style.top = y + 'px';
-                menu.classList.add('active');
-            },
-            hide: () => {
-                $('contextMenu').classList.remove('active');
-            }
-        };
-
-        const browser = {
-            isFullscreen: false,
-            setDevice: (type) => {
-                const wrapper = $('frameWrapper');
-                const btnDesktop = $('btnDesktop');
-                const btnMobile = $('btnMobile');
-                
-                if(type === 'mobile') {
-                    wrapper.classList.add('preview-mobile');
-                    btnMobile.classList.replace('text-slate-500', 'text-white');
-                    btnMobile.classList.add('bg-white/10', 'shadow-sm');
-                    btnDesktop.classList.replace('text-white', 'text-slate-500');
-                    btnDesktop.classList.remove('bg-white/10', 'shadow-sm');
-                } else {
-                    wrapper.classList.remove('preview-mobile');
-                    btnDesktop.classList.replace('text-slate-500', 'text-white');
-                    btnDesktop.classList.add('bg-white/10', 'shadow-sm');
-                    btnMobile.classList.replace('text-white', 'text-slate-500');
-                    btnMobile.classList.remove('bg-white/10', 'shadow-sm');
-                }
-            },
-            toggleFullscreen: () => {
-                const pane = $('previewPane');
-                const icon = $('fullscreenIcon');
-                const btn = $('btnFullscreen');
-                browser.isFullscreen = !browser.isFullscreen;
-                
-                if (browser.isFullscreen) {
-                    pane.classList.remove('relative', 'flex-1', 'rounded-2xl', 'min-h-[50vh]', 'md:min-h-0');
-                    pane.classList.add('fixed', 'inset-0', 'z-[100]', 'rounded-none', 'm-0');
-                    icon.setAttribute('data-lucide', 'minimize');
-                    btn.classList.add('bg-white/10', 'text-white');
-                    btn.classList.remove('text-slate-500');
-                } else {
-                    pane.classList.add('relative', 'flex-1', 'rounded-2xl', 'min-h-[50vh]', 'md:min-h-0');
-                    pane.classList.remove('fixed', 'inset-0', 'z-[100]', 'rounded-none', 'm-0');
-                    icon.setAttribute('data-lucide', 'maximize');
-                    btn.classList.remove('bg-white/10', 'text-white');
-                    btn.classList.add('text-slate-500');
-                }
-                lucide.createIcons();
-                setTimeout(updatePreview, 150);
-            }
-        };
-
-        // --- ADVANCED ACTIONS ---
-        const actions = {
-            triggerRename: () => {
-                const id = contextMenu.targetId;
-                contextMenu.hide();
-                if (!id) return;
-                const file = files.find(f => f.id === id);
-                modal.show("Rename File", "Enter a new name (e.g., style.css):", "prompt", (newVal) => {
-                    if (newVal && newVal.trim()) {
-                        const sanitizedName = newVal.trim();
-                        
-                        // Check for duplicates
-                        if (files.some(f => f.id !== id && f.name.toLowerCase() === sanitizedName.toLowerCase())) {
-                            modal.show("Naming Collision", "A file named '" + sanitizedName + "' already exists.", "confirm");
-                            return;
-                        }
-
-                        file.name = sanitizedName;
-                        renderTabs();
-                        switchTab(id); // Reload mode if extension changed
-                        saveCode();
-                        updatePreview();
-                    }
-                }, file.name);
-            },
-            triggerDelete: () => {
-                const id = contextMenu.targetId;
-                contextMenu.hide();
-                if (!id) return;
-                if (files.length <= 1) {
-                    modal.show("Cannot Delete", "You must have at least one file open.", "confirm");
-                    return;
-                }
-                modal.show("Delete File", `Are you sure you want to permanently delete "${files.find(f => f.id === id).name}"?`, "confirm", () => {
-                    closeTab(id);
-                });
-            },
-            factoryReset: () => {
-                toggleSettings();
-                modal.show("Factory Reset", "This will wipe all your custom files and restore defaults. Are you sure?", "confirm", () => {
-                    localStorage.removeItem('cs_project_files');
-                    localStorage.removeItem('cs_active_id');
-                    files = JSON.parse(JSON.stringify(defaultFiles));
-                    activeId = files[0].id;
-                    renderTabs();
-                    switchTab(activeId);
-                    updatePreview();
-                });
-            },
-            about: () => {
-                toggleSettings();
-                modal.show("Compile Studio", "A powerful, self-contained multi-file web IDE running entirely inside your browser. Builds and binds modular HTML, JS, and CSS dynamically.", "confirm");
-            },
-            download: () => {
-                toggleSettings();
-                const file = files.find(f => f.id === activeId);
-                const blob = new Blob([editor.getValue()], { type: 'text/plain' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = file.name;
-                a.click();
-            }
-        };
-
-        // --- HELPERS ---
-        function getMode(filename) {
-            if (filename.endsWith('.js')) return 'javascript';
-            if (filename.endsWith('.css')) return 'css';
-            return 'htmlmixed';
-        }
+        let isDarkMode = true;
+        let isSidebarOpen = true;
+        
+        let compileTimer = null;
+        let saveTimer = null;
+        let sizeCalcTimer = null;
 
         // --- INITIALIZATION ---
         document.addEventListener("DOMContentLoaded", () => {
-            loadProjectFromStorage();
-            lucide.createIcons();
-            
-            // Set dynamic text classes based on dark/light configuration on load
-            if (isDark) {
-                document.body.classList.add('text-slate-200');
-                document.body.classList.remove('text-slate-900');
-                document.documentElement.classList.add('dark');
-                document.documentElement.classList.remove('light-theme');
-            } else {
-                document.body.classList.add('text-slate-900');
-                document.body.classList.remove('text-slate-200');
-                document.documentElement.classList.add('light-theme');
-                document.documentElement.classList.remove('dark');
+            if (window.isMobileDevice) {
+                document.getElementById('mobileBlock').classList.remove('hidden');
+                document.getElementById('mobileBlock').classList.add('flex');
+                document.getElementById('workspaceContainer').style.display = 'none';
+                const loader = document.getElementById('loadingScreen');
+                if (loader) loader.remove();
+                return; // HALT ALL JS EXECUTION FOR MOBILE
             }
 
-            // Sync visual status sliders on preferences loads
-            const autoRunBg = $('autoRunBg');
-            const autoRunHandle = $('autoRunHandle');
-            if (isAutoRun) {
-                autoRunBg.classList.replace('bg-white/20', 'bg-fuchsia-500');
-                autoRunHandle.style.transform = 'translateX(24px)';
-            } else {
-                autoRunBg.classList.replace('bg-fuchsia-500', 'bg-white/20');
-                autoRunHandle.style.transform = 'translateX(0px)';
-            }
+            // Cache DOM Elements strictly after ensuring we are on desktop
+            UI.editorPane = document.getElementById('editorPane');
+            UI.previewPane = document.getElementById('previewPane');
+            UI.consolePane = document.getElementById('consolePane');
+            UI.iframe = document.getElementById('previewFrame');
+            UI.mainWorkspace = document.getElementById('mainWorkspace');
+            UI.urlDisplay = document.getElementById('urlDisplay');
+            UI.consoleLogList = document.getElementById('consoleLogList');
+            UI.saveInd = document.getElementById('saveStatusIndicator');
+            UI.runBtn = document.getElementById('runBtn');
+            UI.cursorPosInfo = document.getElementById('cursorPosInfo');
+            UI.fileSizeInfo = document.getElementById('fileSizeInfo');
 
-            const themeBg = $('themeBg');
-            const themeHandle = $('themeHandle');
-            const themeIcon = $('themeIcon');
-            const mainBg = $('mainBg');
-            const blobs = document.querySelectorAll('.animate-blob1, .animate-blob2');
-            if (isDark) {
-                themeHandle.style.transform = 'translateX(24px)';
-                themeBg.classList.replace('bg-slate-400', 'bg-indigo-500');
-                themeIcon.setAttribute('data-lucide', 'moon');
-                mainBg.className = "fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-950 transition-colors duration-700";
-                blobs.forEach(b => b.classList.replace('mix-blend-multiply', 'mix-blend-screen'));
-            } else {
-                themeHandle.style.transform = 'translateX(0px)';
-                themeBg.classList.replace('bg-indigo-500', 'bg-slate-400');
-                themeIcon.setAttribute('data-lucide', 'sun');
-                mainBg.className = "fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-200 transition-colors duration-700";
-                blobs.forEach(b => b.classList.replace('mix-blend-screen', 'mix-blend-multiply'));
-            }
-
-            // Initialize CodeMirror Editor
-            const startingFile = files.find(f => f.id === activeId) || files[0];
-            editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
-                mode: getMode(startingFile.name),
-                theme: isDark ? 'dracula' : 'neo',
-                lineNumbers: true,
-                autoCloseTags: true,
-                autoCloseBrackets: true,
-                lineWrapping: true
-            });
-            
-            editor.setValue(startingFile.content);
-            const initialMode = getMode(startingFile.name);
-            $('currentModeText').textContent = initialMode === 'htmlmixed' ? 'HTML' : (initialMode === 'javascript' ? 'JavaScript' : 'CSS');
-            
-            editor.on('change', () => {
-                if (isSwitching) return;
-                saveCode();
-                if(isAutoRun) {
-                    clearTimeout(debounceTimer);
-                    debounceTimer = setTimeout(updatePreview, 400);
-                }
-            });
-
-            // Status Bar Updates
-            editor.on('cursorActivity', () => {
-                const pos = editor.getCursor();
-                $('cursorPos').innerHTML = `<i data-lucide="crosshair" class="w-3 h-3"></i> Ln ${pos.line + 1}, Col ${pos.ch + 1}`;
-                lucide.createIcons({root: $('cursorPos')});
-            });
-
+            loadStateFromStorage();
+            initCodeMirror();
+            renderExplorerTree();
             renderTabs();
-            setTimeout(updatePreview, 50);
+            setupSplitters();
+            lucide.createIcons();
+            compileAndRun();
 
-            // Listen for proxied console messages from the Iframe
+            // Animate and remove loading screen
+            const progressBar = document.getElementById('loadingProgress');
+            if(progressBar) {
+                setTimeout(() => progressBar.style.width = '100%', 50);
+            }
+            setTimeout(() => {
+                const loader = document.getElementById('loadingScreen');
+                if (loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.remove(), 700);
+                }
+            }, 1000);
+
             window.addEventListener('message', (e) => {
-                if(e.data && e.data.source === 'ios26-console') {
-                    appendLog(e.data.type, e.data.args);
+                if (e.data && e.data.source === 'cs-console-proxy') {
+                    appendConsoleLog(e.data.type, e.data.args);
                 }
             });
 
-            // Global Dismissals
-            document.addEventListener('click', (e) => {
-                if (!e.target.closest('#contextMenu')) contextMenu.hide();
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
+                    document.getElementById('settingsMenu').classList.add('hidden');
+                    document.getElementById('settingsMenu').classList.remove('flex');
+                }
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') { e.preventDefault(); palette.toggle(); }
+                if ((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); toggleSidebar(); }
+                if ((e.ctrlKey || e.metaKey) && e.key === 's') { 
+                    e.preventDefault(); 
+                    saveStateToStorage();
+                    compileAndRun(); 
+                }
+            });
+
+            document.addEventListener('mousedown', (e) => {
                 const menu = document.getElementById('settingsMenu');
-                if (menu && menu.style.opacity === '1' && !e.target.closest('#settingsMenu') && !e.target.closest('#settingsBtn')) {
-                    toggleSettings();
+                const btn = document.getElementById('settingsBtn');
+                if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+                    menu.classList.add('hidden');
+                    menu.classList.remove('flex');
                 }
             });
         });
 
-        // --- TAB MANAGEMENT ---
-        function renderTabs() {
-            const container = document.getElementById('tabContainer');
+        function loadStateFromStorage() {
+            try {
+                const savedFiles = localStorage.getItem('cs_files');
+                const savedActive = localStorage.getItem('cs_active_id');
+                const savedTitle = localStorage.getItem('cs_project_title');
+
+                files = savedFiles ? JSON.parse(savedFiles) : JSON.parse(JSON.stringify(DEFAULT_TEMPLATES.modern));
+                activeFileId = (savedActive && files.some(f => f.id === savedActive)) ? savedActive : files[0].id;
+                if(savedTitle) document.getElementById('projectTitleInput').value = savedTitle;
+            } catch(e) {
+                files = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES.modern));
+                activeFileId = files[0].id;
+            }
+
+            document.getElementById('projectTitleInput').addEventListener('input', (e) => {
+                try { localStorage.setItem('cs_project_title', e.target.value); } catch(err){}
+            });
+        }
+
+        function saveStateToStorage() {
+            try {
+                localStorage.setItem('cs_files', JSON.stringify(files));
+                localStorage.setItem('cs_active_id', activeFileId);
+            } catch(e) { console.error("Storage limit reached"); }
+        }
+
+        function initCodeMirror() {
+            const currentFile = files.find(f => f.id === activeFileId) || files[0];
             
-            // Remove deleted tabs smoothly
-            Array.from(container.children).forEach(child => {
-                if (!files.find(f => f.id === child.dataset.id)) {
-                    child.style.transform = 'scale(0.8)';
-                    child.style.opacity = '0';
-                    setTimeout(() => child.remove(), 200);
+            editor = CodeMirror.fromTextArea(document.getElementById('codeEditor'), {
+                mode: getModeForFile(currentFile.name),
+                theme: isDarkMode ? 'dracula' : 'neo',
+                lineNumbers: true,
+                styleActiveLine: true,
+                matchBrackets: true,
+                autoCloseTags: true,
+                autoCloseBrackets: true,
+                foldGutter: true,
+                gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+                lineWrapping: true,
+                viewportMargin: 15, // HYPER-OPTIMIZATION: Prevents processing hidden text
+                workTime: 200,
+                extraKeys: { "Ctrl-Space": "autocomplete", "Shift-Alt-F": formatCode }
+            });
+
+            editor.setValue(currentFile.content);
+            UI.fileSizeInfo.textContent = `${currentFile.content.length} Bytes`; // Fast byte calc
+
+            editor.on('change', () => {
+                const active = files.find(f => f.id === activeFileId);
+                if (active) {
+                    active.content = editor.getValue();
+                    
+                    // DECOUPLED DEBOUNCING: Stop locking main thread
+                    clearTimeout(saveTimer);
+                    saveTimer = setTimeout(saveStateToStorage, 2500); // Wait 2.5s to write to disk
+                    
+                    clearTimeout(sizeCalcTimer);
+                    sizeCalcTimer = setTimeout(() => {
+                        UI.fileSizeInfo.textContent = `${active.content.length} Bytes`;
+                    }, 500);
+
+                    if (isAutoRun) {
+                        clearTimeout(compileTimer);
+                        compileTimer = setTimeout(compileAndRun, 1200); // Give user time to finish typing
+                    }
                 }
             });
 
-            // Add or Update tabs
+            editor.on('cursorActivity', () => {
+                const pos = editor.getCursor();
+                UI.cursorPosInfo.textContent = `Ln ${pos.line + 1}, Col ${pos.ch + 1}`;
+            });
+        }
+
+        function getModeForFile(filename) {
+            if (filename.endsWith('.js')) return 'javascript';
+            if (filename.endsWith('.css')) return 'css';
+            if (filename.endsWith('.json')) return 'javascript';
+            return 'htmlmixed';
+        }
+
+        function getFileIcon(filename) {
+            if (filename.endsWith('.html')) return '<i data-lucide="file-code-2" class="w-4 h-4 text-amber-400"></i>';
+            if (filename.endsWith('.css')) return '<i data-lucide="file-type-2" class="w-4 h-4 text-cyan-400"></i>';
+            if (filename.endsWith('.js')) return '<i data-lucide="file-json" class="w-4 h-4 text-yellow-400"></i>';
+            if (filename.endsWith('.json')) return '<i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>';
+            return '<i data-lucide="file" class="w-4 h-4 text-slate-400"></i>';
+        }
+
+        function renderExplorerTree() {
+            const tree = document.getElementById('explorerTree');
+            const filter = document.getElementById('fileSearchInput').value.toLowerCase();
+            tree.innerHTML = '';
+
+            files.filter(f => f.name.toLowerCase().includes(filter)).forEach(file => {
+                const isActive = file.id === activeFileId;
+                const item = document.createElement('div');
+                item.className = `p-2 rounded-xl text-xs font-medium flex items-center justify-between cursor-pointer studio-btn group ${isActive ? 'bg-indigo-500/20 text-white font-bold border border-indigo-500/30' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'}`;
+                item.innerHTML = `<div class="flex items-center gap-2 truncate">${getFileIcon(file.name)}<span class="truncate">${file.name}</span></div>
+                    <div class="hidden group-hover:flex items-center gap-1">
+                        <button onclick="event.stopPropagation(); renameFilePrompt('${file.id}')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="edit-2" class="w-3 h-3"></i></button>
+                        ${files.length > 1 ? `<button onclick="event.stopPropagation(); deleteFile('${file.id}')" class="p-1 text-slate-400 hover:text-red-400"><i data-lucide="trash" class="w-3 h-3"></i></button>` : ''}
+                    </div>`;
+                item.onclick = () => switchActiveFile(file.id);
+                tree.appendChild(item);
+            });
+            lucide.createIcons({ root: tree });
+        }
+
+        function renderTabs() {
+            const container = document.getElementById('tabsContainer');
+            container.innerHTML = '';
+
             files.forEach(file => {
-                const isActive = file.id === activeId;
-                let tab = container.querySelector(`[data-id="${file.id}"]`);
-                
-                if (!tab) {
-                    tab = document.createElement('div');
-                    tab.dataset.id = file.id;
-                    tab.className = 'tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-2xl cursor-pointer text-sm font-medium transition-all duration-300 border shrink-0 bg-transparent border-transparent opacity-0 transform translate-y-4';
-                    container.appendChild(tab);
-                    setTimeout(() => {
-                        tab.style.opacity = '1';
-                        tab.style.transform = 'translateY(0)';
-                    }, 10);
-                }
-
-                if (isActive) {
-                    tab.className = 'tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-2xl cursor-pointer text-sm font-medium transition-all duration-300 border shrink-0 bg-white/20 dark:bg-white/20 border-white/30 dark:border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.15)] dark:shadow-none scale-105 z-10 text-slate-900 dark:text-white';
-                } else {
-                    tab.className = 'tab-item ios-btn flex items-center gap-2 px-4 py-2 rounded-2xl cursor-pointer text-sm font-medium transition-all duration-300 border shrink-0 bg-transparent border-transparent hover:bg-black/5 dark:hover:bg-white/10 z-0 text-slate-500 dark:text-slate-400';
-                }
-
-                tab.innerHTML = `
-                    <i data-lucide="file-code" class="w-4 h-4 ${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-400'}"></i>
-                    <span class="truncate max-w-[120px] ${isActive ? 'font-bold' : ''}">${file.name}</span>
-                    ${files.length > 1 ? `<button class="ios-btn ml-1 p-1 rounded-lg hover:bg-black/10 dark:hover:bg-black/30 text-slate-400 hover:text-red-400" onclick="event.stopPropagation(); closeTab('${file.id}')"><i data-lucide="x" class="w-3 h-3"></i></button>` : ''}
-                `;
-                tab.onclick = () => switchTab(file.id);
-                tab.oncontextmenu = (e) => contextMenu.show(e, file.id);
+                const isActive = file.id === activeFileId;
+                const tab = document.createElement('div');
+                tab.className = `px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 cursor-pointer studio-btn shrink-0 ${isActive ? 'bg-white/15 text-white border border-white/20 shadow-sm' : 'text-slate-400 hover:bg-white/5'}`;
+                tab.innerHTML = `${getFileIcon(file.name)}<span>${file.name}</span>
+                    ${files.length > 1 ? `<button onclick="event.stopPropagation(); deleteFile('${file.id}')" class="p-0.5 hover:text-red-400 rounded"><i data-lucide="x" class="w-3 h-3"></i></button>` : ''}`;
+                tab.onclick = () => switchActiveFile(file.id);
+                container.appendChild(tab);
             });
             lucide.createIcons({ root: container });
         }
 
-        function switchTab(id) {
-            if (activeId === id) return;
+        function switchActiveFile(id) {
+            if (activeFileId === id) return;
+            activeFileId = id;
+            const file = files.find(f => f.id === activeFileId);
             
-            // Safe code-preservation buffer step
-            const currentActiveFile = files.find(f => f.id === activeId);
-            if (currentActiveFile && !isSwitching) {
-                currentActiveFile.content = editor.getValue();
-            }
-
-            activeId = id;
-            const file = files.find(f => f.id === activeId);
-            if (!file) return;
-
-            isSwitching = true;
-            
-            // Apply appropriate compilation mode
-            const mode = getMode(file.name);
-            editor.setOption('mode', mode);
-            $('currentModeText').textContent = mode === 'htmlmixed' ? 'HTML' : (mode === 'javascript' ? 'JavaScript' : 'CSS');
-            
-            editor.setValue(file.content || '');
-            editor.clearHistory(); 
-            
-            isSwitching = false;
-            
-            // Save state snapshot
-            localStorage.setItem('cs_project_files', JSON.stringify(files));
-            localStorage.setItem('cs_active_id', activeId);
-
-            renderTabs();
-            if(file.name.endsWith('.html')) $('urlBarText').textContent = file.name;
-        }
-
-        function addTab() {
-            const newId = Date.now().toString();
-            modal.show("Create File", "Enter file name (e.g., about.html, script.js, style.css):", "prompt", (val) => {
-                if (!val || !val.trim()) return;
-                let name = val.trim();
-                
-                // File extension auto-resolver fallback
-                if (!name.includes('.')) {
-                    name += '.html';
-                }
-
-                // Check for naming duplicates
-                if (files.some(f => f.name.toLowerCase() === name.toLowerCase())) {
-                    modal.show("Collision Error", "A file named '" + name + "' already exists in this layout directory.", "confirm");
-                    return;
-                }
-
-                files.push({ id: newId, name: name, content: `/* New File: ${name} */\n` });
-                switchTab(newId);
-                setTimeout(() => {
-                    const container = document.getElementById('tabContainer');
-                    container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
-                }, 50);
-            });
-        }
-
-        function closeTab(id) {
-            if(files.length === 1) return; 
-            const idx = files.findIndex(f => f.id === id);
-            files.splice(idx, 1);
-            
-            if(activeId === id) {
-                activeId = files[Math.max(0, idx - 1)].id;
-                isSwitching = true;
-                const file = files.find(f => f.id === activeId);
-                const mode = getMode(file.name);
-                editor.setOption('mode', mode);
-                $('currentModeText').textContent = mode === 'htmlmixed' ? 'HTML' : (mode === 'javascript' ? 'JavaScript' : 'CSS');
+            if (file && editor) {
+                editor.setOption('mode', getModeForFile(file.name));
                 editor.setValue(file.content);
-                editor.clearHistory();
-                isSwitching = false;
+                document.getElementById('currentLangInfo').textContent = file.name.split('.').pop().toUpperCase();
+                UI.fileSizeInfo.textContent = `${file.content.length} Bytes`;
             }
+
+            renderExplorerTree();
             renderTabs();
-            saveCode();
-            updatePreview();
+            saveStateToStorage();
         }
 
-        function saveCode() {
-            const file = files.find(f => f.id === activeId);
-            if(file && !isSwitching) file.content = editor.getValue();
-            
-            // Sync tree metadata in LocalStorage
-            localStorage.setItem('cs_project_files', JSON.stringify(files));
-            localStorage.setItem('cs_active_id', activeId);
-
-            const size = new Blob([editor.getValue()]).size;
-            $('docSize').innerHTML = `<i data-lucide="file-digit" class="w-3 h-3"></i> ${size} Bytes`;
-            lucide.createIcons({root: $('docSize')});
-
-            const status = $('saveStatus');
-            status.style.opacity = '1';
-            clearTimeout(status.saveTimer);
-            status.saveTimer = setTimeout(() => status.style.opacity = '0', 2000);
+        function createNewFilePrompt() {
+            modals.prompt("Create New File", "index.html", (val) => {
+                if (!val) return;
+                let name = val.trim();
+                if (files.some(f => f.name.toLowerCase() === name.toLowerCase())) return alert("File exists.");
+                const newId = Date.now().toString();
+                files.push({ id: newId, name: name, content: `/* File: ${name} */\n` });
+                switchActiveFile(newId);
+                compileAndRun();
+            });
         }
 
-        // --- COMPILATION & PREVIEW ENGINE (WITH DYNAMIC DIRECT ASSET LINKING) ---
-        function runCode() {
-            const btn = document.getElementById('runBtn');
-            btn.style.transform = 'scale(0.85)';
-            setTimeout(() => btn.style.transform = 'scale(1)', 150);
-            updatePreview();
+        function renameFilePrompt(id) {
+            const file = files.find(f => f.id === id);
+            if (!file) return;
+            modals.prompt("Rename File", file.name, (val) => {
+                if (!val || val === file.name) return;
+                file.name = val.trim();
+                if (activeFileId === id && editor) {
+                    editor.setOption('mode', getModeForFile(file.name));
+                    document.getElementById('currentLangInfo').textContent = file.name.split('.').pop().toUpperCase();
+                }
+                renderExplorerTree();
+                renderTabs();
+                saveStateToStorage();
+                compileAndRun();
+            });
         }
 
-        function validateSyntax() {
-            let isValid = true;
-            files.forEach(f => {
-                if (f.name.endsWith('.html')) {
-                    if (!f.content.includes('</html>')) {
-                        appendLog('error', [`Syntax Warning in ${f.name}: Missing closing </html> tag.`]);
-                        isValid = false;
-                    }
-                    if (f.content.includes('<body') && !f.content.includes('</body>')) {
-                        appendLog('error', [`Syntax Warning in ${f.name}: Missing closing </body> tag.`]);
-                        isValid = false;
-                    }
+        function deleteFile(id) {
+            if (files.length <= 1) return;
+            files = files.filter(f => f.id !== id);
+            if (activeFileId === id) switchActiveFile(files[0].id);
+            else { renderExplorerTree(); renderTabs(); saveStateToStorage(); }
+            compileAndRun();
+        }
+
+        function compileAndRun() {
+            UI.runBtn.classList.add('scale-95');
+            setTimeout(() => UI.runBtn.classList.remove('scale-95'), 150);
+
+            let htmlFile = files.find(f => f.name.endsWith('.html')) || files[0];
+            let htmlContent = htmlFile.content;
+
+            files.filter(f => f.name.endsWith('.css')).forEach(css => {
+                const styleTag = `<style data-file="${css.name}">\n${css.content}\n</style>`;
+                if (htmlContent.includes(`href="${css.name}"`)) {
+                    htmlContent = htmlContent.replace(new RegExp(`<link[^>]*href=["']${css.name}["'][^>]*>`, 'gi'), styleTag);
+                } else if (!htmlContent.includes(css.content)) {
+                    htmlContent = htmlContent.replace('</head>', `${styleTag}\n</head>`);
                 }
             });
-            if (!isValid && !isConsoleOpen) {
-                toggleConsole(); 
+
+            files.filter(f => f.name.endsWith('.js')).forEach(js => {
+                const scriptTag = `<script data-file="${js.name}">\n${js.content}\n<\/script>`;
+                if (htmlContent.includes(`src="${js.name}"`)) {
+                    htmlContent = htmlContent.replace(new RegExp(`<script[^>]*src=["']${js.name}["'][^>]*><\/script>`, 'gi'), scriptTag);
+                } else if (!htmlContent.includes(js.content)) {
+                    htmlContent = htmlContent.replace('</body>', `${scriptTag}\n</body>`);
+                }
+            });
+
+            // HYPER-OPTIMIZATION: Circular JSON Proofing
+            const consoleInterceptor = `
+            <script>
+            (function(){
+                const safeStringify = (obj) => {
+                    try {
+                        const seen = new WeakSet();
+                        return JSON.stringify(obj, (k, v) => {
+                            if (typeof v === "object" && v !== null) {
+                                if (seen.has(v)) return "[Circular]";
+                                seen.add(v);
+                            }
+                            return v;
+                        });
+                    } catch(e) { return String(obj); }
+                };
+                const send = (type, args) => {
+                    window.parent.postMessage({ 
+                        source: 'cs-console-proxy', 
+                        type: type, 
+                        args: Array.from(args).map(a => typeof a === 'object' ? safeStringify(a) : String(a)) 
+                    }, '*');
+                };
+                ['log', 'warn', 'error', 'info'].forEach(method => {
+                    const orig = console[method];
+                    console[method] = function(...args) {
+                        send(method, args);
+                        orig.apply(console, args);
+                    };
+                });
+                window.onerror = function(msg, url, line) {
+                    send('error', [msg + ' (Line ' + line + ')']);
+                    return false;
+                };
+            })();
+            <\/script>`;
+
+            if (htmlContent.includes('<head>')) htmlContent = htmlContent.replace('<head>', '<head>\n' + consoleInterceptor);
+            else htmlContent = consoleInterceptor + htmlContent;
+
+            UI.iframe.srcdoc = htmlContent;
+            UI.urlDisplay.textContent = `https://compile-studio.local/${htmlFile.name}`;
+            
+            UI.saveInd.style.opacity = '1';
+            setTimeout(() => UI.saveInd.style.opacity = '0', 1500);
+        }
+
+        function reloadPreview() { compileAndRun(); }
+
+        function appendConsoleLog(type, args) {
+            const entry = document.createElement('div');
+            entry.className = `console-entry py-1 px-2 rounded flex items-start gap-2 ${type === 'error' ? 'text-red-400 bg-red-500/10' : (type === 'warn' ? 'text-amber-400 bg-amber-500/10' : 'text-slate-300')}`;
+            const message = args.join(' ');
+            entry.innerHTML = `<span class="opacity-50 text-[10px]">[${type.toUpperCase()}]</span> <span class="break-words flex-1">${message}</span>`;
+            
+            UI.consoleLogList.appendChild(entry);
+            UI.consoleLogList.scrollTop = UI.consoleLogList.scrollHeight;
+        }
+
+        function clearConsole() { UI.consoleLogList.innerHTML = ''; }
+
+        function handleReplSubmit(e) {
+            if (e.key === 'Enter') {
+                const cmd = e.target.value.trim();
+                if (!cmd) return;
+                appendConsoleLog('info', ['> ' + cmd]);
+                try {
+                    const res = UI.iframe.contentWindow.eval(cmd);
+                    if (res !== undefined) appendConsoleLog('log', [res]);
+                } catch(err) { appendConsoleLog('error', [err.message]); }
+                e.target.value = '';
             }
         }
 
-        function updatePreview() {
-            const frameWrapper = document.getElementById('frameWrapper');
-            frameWrapper.style.transform = 'scale(0.98)';
-            frameWrapper.style.opacity = '0.8';
-            
-            setTimeout(() => {
-                validateSyntax();
+        function filterLogs(type) {
+            document.querySelectorAll('#consoleLogList .console-entry').forEach(el => {
+                if (type === 'all' || el.textContent.includes(`[${type.toUpperCase()}]`)) el.style.display = 'flex';
+                else el.style.display = 'none';
+            });
+        }
 
-                let htmlFile = files.find(f => f.name.toLowerCase() === 'index.html') || files.find(f => f.name.endsWith('.html'));
-                let finalHtml = '';
+        function toggleConsole() {
+            const chevron = document.getElementById('consoleChevron');
+            if (UI.consolePane.classList.contains('h-8') || UI.consolePane.style.height === '32px') {
+                UI.consolePane.classList.remove('h-8');
+                UI.consolePane.style.height = UI.consolePane.dataset.lastHeight || '176px';
+                UI.consolePane.style.flex = `0 0 ${UI.consolePane.style.height}`;
+                chevron.style.transform = 'rotate(0deg)';
+            } else {
+                UI.consolePane.dataset.lastHeight = UI.consolePane.style.height || '176px';
+                UI.consolePane.classList.remove('h-44');
+                UI.consolePane.style.height = '32px';
+                UI.consolePane.style.flex = '0 0 32px';
+                chevron.style.transform = 'rotate(-180deg)';
+            }
+            if(editor) setTimeout(() => editor.refresh(), 300);
+        }
 
-                if (!htmlFile) {
-                    finalHtml = '<!DOCTYPE html><html><body style="background:#111; color:#fff; font-family:sans-serif; text-align:center; padding-top:20%;"><h2>No HTML entry file found.</h2><p>Create an index.html file to compile your project.</p></body></html>';
-                    $('urlBarText').textContent = 'about:blank';
-                } else {
-                    $('urlBarText').textContent = htmlFile.name;
-                    finalHtml = htmlFile.content;
+        function setupSplitters() {
+            const splitterV = document.getElementById('splitterV');
+            const splitterH = document.getElementById('splitterH');
 
-                    if(!finalHtml.includes('</html>')) finalHtml += '\n</html>';
+            let isDraggingV = false;
+            let isDraggingH = false;
+            let rafId = null;
 
-                    let cssFiles = files.filter(f => f.name.endsWith('.css'));
-                    let jsFiles = files.filter(f => f.name.endsWith('.js'));
+            splitterV.addEventListener('mousedown', () => { isDraggingV = true; splitterV.classList.add('dragging'); UI.iframe.style.pointerEvents = 'none'; });
+            splitterH.addEventListener('mousedown', () => { 
+                isDraggingH = true; splitterH.classList.add('dragging'); UI.iframe.style.pointerEvents = 'none';
+                if (UI.consolePane.style.height === '32px') toggleConsole(); 
+            });
 
-                    // 1. Dynamic CSS matching and resolution
-                    cssFiles.forEach(css => {
-                        const styleBlock = `<style data-linked-file="${css.name}">\n/* Compiled: ${css.name} */\n${css.content}\n</style>`;
-                        const linkSelector = `href="${css.name}"`;
-
-                        if (finalHtml.includes(linkSelector)) {
-                            // Find and swap link rel tags pointing to the custom styles
-                            const regex = new RegExp(`<link[^>]*href=["']${css.name}["'][^>]*>`, 'gi');
-                            finalHtml = finalHtml.replace(regex, styleBlock);
-                        } else if (css.name === 'style.css') {
-                            // Direct append fallback if style.css exists but lacks link mapping
-                            if (finalHtml.includes('</head>')) {
-                                finalHtml = finalHtml.replace('</head>', `${styleBlock}\n</head>`);
-                            } else {
-                                finalHtml = `${styleBlock}\n` + finalHtml;
-                            }
-                        }
-                    });
-
-                    // 2. Dynamic Script tag compilation and mapping
-                    jsFiles.forEach(js => {
-                        const scriptBlock = `<script data-linked-file="${js.name}">\n/* Compiled: ${js.name} */\n${js.content}\n<\/script>`;
-                        const srcSelector = `src="${js.name}"`;
-
-                        if (finalHtml.includes(srcSelector)) {
-                            const regex = new RegExp(`<script[^>]*src=["']${js.name}["'][^>]*><\/script>`, 'gi');
-                            finalHtml = finalHtml.replace(regex, scriptBlock);
-                        } else if (js.name === 'script.js') {
-                            // Direct append fallback if script.js exists but script tags are absent
-                            if (finalHtml.includes('</body>')) {
-                                finalHtml = finalHtml.replace('</body>', `${scriptBlock}\n</body>`);
-                            } else {
-                                finalHtml += `\n${scriptBlock}`;
-                            }
-                        }
-                    });
-
-                    // Inject Tailwind utility support
-                    if(!finalHtml.includes('tailwindcss.com')) {
-                        const tailwindScript = '<script src="https://cdn.tailwindcss.com"><\/script>';
-                        if (finalHtml.includes('<head>')) {
-                            finalHtml = finalHtml.replace('<head>', '<head>\n' + tailwindScript);
-                        } else {
-                            finalHtml = tailwindScript + '\n' + finalHtml;
+            // HYPER-OPTIMIZATION: requestAnimationFrame for buttery smooth 60fps layout drag
+            document.addEventListener('mousemove', (e) => {
+                if (!isDraggingV && !isDraggingH) return;
+                if (rafId) cancelAnimationFrame(rafId);
+                
+                rafId = requestAnimationFrame(() => {
+                    if (isDraggingV) {
+                        const width = UI.mainWorkspace.offsetWidth;
+                        const p = (e.clientX / width) * 100;
+                        if (p > 15 && p < 85) {
+                            UI.editorPane.style.flex = `0 0 ${p}%`;
+                            UI.previewPane.style.flex = `0 0 ${100 - p}%`;
                         }
                     }
+                    if (isDraggingH) {
+                        const rect = UI.previewPane.getBoundingClientRect();
+                        let h = rect.bottom - e.clientY;
+                        if (h < 32) h = 32;
+                        if (h > rect.height - 50) h = rect.height - 50;
+                        UI.consolePane.classList.remove('h-44');
+                        UI.consolePane.style.height = `${h}px`;
+                        UI.consolePane.style.flex = `0 0 ${h}px`;
+                    }
+                });
+            });
+            
+            document.addEventListener('mouseup', () => { 
+                if (isDraggingV || isDraggingH) {
+                    isDraggingV = isDraggingH = false;
+                    splitterV.classList.remove('dragging'); 
+                    splitterH.classList.remove('dragging');
+                    UI.iframe.style.pointerEvents = 'auto';
+                    if (editor) editor.refresh();
                 }
-                
-                // Inject custom proxy interceptor console log
-                const consoleProxy = `<script>
-                (function(){
-                    const s = (t,a) => window.parent.postMessage({source:'ios26-console',type:t,args:a},'*');
-                    ['log','error','warn','info'].forEach(m => {
-                        const o = console[m];
-                        console[m] = (...a) => { s(m,a); o.apply(console,a); };
-                    });
-                    window.onerror = (msg, url, line) => {
-                        s('error', [msg + ' (Line ' + line + ')']);
-                        return false;
-                    };
-                })();
-                <\/script>`;
-                
-                if (finalHtml.includes('<head>')) {
-                    finalHtml = finalHtml.replace('<head>', '<head>\n' + consoleProxy);
-                } else {
-                    finalHtml = consoleProxy + '\n' + finalHtml;
-                }
-                
-                const iframe = document.getElementById('previewFrame');
-                iframe.srcdoc = finalHtml;
-                
-                frameWrapper.style.transform = 'scale(1)';
-                frameWrapper.style.opacity = '1';
-            }, 100);
+            });
         }
 
-        // --- CONSOLE ENGINE ---
-        function toggleConsole() {
-            const overlay = document.getElementById('consoleOverlay');
-            isConsoleOpen = !isConsoleOpen;
-            
-            if(isConsoleOpen) {
-                overlay.style.transform = 'translateY(0)';
-                overlay.style.opacity = '1';
-                overlay.style.pointerEvents = 'auto';
-                errCount = 0; 
-                updateErrBadge();
-            } else {
-                overlay.style.transform = 'translateY(120%)';
-                overlay.style.opacity = '0';
-                overlay.style.pointerEvents = 'none';
-            }
+        function setPreviewDevice(mode) {
+            UI.iframe.className = 'transition-all duration-300 border-0 bg-white';
+            if (mode === 'mobile') UI.iframe.className = 'preview-mobile';
+            if (mode === 'tablet') UI.iframe.className = 'preview-tablet';
+            if (mode === 'desktop') UI.iframe.className = 'w-full h-full border-0 bg-white';
         }
 
-        function appendLog(type, args) {
-            const logContainer = document.getElementById('consoleLog');
-            const entry = document.createElement('div');
-            entry.className = `log-entry log-${type}`;
-            
-            const msg = args.map(a => {
-                if (typeof a === 'object') {
-                    try { return JSON.stringify(a, null, 2); } catch(e) { return String(a); }
-                }
-                return String(a).replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            }).join(' ');
-            
-            let icon = 'chevron-right';
-            if(type === 'error') icon = 'x-circle';
-            if(type === 'warn') icon = 'alert-triangle';
-            if(type === 'info') icon = 'info';
-            
-            entry.innerHTML = `
-                <div class="flex items-start gap-3">
-                    <i data-lucide="${icon}" class="w-4 h-4 mt-0.5 shrink-0"></i>
-                    <div class="flex-1 whitespace-pre-wrap break-all">${msg}</div>
-                </div>
-            `;
-            
-            logContainer.prepend(entry);
-            lucide.createIcons({ root: entry });
-            
-            if (type === 'error' && !isConsoleOpen) {
-                errCount++;
-                updateErrBadge();
-            }
+        function openDetachedPreview() {
+            const win = window.open('', '_blank');
+            win.document.write((files.find(f => f.name.endsWith('.html')) || files[0]).content);
+            win.document.close();
         }
 
-        function clearConsole() {
-            const logContainer = document.getElementById('consoleLog');
-            logContainer.innerHTML = '';
-            errCount = 0;
-            updateErrBadge();
+        function toggleSidebar() {
+            const sidebar = document.getElementById('fileExplorerPanel');
+            isSidebarOpen = !isSidebarOpen;
+            sidebar.style.display = isSidebarOpen ? 'flex' : 'none';
+            setTimeout(() => { if(editor) editor.refresh(); }, 300);
         }
 
-        function updateErrBadge() {
-            const badge = document.getElementById('errBadge');
-            if(errCount > 0) {
-                badge.textContent = errCount > 9 ? '9+' : errCount;
-                badge.style.display = 'flex';
-                badge.classList.remove('animate-bounce');
-                void badge.offsetWidth; 
-                badge.classList.add('animate-bounce');
-            } else {
-                badge.style.display = 'none';
-            }
-        }
-
-        // --- FORMATTING ---
         function formatCode() {
+            if (!editor) return;
             const code = editor.getValue();
-            const file = files.find(f => f.id === activeId);
+            const file = files.find(f => f.id === activeFileId);
             let formatted = code;
-            
-            if (file.name.endsWith('.js')) {
-                formatted = js_beautify(code, { indent_size: 4 });
-            } else if (file.name.endsWith('.css')) {
-                formatted = css_beautify(code, { indent_size: 4 });
-            } else {
-                formatted = html_beautify(code, { indent_size: 4, wrap_line_length: 80 });
-            }
-            
-            isSwitching = true;
+            if (file.name.endsWith('.js')) formatted = js_beautify(code, { indent_size: 2 });
+            else if (file.name.endsWith('.css')) formatted = css_beautify(code, { indent_size: 2 });
+            else formatted = html_beautify(code, { indent_size: 2 });
             editor.setValue(formatted);
-            isSwitching = false;
-            saveCode();
-            
-            const editorEl = document.getElementById('editorPane');
-            editorEl.style.transform = 'scale(0.98) rotate(-0.5deg)';
-            setTimeout(() => {
-                editorEl.style.transform = 'scale(1) rotate(0deg)';
-            }, 150);
         }
 
-        // --- SETTINGS CONTROLS ---
-        function toggleSettings() {
+        async function exportProjectZip() {
+            const zip = new JSZip();
+            files.forEach(f => zip.file(f.name, f.content));
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${document.getElementById('projectTitleInput').value.replace(/\s+/g, '_')}.zip`;
+            a.click();
+        }
+
+        function triggerFileInput() { document.getElementById('importFileInput').click(); }
+
+        function handleFileImport(e) {
+            Array.from(e.target.files).forEach(file => {
+                const r = new FileReader();
+                r.onload = (evt) => {
+                    files.push({ id: Date.now().toString(), name: file.name, content: evt.target.result });
+                    renderExplorerTree(); renderTabs(); saveStateToStorage();
+                };
+                r.readAsText(file);
+            });
+        }
+
+        const palette = {
+            toggle: () => {
+                const el = document.getElementById('commandPalette');
+                el.classList.toggle('active');
+                if (el.classList.contains('active')) {
+                    document.getElementById('paletteInput').focus();
+                    filterPaletteCommands();
+                }
+            }
+        };
+
+        function filterPaletteCommands() {
+            const input = document.getElementById('paletteInput').value.toLowerCase();
+            const results = document.getElementById('paletteResults');
+            results.innerHTML = '';
+            const commands = [
+                { name: 'Compile & Run Code', action: compileAndRun, icon: 'play' },
+                { name: 'Format Active File', action: formatCode, icon: 'wand-2' },
+                { name: 'Create New File', action: createNewFilePrompt, icon: 'file-plus' },
+                { name: 'Export Project as ZIP', action: exportProjectZip, icon: 'download' },
+                { name: 'Inject CDN Library', action: modals.showCDN, icon: 'box' },
+                { name: 'Load Starter Template', action: modals.showTemplates, icon: 'layout-template' }
+            ];
+            commands.filter(c => c.name.toLowerCase().includes(input)).forEach(c => {
+                const btn = document.createElement('button');
+                btn.className = 'p-2.5 rounded-xl hover:bg-white/10 text-left text-xs font-semibold text-white flex items-center gap-3 studio-btn';
+                btn.innerHTML = `<i data-lucide="${c.icon}" class="w-4 h-4 text-indigo-400"></i> ${c.name}`;
+                btn.onclick = () => { c.action(); palette.toggle(); };
+                results.appendChild(btn);
+            });
+            lucide.createIcons({ root: results });
+        }
+
+        const modals = {
+            close: (id) => document.getElementById(id).classList.remove('active'),
+            showCDN: () => document.getElementById('cdnModal').classList.add('active'),
+            showTemplates: () => document.getElementById('templatesModal').classList.add('active'),
+            showShortcuts: () => alert("Shortcuts:\nCtrl+K: Command Palette\nCtrl+S: Run Code\nCtrl+B: Toggle Sidebar\nShift+Alt+F: Format Code\nESC: Close Menus/Overlays"),
+            prompt: (title, defaultVal, callback) => {
+                document.getElementById('inputModalTitle').textContent = title;
+                const field = document.getElementById('inputModalField');
+                field.value = defaultVal;
+                document.getElementById('inputModal').classList.add('active');
+                setTimeout(() => { field.focus(); field.select(); }, 50);
+                document.getElementById('inputModalConfirmBtn').onclick = () => { callback(field.value); modals.close('inputModal'); };
+            },
+            showResetPrompt: () => {
+                if (confirm("Reset layout and code to default template?")) { localStorage.clear(); location.reload(); }
+            }
+        };
+
+        function injectCDN(type) {
+            const cdns = {
+                tailwind: '<script src="https://cdn.tailwindcss.com"><\/script>',
+                bootstrap: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">',
+                react: '<script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>\n<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>',
+                vue: '<script src="https://unpkg.com/vue@3/dist/vue.global.js"><\/script>',
+                three: '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>',
+                gsap: '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>'
+            };
+            const htmlFile = files.find(f => f.name.endsWith('.html'));
+            if (htmlFile && cdns[type]) {
+                htmlFile.content = htmlFile.content.replace('<head>', `<head>\n  ${cdns[type]}`);
+                if (activeFileId === htmlFile.id) editor.setValue(htmlFile.content);
+                modals.close('cdnModal'); compileAndRun();
+            }
+        }
+
+        function loadTemplate(type) {
+            if (DEFAULT_TEMPLATES[type]) {
+                files = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES[type]));
+                switchActiveFile(files[0].id);
+                modals.close('templatesModal'); compileAndRun();
+            }
+        }
+
+        function toggleSettingsMenu(e) {
+            if(e) e.stopPropagation();
             const menu = document.getElementById('settingsMenu');
-            const icon = document.getElementById('settingsIcon');
-            if (menu.style.opacity === '1') {
-                menu.style.opacity = '0';
-                menu.style.transform = 'scale(0.9) translateY(-10px)';
-                menu.style.pointerEvents = 'none';
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                menu.style.opacity = '1';
-                menu.style.transform = 'scale(1) translateY(0)';
-                menu.style.pointerEvents = 'auto';
-                icon.style.transform = 'rotate(180deg)';
-            }
+            menu.classList.toggle('hidden'); menu.classList.toggle('flex');
         }
 
-        function toggleAutoRun() {
-            isAutoRun = !isAutoRun;
-            localStorage.setItem('cs_autorun', isAutoRun);
-            const bg = document.getElementById('autoRunBg');
-            const handle = document.getElementById('autoRunHandle');
-            if (isAutoRun) {
-                bg.classList.replace('bg-white/20', 'bg-fuchsia-500');
-                handle.style.transform = 'translateX(24px)';
-            } else {
-                bg.classList.replace('bg-fuchsia-500', 'bg-white/20');
-                handle.style.transform = 'translateX(0px)';
-            }
-        }
+        function toggleAutoRun() { isAutoRun = document.getElementById('autoRunToggle').checked; }
 
-        function toggleTheme() {
-            isDark = !isDark;
-            localStorage.setItem('cs_theme_dark', isDark);
-            
-            document.documentElement.classList.toggle('light-theme', !isDark);
-            document.documentElement.classList.toggle('dark', isDark);
-            
-            const handle = document.getElementById('themeHandle');
-            const bg = document.getElementById('themeBg');
-            const icon = document.getElementById('themeIcon');
-            const mainBg = document.getElementById('mainBg');
-            const blobs = document.querySelectorAll('.animate-blob1, .animate-blob2');
-            
-            if(isDark) {
-                document.body.classList.replace('text-slate-900', 'text-slate-200');
-                handle.style.transform = 'translateX(24px)';
-                bg.classList.replace('bg-slate-400', 'bg-indigo-500');
-                icon.setAttribute('data-lucide', 'moon');
-                editor.setOption('theme', 'dracula');
-                mainBg.className = "fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-950 transition-colors duration-700";
-                blobs.forEach(b => b.classList.replace('mix-blend-multiply', 'mix-blend-screen'));
-            } else {
-                document.body.classList.replace('text-slate-200', 'text-slate-900');
-                handle.style.transform = 'translateX(0px)';
-                bg.classList.replace('bg-indigo-500', 'bg-slate-400');
-                icon.setAttribute('data-lucide', 'sun');
-                editor.setOption('theme', 'neo');
-                mainBg.className = "fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-200 transition-colors duration-700";
-                blobs.forEach(b => b.classList.replace('mix-blend-screen', 'mix-blend-multiply'));
-            }
-            lucide.createIcons();
-            renderTabs(); 
+        function toggleStudioTheme() {
+            isDarkMode = document.getElementById('darkThemeToggle').checked;
+            document.documentElement.classList.toggle('dark', isDarkMode);
+            document.documentElement.classList.toggle('light-theme', !isDarkMode);
+            if (editor) editor.setOption('theme', isDarkMode ? 'dracula' : 'neo');
         }
     </script>
 </body>
