@@ -1,49 +1,19 @@
-Caution---
-**This website is still not finished. We are not responsible for someting bad...**
-
-Overview---
-Compile Studio is a web-based integrated development environment (IDE) designed for coding and testing directly in your browser. It provides a desktop-optimized interface for writing, editing, and executing code with support for multiple file types.
-
-Contribution---
-People: Solus_King and Amithhrosky
-
-Version---
-Updated on: ??/04/2026
-Version - 0.73 Beta
-
-Privacy---
-Notice: We value your privacy. None of your infomations are collected. Everything is done on your pc. 
-
-Key Features---
-File Management: Create, rename, and delete files within the environment
-Code Editor: Full-featured text editor with syntax highlighting (HTML support shown)
-Developer Console: Built-in console for debugging and executing code output
-Real-time Tracking: Line and column number indicators; byte counter to monitor file size
-Save Functionality: Automatic and manual save options for your work
-Multi-file Support: Manage multiple files in a single workspace
-
-Requirements---
-Desktop/PC Required: The application is optimized exclusively for desktop browsers
-Not Mobile Compatible: Mobile devices are not supported to maintain the best coding experience
-Modern Web Browser: Use a current version of Chrome, Firefox, Safari, or Edge
-Larger Screen: Recommended to use on a monitor or laptop display for optimal usability
-Getting Started---
-
-Open [](https://amithrosky.github.io/Compile_Studio/?)
-The default file index.html is loaded automatically
-Begin writing or pasting code into the editor
-Use the console to test and debug your code
-Manage files using the rename and delete options as needed
-Your work is automatically saved
-Supported File Types
-HTML (primary support)
-Additional file types likely supported based on the IDE architecture
-
-Use Cases---
-Rapid HTML development and testing
-Learning web development fundamentals
-Quick code prototyping and experimentation
-Teaching and tutorial demonstrations
-
-Bug report/Developer contact---
-**None**
+🚀 Compile Studio Pro — Next-Gen Web IDEA lightweight, hyper-optimized, single-file browser IDE built for fast web development, instant prototyping, and real-time execution—with zero backend dependencies!  
+✨ Features at a Glance
+🗂️ Multi-File Workspace: Effortlessly manage HTML, CSS, JavaScript, and JSON files with tabbed navigation and real-time state persistence.  
+⚡ Live Interactive Preview: Real-time compilation with instant preview iframe rendering.  
+📱 Responsive Device Simulation: Toggle between Desktop, Tablet (768px), and Mobile (375px) viewport frames in one click.  
+💻 Integrated Developer Console & REPL: Intercepts console.log, warnings, and errors directly from the iframe with a live JavaScript execution line.  
+⌨️ Command Palette (Ctrl+K): Quickly search and trigger IDE commands, file creations, and library injections.  
+📦 One-Click CDN Injector: Inject popular libraries like Tailwind CSS, Bootstrap 5, React 18, Vue 3, Three.js, and GSAP instantly into index.html.  🎨 Starter Templates: Jumpstart projects using pre-built setups (Glassmorphic UI, 2D Canvas, Three.js 3D Cube, and Vue 3).  🪄 Code Auto-Formatter: Beautify active code on demand using built-in beautifiers (Shift+Alt+F).  
+💾 Export as ZIP: Download your entire web project as a .zip archive ready for deployment.  
+🛠️ Built WithTailwind CSS v3: Custom glassmorphism design system & responsive layout engine.  CodeMirror 5: Full-featured code editor with syntax highlighting, auto-closing brackets/tags, fold gutters, and active line styling.  Lucide Icons: Clean, modern UI iconography.  JS-Beautify: Native code formatting for HTML, CSS, and JS.  JSZip: Client-side zip file generation.  
+🚀 Getting StartedNo installation, Node.js setup, or server environment is required!  Clone or download this repository.  Double-click index.html to open it in any modern desktop Web Browser.  Start coding instantly!
+💡 Note: Compile Studio Pro features a built-in mobile device guardrail to ensure optimal performance on desktop screens.  
+⌨️ Keyboard Shortcuts:
+        Shortcut                    Action
+        Ctrl + K / Cmd + K          Open Command Palette HTML
+        Ctrl + S / Cmd + S          Save & Compile Code HTML
+        Ctrl + B / Cmd + B          Toggle File Explorer Sidebar HTML
+        Shift + Alt + F             Format Active File Code HTML
+        ESC                         Close Active Overlays / Modals HTML
