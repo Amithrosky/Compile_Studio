@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Compile Studio</title>
+    <title>Compile Studio Pro | Cloud Web IDE</title>
+    <meta name="description" content="A powerful, browser-based development environment for HTML, CSS, and JavaScript.">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -25,139 +25,145 @@
                             700: '#212636',
                             border: 'rgba(255, 255, 255, 0.08)'
                         }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'quick-fade': 'quickFade 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up': 'slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'blob': 'blob 20s infinite alternate cubic-bezier(0.16, 1, 0.3, 1)',
+                        'pulse-glow': 'pulseGlow 2s infinite'
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        quickFade: { '0%': { opacity: '0', transform: 'scale(0.98)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(99,102,241,0.2)' },
+                            '50%': { boxShadow: '0 0 25px rgba(99,102,241,0.5)' }
+                        },
+                        blob: {
+                            '0%': { transform: 'translate3d(0, 0, 0) scale(1) rotate(0deg)' },
+                            '50%': { transform: 'translate3d(12vw, 12vh, 0) scale(1.15) rotate(60deg)' },
+                            '100%': { transform: 'translate3d(-10vw, -10vh, 0) scale(0.9) rotate(-30deg)' }
+                        }
                     }
                 }
             }
         }
     </script>
 
-    <!-- CodeMirror Core & Theme -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/dracula.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/theme/neo.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.css">
-
-    <!-- CodeMirror Core & Languages -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.css">
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/xml/xml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/css/css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/htmlmixed/htmlmixed.min.js"></script>
     
-    <!-- CodeMirror Addons -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closetag.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/closebrackets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/selection/active-line.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/searchcursor.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/search.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldcode.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/foldgutter.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/brace-fold.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/fold/xml-fold.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/show-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/xml-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/html-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/css-hint.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/hint/javascript-hint.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/dialog/dialog.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/searchcursor.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/addon/search/search.min.js"></script>
 
-    <!-- JSZip for Exporting ZIP Archives -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-
-    <!-- Code Beautifier -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-html.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
-
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-
-    <script>
-        // HYPER-OPTIMIZATION: Prevent heavy JS parsing if on mobile.
-        if (window.innerWidth < 768) {
-            window.isMobileDevice = true;
-        }
-    </script>
 
     <style>
         :root {
             --spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
             --smooth: cubic-bezier(0.16, 1, 0.3, 1);
+            --glass-bg: rgba(13, 17, 23, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #e2e8f0;
+            --text-secondary: #94a3b8;
+        }
+
+        /* Light Theme Core Overrides */
+        .light-theme {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.12);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
         }
 
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #07090e;
+            background-color: var(--glass-bg);
+            color: var(--text-primary);
             user-select: none;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* HYPER-OPTIMIZATION: Hardware Acceleration */
+        /* Glassmorphism Utilities */
         .glass {
-            background: rgba(13, 17, 23, 0.65);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            transform: translateZ(0); /* GPU Offloading */
-            will-change: transform, backdrop-filter;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid var(--glass-border);
         }
+
         .light-theme .glass {
-            background: rgba(255, 255, 255, 0.75);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
         }
 
-        /* Animated Mesh Background - Contain Paint */
-        #mainBg {
-            contain: strict;
-        }
-        @keyframes blob1 {
-            0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate3d(12vw, 12vh, 0) scale(1.15) rotate(60deg); }
-            100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-        }
-        @keyframes blob2 {
-            0% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-            50% { transform: translate3d(-10vw, 15vh, 0) scale(1.2) rotate(-60deg); }
-            100% { transform: translate3d(0, 0, 0) scale(1) rotate(0deg); }
-        }
-        .animate-blob1 { animation: blob1 22s infinite alternate var(--smooth); will-change: transform; }
-        .animate-blob2 { animation: blob2 26s infinite alternate var(--smooth); will-change: transform; }
-
-        /* Buttons & Interactive Elements */
         .studio-btn {
             transition: all 0.2s var(--smooth);
             cursor: pointer;
+            position: relative;
         }
-        .studio-btn:active {
-            transform: scale(0.93) !important;
+        .studio-btn:active { transform: scale(0.95); }
+        
+        [data-tooltip]::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: -130%;
+            left: 50%;
+            transform: translateX(-50%) translateY(4px);
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, transform 0.2s;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        [data-tooltip]:hover::after {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
 
-        /* Resizable Splitter Handles */
-        .splitter-v {
-            width: 5px;
-            cursor: col-resize;
-            background: rgba(255, 255, 255, 0.05);
+        /* Splitters */
+        .splitter-v, .splitter-h {
+            background: var(--glass-border);
             transition: background 0.2s;
             position: relative;
             z-index: 30;
         }
-        .splitter-v:hover, .splitter-v.dragging { background: #6366f1; }
-        .splitter-h {
-            height: 5px;
-            cursor: row-resize;
-            background: rgba(255, 255, 255, 0.05);
-            transition: background 0.2s;
-            position: relative;
-            z-index: 30;
-        }
+        .splitter-v { width: 4px; cursor: col-resize; }
+        .splitter-h { height: 4px; cursor: row-resize; }
+        .splitter-v:hover, .splitter-v.dragging,
         .splitter-h:hover, .splitter-h.dragging { background: #6366f1; }
 
-        /* CodeMirror Customization */
         .CodeMirror {
             position: absolute !important;
             inset: 0 !important;
@@ -168,330 +174,372 @@
             font-size: 14px;
             line-height: 1.6;
         }
-        .CodeMirror-gutters { background: rgba(0,0,0,0.15) !important; border-right: 1px solid rgba(255,255,255,0.06) !important; }
-        .light-theme .CodeMirror-gutters { background: rgba(0,0,0,0.03) !important; border-right: 1px solid rgba(0,0,0,0.06) !important; }
+        .CodeMirror-gutters { background: rgba(0,0,0,0.15) !important; border-right: 1px solid var(--glass-border) !important; }
+        .light-theme .CodeMirror-gutters { background: rgba(0,0,0,0.03) !important; border-right: 1px solid var(--glass-border) !important; }
+        
         .CodeMirror-activeline-background { background: rgba(255, 255, 255, 0.04) !important; }
         .light-theme .CodeMirror-activeline-background { background: rgba(0, 0, 0, 0.04) !important; }
-        .CodeMirror-linenumber { color: rgba(255, 255, 255, 0.3) !important; }
-        .light-theme .CodeMirror-linenumber { color: rgba(0, 0, 0, 0.3) !important; }
 
-        /* Device Frame Simulation */
-        .preview-mobile { width: 375px !important; height: 667px !important; margin: auto !important; border-radius: 2.5rem !important; border: 12px solid #1e293b !important; box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important; }
-        .preview-tablet { width: 768px !important; height: 90% !important; margin: auto !important; border-radius: 1.5rem !important; border: 10px solid #1e293b !important; box-shadow: 0 25px 60px rgba(0,0,0,0.6) !important; }
+        .CodeMirror-dialog { background: rgba(30, 41, 59, 0.95) !important; backdrop-filter: blur(8px); color: #f8fafc !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; padding: 10px 16px !important; z-index: 100; }
+        .CodeMirror-dialog input { background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: white !important; border-radius: 4px; padding: 4px 8px !important; outline: none; font-family: inherit; }
+        .CodeMirror-dialog button { background: rgba(255,255,255,0.1) !important; border: 1px solid rgba(255,255,255,0.05) !important; color: white !important; border-radius: 4px; padding: 4px 10px !important; cursor: pointer; margin-left: 6px; }
 
-        /* Modal & Overlay Animations */
-        .modal-overlay { opacity: 0; pointer-events: none; transition: all 0.25s var(--smooth); backdrop-filter: blur(16px); }
-        .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-card { transform: scale(0.9) translateY(15px); opacity: 0; transition: all 0.3s var(--spring); }
-        .modal-overlay.active .modal-card { transform: scale(1) translateY(0); opacity: 1; }
+        .preview-mobile { width: 375px !important; height: 667px !important; margin: auto !important; border-radius: 2.5rem !important; border: 14px solid #0f172a !important; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important; outline: 2px solid rgba(255,255,255,0.1); }
+        .preview-tablet { width: 768px !important; height: 90% !important; margin: auto !important; border-radius: 1.5rem !important; border: 12px solid #0f172a !important; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important; outline: 2px solid rgba(255,255,255,0.1); }
+        .light-theme .preview-mobile, .light-theme .preview-tablet { outline-color: rgba(0,0,0,0.15); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2) !important; }
 
-        /* Custom Scrollbar */
+        .preview-mobile.landscape { width: 667px !important; height: 375px !important; }
+        .preview-tablet.landscape { width: 1024px !important; height: 768px !important; max-height: 90vh !important; }
+
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 99px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
-        .console-entry { border-bottom: 1px solid rgba(255,255,255,0.04); font-family: monospace; font-size: 13px; }
+        ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.4); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Grid background for preview area */
+        #iframeWrapperOuter {
+            background-color: transparent;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .light-theme #iframeWrapperOuter {
+            background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+        }
     </style>
 </head>
-<body class="text-slate-200 selection:bg-indigo-500/30 font-sans h-screen w-screen overflow-hidden">
+<body class="selection:bg-indigo-500/30 font-sans h-[100dvh] w-screen overflow-hidden flex flex-col transition-colors duration-300">
 
-    <!-- Initial Startup Loading Screen -->
     <div id="loadingScreen" class="fixed inset-0 z-[999999] bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700">
-        <div class="relative w-20 h-20 flex items-center justify-center mb-6">
-            <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-2xl shadow-[0_0_40px_rgba(99,102,241,0.2)]"></div>
+        <div class="relative w-24 h-24 flex items-center justify-center mb-6">
+            <div class="absolute inset-0 border-4 border-indigo-500/20 rounded-2xl rotate-12 transition-transform"></div>
             <div class="absolute inset-0 border-4 border-indigo-500 rounded-2xl border-t-transparent animate-spin"></div>
-            <i data-lucide="code-2" class="w-8 h-8 text-white animate-pulse"></i>
+            <i data-lucide="code-2" class="w-10 h-10 text-white animate-pulse"></i>
         </div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">Compile Studio <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">Pro</span></h1>
-        <p class="text-slate-400 text-xs font-mono flex items-center gap-2">
-            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            Initializing workspace environment...
+        <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2 animate-fade-in">Compile Studio <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Pro</span></h1>
+        <p class="text-slate-400 text-sm font-mono flex items-center gap-2 animate-slide-up" style="animation-delay: 0.1s;">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span> Booting Engine...
         </p>
-        <div class="w-56 h-1 bg-white/10 rounded-full mt-8 overflow-hidden">
-            <div id="loadingProgress" class="h-full bg-gradient-to-r from-indigo-500 to-fuchsia-500 w-0 transition-all duration-1000 ease-out"></div>
+        <div class="w-64 h-1.5 bg-white/5 rounded-full mt-8 overflow-hidden animate-slide-up" style="animation-delay: 0.2s;">
+            <div id="loadingProgress" class="h-full bg-gradient-to-r from-indigo-500 to-cyan-500 w-0 transition-all duration-1000 ease-out"></div>
         </div>
     </div>
 
-    <!-- Mobile Screen Warning Overlay -->
-    <div id="mobileBlock" class="fixed inset-0 z-[99999] bg-slate-950 text-white flex-col items-center justify-center p-8 text-center hidden">
-        <i data-lucide="monitor-off" class="w-16 h-16 mb-4 text-indigo-400 animate-bounce"></i>
-        <h2 class="text-2xl font-bold mb-2">Desktop Screen Required</h2>
-        <p class="text-slate-400 text-sm max-w-sm">Compile Studio Pro is engineered for high-productivity desktop coding. Please switch to a larger view to continue.</p>
+    <!-- Animated Background Mesh -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none z-[-1]" id="mainBg">
+        <div class="absolute -top-[20%] -left-[10%] w-[60vw] h-[60vw] bg-indigo-600/15 rounded-full blur-[120px] mix-blend-screen animate-blob"></div>
+        <div class="absolute top-[40%] -right-[10%] w-[50vw] h-[50vw] bg-fuchsia-600/10 rounded-full blur-[120px] mix-blend-screen animate-blob" style="animation-delay: -5s"></div>
+        <div class="absolute -bottom-[20%] left-[20%] w-[55vw] h-[55vw] bg-cyan-600/10 rounded-full blur-[120px] mix-blend-screen animate-blob" style="animation-delay: -10s"></div>
     </div>
 
-    <!-- Dynamic Animated Background Mesh -->
-    <div class="fixed inset-0 overflow-hidden pointer-events-none z-[-1] bg-slate-950 transition-colors duration-700" id="mainBg">
-        <div class="absolute -top-[15%] -left-[10%] w-[55vw] h-[55vw] bg-indigo-600/25 rounded-full blur-[140px] mix-blend-screen animate-blob1" id="blob1"></div>
-        <div class="absolute top-[30%] -right-[10%] w-[45vw] h-[45vw] bg-fuchsia-600/20 rounded-full blur-[140px] mix-blend-screen animate-blob2" id="blob2"></div>
-        <div class="absolute -bottom-[20%] left-[25%] w-[50vw] h-[50vw] bg-cyan-600/20 rounded-full blur-[140px] mix-blend-screen animate-blob1" style="animation-delay: 3s"></div>
-    </div>
-
-    <!-- MAIN APP WRAPPER -->
-    <div class="h-screen w-screen flex flex-col relative overflow-hidden" id="workspaceContainer">
-
-        <!-- GLOBAL HEADER NAV -->
-        <header class="h-14 border-b border-white/10 glass px-4 flex items-center justify-between z-40 shrink-0">
-            <!-- Brand & Project Title -->
-            <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-indigo-500/20">
-                    <i data-lucide="code-2" class="w-5 h-5 text-white"></i>
+    <header class="h-14 border-b border-white/10 glass px-3 md:px-4 flex items-center justify-between z-40 shrink-0 w-full">
+        <div class="flex items-center gap-3">
+            <button onclick="toggleSidebar()" class="md:hidden studio-btn p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10" data-tooltip="Menu">
+                <i data-lucide="menu" class="w-5 h-5"></i>
+            </button>
+            <div class="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-gradient-to-tr from-indigo-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 shrink-0">
+                <i data-lucide="code-2" class="w-4 h-4 md:w-5 md:h-5 text-white"></i>
+            </div>
+            <div class="flex flex-col hidden sm:flex">
+                <div class="flex items-center gap-2 group">
+                    <input id="projectTitleInput" type="text" value="Untitled Project" class="bg-transparent text-sm font-bold focus:outline-none focus:border-b border-indigo-400 tracking-tight w-32 md:w-48 truncate transition-all">
+                    <i data-lucide="edit-3" class="w-3 h-3 opacity-50 group-hover:text-indigo-400 transition-colors"></i>
                 </div>
-                <div class="flex flex-col">
-                    <div class="flex items-center gap-2">
-                        <input id="projectTitleInput" type="text" value="Project 1" class="bg-transparent text-sm font-bold text-white focus:outline-none focus:border-b border-indigo-400 tracking-tight w-48 truncate">
-                        <i data-lucide="edit-3" class="w-3 h-3 text-slate-500"></i>
-                    </div>
-                    <span class="text-[10px] text-slate-400 font-mono tracking-wide uppercase">Multi-File Web IDE</span>
+                <span class="text-[10px] opacity-60 font-mono tracking-wide uppercase">Cloud Workspace</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 md:gap-2">
+            <button onclick="palette.toggle()" class="studio-btn px-2 md:px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-xs font-medium hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-2 transition-colors">
+                <i data-lucide="search" class="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400"></i>
+                <span class="hidden lg:inline">Command Palette</span>
+                <kbd class="hidden lg:inline-block px-1.5 py-0.5 rounded bg-black/10 dark:bg-black/40 text-[10px] font-mono">Ctrl+K</kbd>
+            </button>
+            <button onclick="modals.showTemplates()" class="studio-btn px-2 md:px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-xs font-semibold hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1.5" data-tooltip="Templates">
+                <i data-lucide="layout-template" class="w-3.5 h-3.5 text-fuchsia-500 dark:text-fuchsia-400"></i>
+                <span class="hidden md:inline">Templates</span>
+            </button>
+            <button onclick="modals.showCDN()" class="studio-btn px-2 md:px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-xs font-semibold hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1.5" data-tooltip="Libraries">
+                <i data-lucide="box" class="w-3.5 h-3.5 text-cyan-500 dark:text-cyan-400"></i>
+                <span class="hidden md:inline">CDN</span>
+            </button>
+            
+            <div class="h-5 w-px bg-black/10 dark:bg-white/10 mx-1 hidden sm:block"></div>
+            
+            <button id="runBtn" onclick="compileAndRun()" class="studio-btn px-3 md:px-4 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 flex items-center gap-2 hover:brightness-110 animate-pulse-glow">
+                <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> <span class="hidden sm:inline">Run</span>
+            </button>
+            <button onclick="toggleSettingsMenu(event)" id="settingsBtn" class="studio-btn p-1.5 md:p-2 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10" data-tooltip="Settings">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="mainWorkspace" class="flex-1 flex flex-col md:flex-row overflow-hidden relative w-full h-full">
+        
+        <!-- ACTIVITY BAR (Desktop) -->
+        <aside class="hidden md:flex w-14 border-r border-white/10 glass flex-col items-center py-4 gap-4 shrink-0 z-20">
+            <button onclick="toggleSidebar()" class="studio-btn p-2.5 rounded-xl bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 transition-colors" data-tooltip="Explorer (Ctrl+B)"><i data-lucide="files" class="w-5 h-5"></i></button>
+            <button onclick="modals.showCDN()" class="studio-btn p-2.5 rounded-xl opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Packages"><i data-lucide="layers" class="w-5 h-5"></i></button>
+            <button onclick="modals.showShortcuts()" class="studio-btn p-2.5 rounded-xl opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Shortcuts"><i data-lucide="keyboard" class="w-5 h-5"></i></button>
+            <div class="mt-auto flex flex-col gap-3">
+                <button onclick="exportProjectZip()" class="studio-btn p-2.5 rounded-xl text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/15 transition-colors" data-tooltip="Export .ZIP"><i data-lucide="download" class="w-5 h-5"></i></button>
+            </div>
+        </aside>
+
+        <!-- FILE EXPLORER SIDEBAR -->
+        <nav id="fileExplorerPanel" class="w-64 border-r border-white/10 glass flex flex-col shrink-0 absolute md:relative inset-y-0 left-0 z-30 transition-transform duration-300 -translate-x-full md:translate-x-0 bg-white dark:bg-slate-950 md:bg-transparent md:dark:bg-transparent">
+            <div class="p-4 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-widest opacity-60">Explorer</span>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="createNewFilePrompt()" class="studio-btn p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10" data-tooltip="New File"><i data-lucide="file-plus" class="w-4 h-4"></i></button>
+                    <button onclick="triggerFileInput()" class="studio-btn p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10" data-tooltip="Upload Files"><i data-lucide="upload" class="w-4 h-4"></i></button>
+                    <button onclick="toggleSidebar()" class="md:hidden studio-btn p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </div>
+            </div>
+            <input type="file" id="importFileInput" multiple class="hidden" onchange="handleFileImport(event)">
+            <div class="p-3 border-b border-black/5 dark:border-white/5">
+                <div class="bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-3 py-1.5 flex items-center gap-2 focus-within:border-indigo-500/50 transition-colors">
+                    <i data-lucide="search" class="w-3.5 h-3.5 opacity-50"></i>
+                    <input type="text" id="fileSearchInput" oninput="renderExplorerTree()" placeholder="Filter files..." class="bg-transparent text-xs focus:outline-none w-full placeholder-gray-500">
+                </div>
+            </div>
+            <div id="explorerTree" class="flex-1 overflow-y-auto p-2 flex flex-col gap-0.5 hide-scrollbar"></div>
+        </nav>
+
+        <section id="editorPane" class="flex-1 flex flex-col min-w-[200px] min-h-[300px] relative bg-black/5 dark:bg-black/30">
+            <!-- Active File Header & Tools (Replaces Tabs) -->
+            <div class="h-11 border-b border-black/10 dark:border-white/10 glass flex items-center justify-between px-3 shrink-0">
+                <div class="flex items-center gap-2 font-mono text-sm font-semibold" id="activeFileDisplay">
+                    <!-- Populated dynamically -->
+                </div>
+                <div class="flex items-center gap-1 bg-black/5 dark:bg-black/40 p-0.5 rounded-lg border border-black/10 dark:border-white/10">
+                    <button onclick="triggerFind()" class="studio-btn px-2 py-1 rounded-md text-xs opacity-70 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1" data-tooltip="Find (Ctrl+F)"><i data-lucide="search" class="w-3.5 h-3.5"></i></button>
+                    <button onclick="triggerReplace()" class="studio-btn px-2 py-1 rounded-md text-xs opacity-70 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1" data-tooltip="Replace (Ctrl+Shift+F)"><i data-lucide="replace" class="w-3.5 h-3.5"></i></button>
                 </div>
             </div>
 
-            <!-- Quick Action Bar -->
-            <div class="flex items-center gap-2">
-                <button onclick="palette.toggle()" class="studio-btn px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-medium text-slate-300 hover:bg-white/10 flex items-center gap-2">
-                    <i data-lucide="search" class="w-3.5 h-3.5 text-indigo-400"></i>
-                    <span>Command Palette</span>
-                    <kbd class="px-1.5 py-0.5 rounded bg-black/40 text-[10px] font-mono text-slate-400">Ctrl+K</kbd>
-                </button>
-                <button onclick="modals.showTemplates()" class="studio-btn px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/10 flex items-center gap-1.5">
-                    <i data-lucide="layout-template" class="w-3.5 h-3.5 text-fuchsia-400"></i>
-                    <span class="hidden md:inline">Templates</span>
-                </button>
-                <button onclick="modals.showCDN()" class="studio-btn px-3 py-1.5 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold text-slate-300 hover:bg-white/10 flex items-center gap-1.5">
-                    <i data-lucide="box" class="w-3.5 h-3.5 text-cyan-400"></i>
-                    <span class="hidden md:inline">Inject CDN</span>
-                </button>
-                <div class="h-5 w-px bg-white/10 mx-1"></div>
-                <button id="runBtn" onclick="compileAndRun()" class="studio-btn px-4 py-1.5 rounded-xl bg-gradient-to-r from-indigo-500 to-fuchsia-600 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 flex items-center gap-2 hover:brightness-110">
-                    <i data-lucide="play" class="w-3.5 h-3.5 fill-current"></i> Compile
-                </button>
-                <button onclick="toggleSettingsMenu(event)" id="settingsBtn" class="studio-btn p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-slate-300">
-                    <i data-lucide="settings" class="w-4 h-4"></i>
-                </button>
-            </div>
-        </header>
-
-        <!-- MAIN WORKSPACE LAYOUT -->
-        <div id="mainWorkspace" class="flex-1 flex overflow-hidden relative">
-            <!-- ACTIVITY BAR -->
-            <aside class="w-12 border-r border-white/10 glass flex flex-col items-center py-3 gap-4 shrink-0 z-20">
-                <button onclick="toggleSidebar()" id="sidebarToggleBtn" title="Toggle File Explorer (Ctrl+B)" class="studio-btn p-2 rounded-xl bg-white/10 text-white"><i data-lucide="files" class="w-5 h-5"></i></button>
-                <button onclick="modals.showCDN()" title="CDN Libraries" class="studio-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5"><i data-lucide="layers" class="w-5 h-5"></i></button>
-                <button onclick="modals.showShortcuts()" title="Keyboard Shortcuts" class="studio-btn p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5"><i data-lucide="keyboard" class="w-5 h-5"></i></button>
-                <div class="mt-auto flex flex-col gap-3">
-                    <button onclick="exportProjectZip()" title="Export Project as .ZIP" class="studio-btn p-2 rounded-xl text-emerald-400 hover:bg-emerald-500/10"><i data-lucide="download" class="w-5 h-5"></i></button>
-                </div>
-            </aside>
-
-            <!-- FILE EXPLORER SIDEBAR -->
-            <div id="fileExplorerPanel" class="w-60 border-r border-white/10 glass flex flex-col shrink-0 transition-all duration-300 z-10">
-                <div class="p-3 border-b border-white/10 flex items-center justify-between">
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Explorer</span>
-                    <div class="flex items-center gap-1">
-                        <button onclick="createNewFilePrompt()" title="New File" class="studio-btn p-1 rounded-lg hover:bg-white/10 text-slate-300"><i data-lucide="file-plus" class="w-4 h-4"></i></button>
-                        <button onclick="triggerFileInput()" title="Import File" class="studio-btn p-1 rounded-lg hover:bg-white/10 text-slate-300"><i data-lucide="upload" class="w-4 h-4"></i></button>
-                    </div>
-                </div>
-                <input type="file" id="importFileInput" multiple class="hidden" onchange="handleFileImport(event)">
-                <div class="p-2 border-b border-white/5">
-                    <div class="bg-black/30 border border-white/10 rounded-xl px-2.5 py-1 flex items-center gap-2">
-                        <i data-lucide="search" class="w-3.5 h-3.5 text-slate-500"></i>
-                        <input type="text" id="fileSearchInput" oninput="renderExplorerTree()" placeholder="Filter files..." class="bg-transparent text-xs text-white focus:outline-none w-full">
-                    </div>
-                </div>
-                <div id="explorerTree" class="flex-1 overflow-y-auto p-2 flex flex-col gap-1"></div>
+            <!-- Main Editor Area -->
+            <div class="flex-1 relative w-full h-full" id="editorWrapper"><textarea id="codeEditor"></textarea></div>
+            
+            <!-- Binary/Image Viewer -->
+            <div id="binaryViewer" class="absolute inset-0 top-11 bottom-8 bg-white/90 dark:bg-black/80 hidden items-center justify-center p-4 z-20 backdrop-blur-sm">
+                <div id="binaryViewerContent" class="text-center flex flex-col items-center"></div>
             </div>
 
-            <!-- CODE EDITOR PANE -->
-            <div id="editorPane" class="flex-1 flex flex-col min-w-[200px] relative bg-black/20">
-                <div class="h-10 border-b border-white/10 glass flex items-center px-2 overflow-x-auto no-scrollbar gap-1 shrink-0" id="tabsContainer"></div>
-                <div class="flex-1 relative"><textarea id="codeEditor"></textarea></div>
-                <div class="h-7 border-t border-white/10 glass px-3 flex items-center justify-between text-[11px] font-mono text-slate-400 shrink-0">
-                    <div class="flex items-center gap-4">
-                        <span id="cursorPosInfo">Ln 1, Col 1</span>
-                        <span id="fileSizeInfo">0 Bytes</span>
-                    </div>
+            <!-- Status Bar -->
+            <footer class="h-8 border-t border-black/10 dark:border-white/10 glass px-3 flex items-center justify-between text-[10px] sm:text-[11px] font-mono opacity-70 shrink-0">
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <span id="cursorPosInfo" class="hidden sm:inline">Ln 1, Col 1</span>
+                    <span id="fileSizeInfo">0 Bytes</span>
+                </div>
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <span id="currentLangInfo" class="uppercase text-indigo-500 dark:text-indigo-400 font-bold px-2 py-0.5 rounded bg-indigo-500/10">HTML</span>
+                    <button onclick="formatCode()" class="hover:opacity-100 flex items-center gap-1.5 studio-btn transition-colors" data-tooltip="Shift+Alt+F"><i data-lucide="wand-2" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Format</span></button>
+                    <span id="saveStatusIndicator" class="text-emerald-500 dark:text-emerald-400 opacity-0 transition-opacity duration-300 flex items-center gap-1"><i data-lucide="check" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Saved</span></span>
+                </div>
+            </footer>
+        </section>
+
+        <!-- Vertical Splitter -->
+        <div id="splitterMain" class="splitter-h md:splitter-v hidden md:block"></div>
+
+        <section id="previewPane" class="flex-1 flex flex-col min-w-[250px] min-h-[300px] relative border-t md:border-t-0 border-white/10">
+            <!-- Preview Header Toolbar -->
+            <header class="h-11 border-b border-black/10 dark:border-white/10 glass px-2 sm:px-3 flex items-center justify-between gap-2 shrink-0 z-10">
+                <div class="flex items-center gap-1">
+                    <button onclick="reloadPreview()" class="studio-btn p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 opacity-70 hover:opacity-100" data-tooltip="Reload"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
+                </div>
+                
+                <div class="flex-1 max-w-sm bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-1.5 flex items-center gap-2 text-[11px] font-mono shadow-inner overflow-hidden">
+                    <i data-lucide="lock" class="w-3 h-3 text-emerald-500 dark:text-emerald-400 shrink-0"></i>
+                    <span id="urlDisplay" class="truncate opacity-80 select-all">localhost:3000</span>
+                </div>
+
+                <div class="flex items-center gap-1 bg-black/5 dark:bg-black/40 p-0.5 rounded-xl border border-black/10 dark:border-white/10 hidden sm:flex" id="deviceBtnGroup">
+                    <button onclick="setPreviewDevice('desktop')" id="devBtnDesktop" class="studio-btn px-2.5 py-1 rounded-lg text-xs bg-black/10 dark:bg-white/15 shadow-sm flex items-center gap-1"><i data-lucide="monitor" class="w-3.5 h-3.5"></i></button>
+                    <button onclick="setPreviewDevice('tablet')" id="devBtnTablet" class="studio-btn px-2.5 py-1 rounded-lg text-xs opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1"><i data-lucide="tablet" class="w-3.5 h-3.5"></i></button>
+                    <button onclick="setPreviewDevice('mobile')" id="devBtnMobile" class="studio-btn px-2.5 py-1 rounded-lg text-xs opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i></button>
+                    <div class="w-px h-4 bg-black/20 dark:bg-white/20 mx-1"></div>
+                    <button onclick="toggleOrientation()" id="btnOrientation" class="studio-btn px-2.5 py-1 rounded-lg text-xs opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1" data-tooltip="Rotate"><i data-lucide="smartphone-nfc" class="w-3.5 h-3.5"></i></button>
+                </div>
+
+                <div class="flex items-center gap-1 bg-black/5 dark:bg-black/40 p-0.5 rounded-xl border border-black/10 dark:border-white/10">
+                    <button onclick="setPreviewZoom(-0.1)" class="studio-btn p-1.5 rounded-lg opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Zoom Out"><i data-lucide="zoom-out" class="w-3.5 h-3.5"></i></button>
+                    <span id="zoomLevelDisplay" class="text-[10px] font-mono opacity-80 px-1 w-10 text-center select-none">100%</span>
+                    <button onclick="setPreviewZoom(0.1)" class="studio-btn p-1.5 rounded-lg opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Zoom In"><i data-lucide="zoom-in" class="w-3.5 h-3.5"></i></button>
+                    <button onclick="resetPreviewZoom()" class="studio-btn p-1.5 rounded-lg opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Reset Zoom"><i data-lucide="maximize" class="w-3.5 h-3.5"></i></button>
+                </div>
+            </header>
+
+            <!-- Iframe Execution Container -->
+            <div class="flex-1 relative overflow-hidden flex items-center justify-center transition-colors" id="iframeWrapperOuter">
+                <div id="iframeWrapper" class="w-full h-full flex items-center justify-center transition-transform duration-200 origin-center">
+                    <iframe id="previewFrame" class="w-full h-full border-0 bg-white shadow-2xl transition-all duration-300 ease-[var(--spring)]" sandbox="allow-scripts allow-modals allow-pointer-lock allow-popups allow-same-origin"></iframe>
+                </div>
+            </div>
+
+            <!-- Horizontal Splitter -->
+            <div id="splitterConsole" class="splitter-h"></div>
+
+            <!-- Console Drawer -->
+            <footer id="consolePane" class="h-8 md:h-48 border-t border-black/10 dark:border-white/10 glass flex flex-col shrink-0 relative transition-[height] duration-300 bg-white/80 dark:bg-black/60 backdrop-blur-xl">
+                <div class="h-8 border-b border-black/5 dark:border-white/10 px-3 flex items-center justify-between bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-xs font-semibold shrink-0 cursor-pointer select-none" onclick="toggleConsole(event)">
                     <div class="flex items-center gap-3">
-                        <span id="currentLangInfo" class="uppercase text-indigo-400 font-bold">HTML</span>
-                        <button onclick="formatCode()" title="Format Code (Shift+Alt+F)" class="hover:text-white flex items-center gap-1 studio-btn"><i data-lucide="wand-2" class="w-3 h-3"></i> Format</button>
-                        <span id="saveStatusIndicator" class="text-emerald-400 opacity-0 transition-opacity flex items-center gap-1"><i data-lucide="check" class="w-3 h-3"></i> Saved</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- VERTICAL SPLITTER HANDLE -->
-            <div id="splitterV" class="splitter-v"></div>
-
-            <!-- PREVIEW & CONSOLE PANE -->
-            <div id="previewPane" class="flex-1 flex flex-col min-w-[250px] relative">
-                <div class="h-10 border-b border-white/10 glass px-3 flex items-center justify-between gap-2 shrink-0 z-10">
-                    <div class="flex items-center gap-1">
-                        <button onclick="reloadPreview()" title="Reload Preview" class="studio-btn p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="rotate-cw" class="w-3.5 h-3.5"></i></button>
-                    </div>
-                    <div class="flex-1 max-w-md bg-black/40 border border-white/10 rounded-xl px-3 py-1 flex items-center gap-2 text-xs font-mono text-slate-300">
-                        <i data-lucide="lock" class="w-3 h-3 text-emerald-400 shrink-0"></i>
-                        <span id="urlDisplay" class="truncate opacity-80">https://compile-studio.local/index.html</span>
-                    </div>
-                    <div class="flex items-center gap-1 bg-black/30 p-0.5 rounded-xl border border-white/5">
-                        <button onclick="setPreviewDevice('desktop')" id="devBtnDesktop" class="studio-btn px-2 py-1 rounded-lg text-xs text-white bg-white/10 flex items-center gap-1"><i data-lucide="monitor" class="w-3.5 h-3.5"></i></button>
-                        <button onclick="setPreviewDevice('tablet')" id="devBtnTablet" class="studio-btn px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white flex items-center gap-1"><i data-lucide="tablet" class="w-3.5 h-3.5"></i></button>
-                        <button onclick="setPreviewDevice('mobile')" id="devBtnMobile" class="studio-btn px-2 py-1 rounded-lg text-xs text-slate-400 hover:text-white flex items-center gap-1"><i data-lucide="smartphone" class="w-3.5 h-3.5"></i></button>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <button onclick="openDetachedPreview()" title="Open in New Window" class="studio-btn p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="external-link" class="w-3.5 h-3.5"></i></button>
-                    </div>
-                </div>
-
-                <div class="flex-1 relative bg-white/95 overflow-hidden flex items-center justify-center" id="iframeWrapper">
-                    <iframe id="previewFrame" class="w-full h-full border-0 bg-white transition-all duration-300"></iframe>
-                </div>
-
-                <!-- HORIZONTAL SPLITTER HANDLE -->
-                <div id="splitterH" class="splitter-h"></div>
-
-                <!-- DEVELOPER CONSOLE DRAWER -->
-                <div id="consolePane" class="h-44 border-t border-white/10 glass flex flex-col shrink-0 relative transition-all duration-300">
-                    <div class="h-8 border-b border-white/10 px-3 flex items-center justify-between bg-black/20 text-xs font-semibold shrink-0 cursor-pointer" onclick="toggleConsole(event)">
-                        <div class="flex items-center gap-3">
-                            <div class="flex items-center gap-1.5 text-indigo-400 font-mono"><i data-lucide="terminal" class="w-3.5 h-3.5"></i> Console</div>
-                            <div class="flex gap-2 text-[10px]" onclick="event.stopPropagation()">
-                                <button onclick="filterLogs('all')" id="filterBtnAll" class="px-2 py-0.5 rounded bg-white/10 text-white">All</button>
-                                <button onclick="filterLogs('error')" id="filterBtnError" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">Errors</button>
-                                <button onclick="filterLogs('warn')" id="filterBtnWarn" class="px-2 py-0.5 rounded text-slate-400 hover:text-white">Warnings</button>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <button onclick="event.stopPropagation(); clearConsole()" title="Clear Console" class="studio-btn p-1 rounded hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-                            <button title="Toggle Console" class="studio-btn p-1 rounded hover:bg-white/10 text-slate-400 hover:text-white"><i data-lucide="chevron-down" id="consoleChevron" class="w-3.5 h-3.5 transition-transform duration-300"></i></button>
+                        <div class="flex items-center gap-2 text-indigo-500 dark:text-indigo-400 font-mono tracking-tight"><i data-lucide="terminal" class="w-3.5 h-3.5"></i> Console</div>
+                        <div class="flex gap-1.5 text-[10px]" onclick="event.stopPropagation()">
+                            <button onclick="filterLogs('all')" class="px-2 py-0.5 rounded bg-black/10 dark:bg-white/10 font-medium border border-black/10 dark:border-white/5">All</button>
+                            <button onclick="filterLogs('error')" class="px-2 py-0.5 rounded opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5">Errors</button>
+                            <button onclick="filterLogs('warn')" class="px-2 py-0.5 rounded opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5">Warnings</button>
                         </div>
                     </div>
-                    <div id="consoleLogList" class="flex-1 overflow-y-auto p-2 font-mono text-xs flex flex-col gap-1"></div>
-                    <div class="h-8 border-t border-white/10 bg-black/40 px-3 flex items-center gap-2 shrink-0">
-                        <span class="text-indigo-400 font-bold font-mono text-xs">&gt;</span>
-                        <input type="text" id="consoleReplInput" onkeydown="handleReplSubmit(event)" placeholder="Type JavaScript and press Enter..." class="bg-transparent text-xs text-white font-mono focus:outline-none w-full">
+                    <div class="flex items-center gap-1">
+                        <button onclick="event.stopPropagation(); clearConsole()" class="studio-btn p-1 rounded-md hover:bg-black/10 dark:hover:bg-white/20 opacity-60 hover:opacity-100 transition-colors" data-tooltip="Clear"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                        <i data-lucide="chevron-up" id="consoleChevron" class="w-4 h-4 opacity-60 transition-transform duration-300"></i>
                     </div>
+                </div>
+                <div id="consoleLogList" class="flex-1 overflow-y-auto p-2 font-mono text-[11px] sm:text-xs flex flex-col gap-1 hide-scrollbar"></div>
+                <div class="h-9 border-t border-black/5 dark:border-white/10 bg-black/5 dark:bg-black/50 px-3 flex items-center gap-2 shrink-0 hidden" id="consoleInputWrapper">
+                    <span class="text-cyan-500 dark:text-cyan-400 font-bold font-mono text-xs">❯</span>
+                    <input type="text" id="consoleReplInput" onkeydown="handleReplSubmit(event)" placeholder="Execute JavaScript..." class="bg-transparent text-xs font-mono focus:outline-none w-full placeholder-gray-500">
+                </div>
+            </footer>
+        </section>
+    </main>
+
+    <!-- Settings Menu -->
+    <div id="settingsMenu" class="absolute top-14 right-4 w-64 glass rounded-2xl p-2 border border-black/10 dark:border-white/10 shadow-2xl z-50 hidden flex-col gap-1 animate-quick-fade origin-top-right">
+        <div class="px-3 py-2 text-[10px] font-bold opacity-60 uppercase tracking-widest border-b border-black/10 dark:border-white/10 mb-1">Preferences</div>
+        <label class="p-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn group transition-colors">
+            <span class="text-xs font-semibold flex items-center gap-2 opacity-80 group-hover:opacity-100"><i data-lucide="zap" class="w-4 h-4 text-amber-500 dark:text-amber-400"></i> Auto-Compile</span>
+            <input type="checkbox" id="autoRunToggle" onchange="toggleAutoRun()" class="accent-indigo-500 w-4 h-4 rounded border-gray-300" checked>
+        </label>
+        <label class="p-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn group transition-colors">
+            <span class="text-xs font-semibold flex items-center gap-2 opacity-80 group-hover:opacity-100"><i data-lucide="moon" class="w-4 h-4 text-indigo-500 dark:text-indigo-400"></i> Dark Theme</span>
+            <input type="checkbox" id="darkThemeToggle" onchange="toggleStudioTheme()" class="accent-indigo-500 w-4 h-4 rounded border-gray-300" checked>
+        </label>
+        <div class="h-px bg-black/10 dark:bg-white/10 my-1"></div>
+        <button onclick="modals.showResetPrompt()" class="p-2.5 rounded-xl hover:bg-red-500/10 text-red-500 dark:text-red-400 flex items-center gap-2 cursor-pointer studio-btn w-full text-left transition-colors">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i><span class="text-xs font-bold">Reset Environment</span>
+        </button>
+    </div>
+
+    <!-- Command Palette -->
+    <div id="commandPalette" class="fixed inset-0 z-50 items-start justify-center pt-[15vh] bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+        <div class="w-full max-w-xl mx-4 glass rounded-2xl border border-black/10 dark:border-white/20 shadow-2xl overflow-hidden flex flex-col transform scale-95 transition-transform duration-200" id="paletteCard">
+            <div class="p-4 border-b border-black/10 dark:border-white/10 flex items-center gap-3 bg-black/5 dark:bg-white/5">
+                <i data-lucide="search" class="w-5 h-5 text-indigo-500 dark:text-indigo-400 animate-pulse"></i>
+                <input type="text" id="paletteInput" oninput="filterPaletteCommands()" placeholder="Search commands or files..." class="bg-transparent text-sm md:text-base focus:outline-none w-full font-sans placeholder-gray-500">
+                <kbd class="hidden md:inline-block px-2 py-1 rounded-md bg-black/10 dark:bg-white/10 text-[10px] font-bold opacity-70 border border-black/10 dark:border-white/10 shadow-sm cursor-pointer hover:bg-black/20 dark:hover:bg-white/20 transition-colors" onclick="palette.toggle()">ESC</kbd>
+            </div>
+            <div id="paletteResults" class="max-h-[50vh] overflow-y-auto p-2 flex flex-col gap-1 hide-scrollbar"></div>
+        </div>
+    </div>
+
+    <!-- CDN Manager Modal -->
+    <div id="cdnModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+        <div class="w-full max-w-lg glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 md:p-8 flex flex-col gap-6 transform scale-95 transition-transform duration-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3"><div class="p-2 bg-cyan-500/20 rounded-xl"><i data-lucide="box" class="w-5 h-5 text-cyan-500 dark:text-cyan-400"></i></div><h3 class="text-lg font-bold tracking-tight">Package Manager</h3></div>
+                <button onclick="modals.close('cdnModal')" class="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 opacity-70 hover:opacity-100 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-sm opacity-70">Click a library below to automatically inject its CDN links into your active <code class="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-500 dark:text-indigo-300 font-mono text-xs">index.html</code> document.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[50vh] overflow-y-auto pr-1 hide-scrollbar">
+                <button onclick="injectCDN('tailwind')" class="p-4 rounded-2xl bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent border border-black/10 dark:border-white/10 hover:border-indigo-500/50 hover:bg-indigo-500/10 text-left flex flex-col gap-1 studio-btn transition-all"><span class="text-sm font-bold flex items-center gap-2">Tailwind CSS <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px]">v3</span></span><span class="text-xs opacity-60 line-clamp-2">Rapidly build modern websites.</span></button>
+                <button onclick="injectCDN('bootstrap')" class="p-4 rounded-2xl bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent border border-black/10 dark:border-white/10 hover:border-purple-500/50 hover:bg-purple-500/10 text-left flex flex-col gap-1 studio-btn transition-all"><span class="text-sm font-bold flex items-center gap-2">Bootstrap <span class="px-1.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-[10px]">v5.3</span></span><span class="text-xs opacity-60 line-clamp-2">Feature-packed frontend toolkit.</span></button>
+                <button onclick="injectCDN('react')" class="p-4 rounded-2xl bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent border border-black/10 dark:border-white/10 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-left flex flex-col gap-1 studio-btn transition-all"><span class="text-sm font-bold flex items-center gap-2">React 18 + Babel</span><span class="text-xs opacity-60 line-clamp-2">Library for web interfaces.</span></button>
+                <button onclick="injectCDN('vue')" class="p-4 rounded-2xl bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent border border-black/10 dark:border-white/10 hover:border-emerald-500/50 hover:bg-emerald-500/10 text-left flex flex-col gap-1 studio-btn transition-all"><span class="text-sm font-bold flex items-center gap-2">Vue 3 (Global)</span><span class="text-xs opacity-60 line-clamp-2">The Progressive JS Framework.</span></button>
+                <button onclick="injectCDN('three')" class="p-4 rounded-2xl bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent border border-black/10 dark:border-white/10 hover:border-zinc-500/50 hover:bg-zinc-500/10 text-left flex flex-col gap-1 studio-btn transition-all"><span class="text-sm font-bold flex items-center gap-2">Three.js</span><span class="text-xs opacity-60 line-clamp-2">JavaScript 3D library for WebGL.</span></button>
+                <button onclick="injectCDN('gsap')" class="p-4 rounded-2xl bg-gradient-to-br from-black/5 dark:from-white/5 to-transparent border border-black/10 dark:border-white/10 hover:border-green-500/50 hover:bg-green-500/10 text-left flex flex-col gap-1 studio-btn transition-all"><span class="text-sm font-bold flex items-center gap-2">GSAP</span><span class="text-xs opacity-60 line-clamp-2">Professional web animations.</span></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates Modal -->
+    <div id="templatesModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+        <div class="w-full max-w-2xl glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 md:p-8 flex flex-col gap-6 transform scale-95 transition-transform duration-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3"><div class="p-2 bg-fuchsia-500/20 rounded-xl"><i data-lucide="layout-template" class="w-5 h-5 text-fuchsia-500 dark:text-fuchsia-400"></i></div><h3 class="text-lg font-bold tracking-tight">Starter Templates</h3></div>
+                <button onclick="modals.close('templatesModal')" class="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 opacity-70 hover:opacity-100 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-sm opacity-70">Kickstart your next project. <span class="text-amber-500 font-medium">Warning: This overrides current files.</span></p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div onclick="loadTemplate('modern')" class="p-5 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-transparent border border-indigo-500/20 hover:border-indigo-500 hover:bg-indigo-500/20 cursor-pointer studio-btn flex flex-col gap-2 transition-all">
+                    <span class="text-sm font-bold flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-500 dark:text-indigo-400"></i> Glass UI Boilerplate</span>
+                    <span class="text-xs opacity-70">Pre-configured HTML, CSS, and JS.</span>
+                </div>
+                <div onclick="loadTemplate('canvas')" class="p-5 rounded-2xl bg-gradient-to-br from-cyan-500/10 to-transparent border border-cyan-500/20 hover:border-cyan-500 hover:bg-cyan-500/20 cursor-pointer studio-btn flex flex-col gap-2 transition-all">
+                    <span class="text-sm font-bold flex items-center gap-2"><i data-lucide="palette" class="w-4 h-4 text-cyan-500 dark:text-cyan-400"></i> HTML5 Canvas Art</span>
+                    <span class="text-xs opacity-70">Performant particle animation boilerplate.</span>
+                </div>
+                <div onclick="loadTemplate('three')" class="p-5 rounded-2xl bg-gradient-to-br from-fuchsia-500/10 to-transparent border border-fuchsia-500/20 hover:border-fuchsia-500 hover:bg-fuchsia-500/20 cursor-pointer studio-btn flex flex-col gap-2 transition-all">
+                    <span class="text-sm font-bold flex items-center gap-2"><i data-lucide="box" class="w-4 h-4 text-fuchsia-500 dark:text-fuchsia-400"></i> Three.js Basic Scene</span>
+                    <span class="text-xs opacity-70">Rotating 3D geometry using Three.js CDN.</span>
+                </div>
+                <div onclick="loadTemplate('react')" class="p-5 rounded-2xl bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 hover:border-blue-500 hover:bg-blue-500/20 cursor-pointer studio-btn flex flex-col gap-2 transition-all">
+                    <span class="text-sm font-bold flex items-center gap-2"><i data-lucide="code-2" class="w-4 h-4 text-blue-500 dark:text-blue-400"></i> React + Babel Setup</span>
+                    <span class="text-xs opacity-70">Write modern JSX directly in browser.</span>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SETTINGS MENU -->
-    <div id="settingsMenu" class="absolute top-14 right-4 w-64 glass rounded-2xl p-2 border border-white/10 shadow-2xl z-50 hidden flex-col gap-1">
-        <div class="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Studio Preferences</div>
-        <div onclick="toggleAutoRun()" class="p-2.5 rounded-xl hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn">
-            <span class="text-xs font-semibold flex items-center gap-2"><i data-lucide="zap" class="w-4 h-4 text-amber-400"></i> Auto Run Code</span>
-            <input type="checkbox" id="autoRunToggle" class="accent-indigo-500" checked>
-        </div>
-        <div onclick="toggleStudioTheme()" class="p-2.5 rounded-xl hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn">
-            <span class="text-xs font-semibold flex items-center gap-2"><i data-lucide="moon" class="w-4 h-4 text-indigo-400"></i> Dark Theme</span>
-            <input type="checkbox" id="darkThemeToggle" class="accent-indigo-500" checked>
-        </div>
-        <div class="h-px bg-white/10 my-1"></div>
-        <div onclick="modals.showResetPrompt()" class="p-2.5 rounded-xl hover:bg-red-500/20 text-red-400 flex items-center gap-2 cursor-pointer studio-btn">
-            <i data-lucide="refresh-cw" class="w-4 h-4"></i><span class="text-xs font-bold">Reset Project Defaults</span>
-        </div>
-    </div>
-
-    <!-- COMMAND PALETTE MODAL -->
-    <div id="commandPalette" class="modal-overlay fixed inset-0 z-50 flex items-start justify-center pt-20 bg-black/60">
-        <div class="modal-card w-full max-w-lg glass rounded-2xl border border-white/20 shadow-2xl overflow-hidden flex flex-col">
-            <div class="p-3 border-b border-white/10 flex items-center gap-3">
-                <i data-lucide="search" class="w-4 h-4 text-indigo-400"></i>
-                <input type="text" id="paletteInput" oninput="filterPaletteCommands()" placeholder="Type a command or file name..." class="bg-transparent text-sm text-white focus:outline-none w-full font-sans">
-                <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-[10px] text-slate-400 border border-white/10 shadow-sm cursor-pointer hover:bg-white/20 transition-colors" onclick="modals.close('commandPalette')">ESC</kbd>
-            </div>
-            <div id="paletteResults" class="max-h-72 overflow-y-auto p-2 flex flex-col gap-1"></div>
-        </div>
-    </div>
-
-    <!-- CDN INJECTOR MODAL -->
-    <div id="cdnModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
-        <div class="modal-card w-full max-w-lg glass rounded-2xl border border-white/20 shadow-2xl p-6 flex flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2"><i data-lucide="box" class="w-5 h-5 text-cyan-400"></i><h3 class="text-base font-bold text-white">Inject Library / CDN</h3></div>
-                <button onclick="modals.close('cdnModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <p class="text-xs text-slate-400">Click to insert external libraries into <code class="text-indigo-300">index.html</code>.</p>
-            <div class="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto p-1">
-                <button onclick="injectCDN('tailwind')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Tailwind CSS v3</span><span class="text-[10px] text-slate-400">Utility-first CSS framework</span></button>
-                <button onclick="injectCDN('bootstrap')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Bootstrap 5</span><span class="text-[10px] text-slate-400">Responsive UI Library</span></button>
-                <button onclick="injectCDN('react')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">React 18 + Babel</span><span class="text-[10px] text-slate-400">JSX Component Library</span></button>
-                <button onclick="injectCDN('vue')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Vue 3 CDN</span><span class="text-[10px] text-slate-400">Progressive JS Framework</span></button>
-                <button onclick="injectCDN('three')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">Three.js</span><span class="text-[10px] text-slate-400">3D WebGL Engine</span></button>
-                <button onclick="injectCDN('gsap')" class="p-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-left flex flex-col studio-btn"><span class="text-xs font-bold text-white">GSAP Animations</span><span class="text-[10px] text-slate-400">High-performance animations</span></button>
-            </div>
-        </div>
-    </div>
-
-    <!-- STARTER TEMPLATES MODAL -->
-    <div id="templatesModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
-        <div class="modal-card w-full max-w-xl glass rounded-2xl border border-white/20 shadow-2xl p-6 flex flex-col gap-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2"><i data-lucide="layout-template" class="w-5 h-5 text-fuchsia-400"></i><h3 class="text-base font-bold text-white">Select Starter Template</h3></div>
-                <button onclick="modals.close('templatesModal')" class="text-slate-400 hover:text-white"><i data-lucide="x" class="w-5 h-5"></i></button>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div onclick="loadTemplate('modern')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-indigo-400"></i> Glassmorphic UI</span><span class="text-[11px] text-slate-400">Tailwind HTML, CSS & JS setup</span></div>
-                <div onclick="loadTemplate('canvas')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="palette" class="w-4 h-4 text-cyan-400"></i> Interactive 2D Canvas</span><span class="text-[11px] text-slate-400">Particle animation starter code</span></div>
-                <div onclick="loadTemplate('three')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="box" class="w-4 h-4 text-fuchsia-400"></i> Three.js 3D Cube</span><span class="text-[11px] text-slate-400">WebGL 3D Scene setup</span></div>
-                <div onclick="loadTemplate('vue')" class="p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/10 cursor-pointer studio-btn flex flex-col gap-1"><span class="text-xs font-bold text-white flex items-center gap-2"><i data-lucide="code" class="w-4 h-4 text-emerald-400"></i> Vue 3 App</span><span class="text-[11px] text-slate-400">Reactive counter application</span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- GENERAL INPUT / PROMPT MODAL -->
-    <div id="inputModal" class="modal-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
-        <div class="modal-card w-full max-w-sm glass rounded-2xl border border-white/20 shadow-2xl p-5 flex flex-col gap-4">
-            <h3 id="inputModalTitle" class="text-base font-bold text-white">System Prompt</h3>
-            <input type="text" id="inputModalField" class="bg-black/40 border border-white/15 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500 font-mono">
-            <div class="flex gap-2">
-                <button onclick="modals.close('inputModal')" class="flex-1 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-xs font-semibold text-slate-300 studio-btn">Cancel</button>
-                <button id="inputModalConfirmBtn" class="flex-1 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-xs font-bold text-white studio-btn">Confirm</button>
+    <!-- General Text Input Prompt -->
+    <div id="inputModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+        <div class="w-full max-w-sm glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 flex flex-col gap-5 transform scale-95 transition-transform duration-200">
+            <h3 id="inputModalTitle" class="text-lg font-bold tracking-tight">System Prompt</h3>
+            <input type="text" id="inputModalField" class="bg-black/5 dark:bg-black/40 border border-black/10 dark:border-white/10 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500 font-mono transition-colors shadow-inner w-full">
+            <div class="flex gap-3 mt-2">
+                <button onclick="modals.close('inputModal')" class="flex-1 py-2.5 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-sm font-semibold studio-btn transition-colors border border-black/10 dark:border-white/10">Cancel</button>
+                <button id="inputModalConfirmBtn" class="flex-1 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-sm font-bold text-white studio-btn transition-colors shadow-lg shadow-indigo-500/25">Confirm</button>
             </div>
         </div>
     </div>
 
     <script>
-        // --- HYPER-OPTIMIZATION: Global DOM Caching ---
         const UI = {}; 
         
         const DEFAULT_TEMPLATES = {
             modern: [
-                { id: '1', name: 'index.html', content: '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Compile Studio Project</title>\n    <script src="https://cdn.tailwindcss.com"><\/script>\n    <link rel="stylesheet" href="style.css">\n</head>\n<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-6">\n    <div class="glass-card text-center max-w-md p-8 rounded-3xl border border-white/10 shadow-2xl">\n        <h1 id="headline" class="text-4xl font-extrabold mb-3 bg-gradient-to-r from-indigo-400 to-fuchsia-400 bg-clip-text text-transparent">Compile Studio</h1>\n        <p class="text-slate-400 text-sm mb-6">Edit files in real-time across HTML, CSS, and JS.</p>\n        <button id="actionBtn" class="px-6 py-3 rounded-2xl bg-indigo-500 hover:bg-indigo-400 text-white font-bold text-sm transition-all shadow-lg shadow-indigo-500/30">Interact Now</button>\n    </div>\n    <script src="script.js"><\/script>\n</body>\n</html>' },
-                { id: '2', name: 'style.css', content: '.glass-card {\n    background: rgba(255, 255, 255, 0.03);\n    backdrop-filter: blur(20px);\n    transition: transform 0.3s;\n}\n.glass-card:hover { transform: translateY(-6px); }' },
-                { id: '3', name: 'script.js', content: 'console.log("Studio loaded.");\ndocument.getElementById("actionBtn").addEventListener("click", () => {\n    document.getElementById("headline").classList.toggle("scale-110");\n    console.info("Interactive button clicked!");\n});' }
+                { id: '1', name: 'index.html', isText: true, content: '<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <title>Modern UI Boilerplate</title>\n    <script src="https://cdn.tailwindcss.com"><\/script>\n    <link rel="stylesheet" href="style.css">\n</head>\n<body class="bg-slate-950 text-white min-h-screen flex items-center justify-center p-6 antialiased">\n    <main class="glass-card text-center max-w-lg p-10 rounded-3xl border border-white/10 shadow-2xl">\n        <div class="w-16 h-16 bg-gradient-to-tr from-indigo-500 to-cyan-500 rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg shadow-indigo-500/20">\n            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>\n        </div>\n        <h1 id="headline" class="text-4xl font-extrabold mb-4 bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent tracking-tight transition-transform duration-500">Fast. Fluid. Flawless.</h1>\n        <p class="text-slate-400 text-base mb-8 leading-relaxed">Start building stunning interfaces right in your browser. This boilerplate includes Tailwind CSS and beautiful glassmorphic effects out of the box.</p>\n        <button id="actionBtn" class="px-8 py-3.5 rounded-xl bg-white text-slate-900 font-bold text-sm transition-all hover:scale-105 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] active:scale-95">Trigger Animation</button>\n    </main>\n    <script src="script.js"><\/script>\n</body>\n</html>' },
+                { id: '2', name: 'style.css', isText: true, content: '/* Custom Glass Effect */\n.glass-card {\n    background: rgba(255, 255, 255, 0.03);\n    backdrop-filter: blur(24px);\n    -webkit-backdrop-filter: blur(24px);\n    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);\n}\n.glass-card:hover {\n    transform: translateY(-8px);\n}' },
+                { id: '3', name: 'script.js', isText: true, content: '/**\n * Application Logic\n */\nconsole.info("⚡ Environment successfully loaded!");\n\nconst btn = document.getElementById("actionBtn");\nconst headline = document.getElementById("headline");\n\nbtn.addEventListener("click", () => {\n    headline.classList.toggle("scale-110");\n    headline.classList.toggle("rotate-2");\n    \n    console.log("Animation toggled via Interaction!");\n    \n    // Demonstrate object logging in console\n    console.dir({ \n        status: "Success", \n        timestamp: new Date().toISOString(),\n        dimensions: { w: window.innerWidth, h: window.innerHeight }\n    });\n});' }
             ],
             canvas: [
-                { id: '1', name: 'index.html', content: '<!DOCTYPE html>\n<html>\n<head>\n  <style>body { margin: 0; overflow: hidden; background: #05070a; }</style>\n</head>\n<body>\n  <canvas id="canvas"></canvas>\n  <script src="script.js"><\/script>\n</body>\n</html>' },
-                { id: '2', name: 'script.js', content: 'const canvas = document.getElementById("canvas");\nconst ctx = canvas.getContext("2d");\nlet width = canvas.width = window.innerWidth;\nlet height = canvas.height = window.innerHeight;\n\nconst particles = Array.from({ length: 60 }, () => ({\n  x: Math.random() * width, y: Math.random() * height,\n  vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2, radius: Math.random() * 3 + 1\n}));\n\nfunction animate() {\n  ctx.fillStyle = "rgba(5, 7, 10, 0.2)"; ctx.fillRect(0, 0, width, height);\n  particles.forEach(p => {\n    p.x += p.vx; p.y += p.vy;\n    if(p.x < 0 || p.x > width) p.vx *= -1; if(p.y < 0 || p.y > height) p.vy *= -1;\n    ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);\n    ctx.fillStyle = "#818cf8"; ctx.fill();\n  });\n  requestAnimationFrame(animate);\n}\nanimate();' }
+                { id: '1', name: 'index.html', isText: true, content: '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <title>Canvas Particles</title>\n  <style>body { margin: 0; overflow: hidden; background: #05070a; }</style>\n</head>\n<body>\n  <canvas id="canvas"></canvas>\n  <script src="script.js"><\/script>\n</body>\n</html>' },
+                { id: '2', name: 'script.js', isText: true, content: 'const canvas = document.getElementById("canvas");\nconst ctx = canvas.getContext("2d");\nlet width = canvas.width = window.innerWidth;\nlet height = canvas.height = window.innerHeight;\n\nwindow.addEventListener("resize", () => {\n  width = canvas.width = window.innerWidth;\n  height = canvas.height = window.innerHeight;\n});\n\nconst particles = Array.from({ length: 80 }, () => ({\n  x: Math.random() * width, \n  y: Math.random() * height,\n  vx: (Math.random() - 0.5) * 3, \n  vy: (Math.random() - 0.5) * 3, \n  radius: Math.random() * 3 + 1.5,\n  color: `hsl(${Math.random() * 60 + 200}, 80%, 60%)`\n}));\n\nfunction animate() {\n  ctx.fillStyle = "rgba(5, 7, 10, 0.15)"; \n  ctx.fillRect(0, 0, width, height);\n  particles.forEach(p => {\n    p.x += p.vx; p.y += p.vy;\n    if(p.x < 0 || p.x > width) p.vx *= -1; \n    if(p.y < 0 || p.y > height) p.vy *= -1;\n    ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);\n    ctx.fillStyle = p.color; ctx.fill();\n  });\n  requestAnimationFrame(animate);\n}\nconsole.log("Canvas Animation Started");\nanimate();' }
+            ],
+            three: [
+                { id: '1', name: 'index.html', isText: true, content: '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <style>body { margin: 0; overflow: hidden; background: #000; }</style>\n  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>\n</head>\n<body>\n  <script src="script.js"><\/script>\n</body>\n</html>' },
+                { id: '2', name: 'script.js', isText: true, content: 'const scene = new THREE.Scene();\nconst camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);\nconst renderer = new THREE.WebGLRenderer({ antialias: true });\nrenderer.setSize(window.innerWidth, window.innerHeight);\ndocument.body.appendChild(renderer.domElement);\nconst geometry = new THREE.BoxGeometry(2, 2, 2);\nconst edges = new THREE.EdgesGeometry(geometry);\nconst lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ffff, linewidth: 2 });\nconst cube = new THREE.LineSegments(edges, lineMaterial);\nscene.add(cube);\ncamera.position.z = 5;\nfunction animate() {\n  requestAnimationFrame(animate);\n  cube.rotation.x += 0.01; cube.rotation.y += 0.01;\n  renderer.render(scene, camera);\n}\nwindow.addEventListener("resize", () => {\n  camera.aspect = window.innerWidth / window.innerHeight;\n  camera.updateProjectionMatrix();\n  renderer.setSize(window.innerWidth, window.innerHeight);\n});\nconsole.log("Three.js Scene Initialized");\nanimate();' }
+            ],
+            react: [
+                { id: '1', name: 'index.html', isText: true, content: '<!DOCTYPE html>\n<html>\n<head>\n  <meta charset="UTF-8">\n  <script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>\n  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>\n  <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>\n  <script src="https://cdn.tailwindcss.com"><\/script>\n</head>\n<body class="bg-gray-900 text-white min-h-screen flex items-center justify-center">\n  <div id="root"></div>\n  <script type="text/babel" src="app.jsx"><\/script>\n</body>\n</html>' },
+                { id: '2', name: 'app.jsx', isText: true, content: 'const { useState } = React;\nfunction App() {\n  const [count, setCount] = useState(0);\n  return (\n    <div className="text-center p-8 bg-gray-800 rounded-xl shadow-xl border border-gray-700">\n      <h1 className="text-3xl font-bold mb-4 text-blue-400">React + Babel</h1>\n      <p className="text-gray-400 mb-6">Building UI components directly in the browser.</p>\n      <button \n        onClick={() => setCount(c => c + 1)}\n        className="px-6 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition-colors"\n      >\n        Count is: {count}\n      </button>\n    </div>\n  );\n}\nconst root = ReactDOM.createRoot(document.getElementById("root"));\nroot.render(<App />);' }
             ]
         };
-        // Filling missing defaults to save space
-        DEFAULT_TEMPLATES.three = DEFAULT_TEMPLATES.vue = DEFAULT_TEMPLATES.modern;
 
-        // --- APP STATE & TIMERS ---
         let files = [];
         let activeFileId = '1';
+        let lastHtmlFileId = null; // Tracks the last edited HTML file for precise previewing
         let editor = null;
         let isAutoRun = true;
         let isDarkMode = true;
-        let isSidebarOpen = true;
+        let isSidebarOpen = window.innerWidth >= 768;
         
         let compileTimer = null;
         let saveTimer = null;
         let sizeCalcTimer = null;
+        
+        let currentDevice = 'desktop';
+        let isLandscape = false;
+        let previewZoom = 1;
+        
+        const isMobile = () => window.innerWidth < 768;
 
-        // --- INITIALIZATION ---
         document.addEventListener("DOMContentLoaded", () => {
-            if (window.isMobileDevice) {
-                document.getElementById('mobileBlock').classList.remove('hidden');
-                document.getElementById('mobileBlock').classList.add('flex');
-                document.getElementById('workspaceContainer').style.display = 'none';
-                const loader = document.getElementById('loadingScreen');
-                if (loader) loader.remove();
-                return; // HALT ALL JS EXECUTION FOR MOBILE
-            }
-
-            // Cache DOM Elements strictly after ensuring we are on desktop
+            // Cache DOM Elements strictly
             UI.editorPane = document.getElementById('editorPane');
             UI.previewPane = document.getElementById('previewPane');
             UI.consolePane = document.getElementById('consolePane');
@@ -503,37 +551,52 @@
             UI.runBtn = document.getElementById('runBtn');
             UI.cursorPosInfo = document.getElementById('cursorPosInfo');
             UI.fileSizeInfo = document.getElementById('fileSizeInfo');
+            UI.sidebar = document.getElementById('fileExplorerPanel');
+            UI.consoleInputWrapper = document.getElementById('consoleInputWrapper');
+            UI.consoleChevron = document.getElementById('consoleChevron');
 
             loadStateFromStorage();
             initCodeMirror();
+            
+            // Initial render
+            const startFile = files.find(f => f.id === activeFileId) || files[0];
+            updateActiveFileHeader(startFile);
+
             renderExplorerTree();
-            renderTabs();
             setupSplitters();
             lucide.createIcons();
             compileAndRun();
 
+            // Mobile specific setups
+            if (isMobile()) {
+                UI.sidebar.classList.add('-translate-x-full');
+                document.getElementById('splitterMain').style.display = 'none';
+            }
+
             // Animate and remove loading screen
             const progressBar = document.getElementById('loadingProgress');
-            if(progressBar) {
-                setTimeout(() => progressBar.style.width = '100%', 50);
-            }
+            if(progressBar) setTimeout(() => progressBar.style.width = '100%', 150);
+            
             setTimeout(() => {
                 const loader = document.getElementById('loadingScreen');
                 if (loader) {
                     loader.style.opacity = '0';
+                    loader.style.pointerEvents = 'none';
                     setTimeout(() => loader.remove(), 700);
                 }
-            }, 1000);
+            }, 1200);
 
+            // Listen to Sandbox Messages
             window.addEventListener('message', (e) => {
                 if (e.data && e.data.source === 'cs-console-proxy') {
                     appendConsoleLog(e.data.type, e.data.args);
                 }
             });
 
+            // Global Keybindings
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
-                    document.querySelectorAll('.modal-overlay.active').forEach(el => el.classList.remove('active'));
+                    document.querySelectorAll('.fixed.z-50').forEach(el => modals.closeRaw(el));
                     document.getElementById('settingsMenu').classList.add('hidden');
                     document.getElementById('settingsMenu').classList.remove('flex');
                 }
@@ -546,6 +609,7 @@
                 }
             });
 
+            // Close settings on outside click
             document.addEventListener('mousedown', (e) => {
                 const menu = document.getElementById('settingsMenu');
                 const btn = document.getElementById('settingsBtn');
@@ -554,32 +618,63 @@
                     menu.classList.remove('flex');
                 }
             });
+            
+            // Auto resize CodeMirror on container change (Fixes hidden code bug)
+            const resizeObserver = new ResizeObserver(() => {
+                if(editor) requestAnimationFrame(() => editor.refresh());
+            });
+            resizeObserver.observe(document.getElementById('editorWrapper'));
         });
 
         function loadStateFromStorage() {
             try {
-                const savedFiles = localStorage.getItem('cs_files');
-                const savedActive = localStorage.getItem('cs_active_id');
-                const savedTitle = localStorage.getItem('cs_project_title');
+                const savedFiles = localStorage.getItem('cs_files_v3');
+                const savedActive = localStorage.getItem('cs_active_id_v3');
+                const savedTitle = localStorage.getItem('cs_project_title_v3');
+                const savedTheme = localStorage.getItem('cs_theme_v3');
 
-                files = savedFiles ? JSON.parse(savedFiles) : JSON.parse(JSON.stringify(DEFAULT_TEMPLATES.modern));
+                let parsedFiles = savedFiles ? JSON.parse(savedFiles) : null;
+                files = parsedFiles || JSON.parse(JSON.stringify(DEFAULT_TEMPLATES.modern));
                 activeFileId = (savedActive && files.some(f => f.id === savedActive)) ? savedActive : files[0].id;
+                
                 if(savedTitle) document.getElementById('projectTitleInput').value = savedTitle;
+                
+                if(savedTheme === 'light') {
+                    document.getElementById('darkThemeToggle').checked = false;
+                    toggleStudioTheme();
+                }
+                
+                // Set initial lastHtmlFileId
+                const startFile = files.find(f => f.id === activeFileId);
+                if(startFile && startFile.name.endsWith('.html')) lastHtmlFileId = startFile.id;
+
             } catch(e) {
                 files = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES.modern));
                 activeFileId = files[0].id;
             }
 
             document.getElementById('projectTitleInput').addEventListener('input', (e) => {
-                try { localStorage.setItem('cs_project_title', e.target.value); } catch(err){}
+                try { localStorage.setItem('cs_project_title_v3', e.target.value); } catch(err){}
             });
         }
 
         function saveStateToStorage() {
             try {
-                localStorage.setItem('cs_files', JSON.stringify(files));
-                localStorage.setItem('cs_active_id', activeFileId);
-            } catch(e) { console.error("Storage limit reached"); }
+                localStorage.setItem('cs_files_v3', JSON.stringify(files));
+                localStorage.setItem('cs_active_id_v3', activeFileId);
+                localStorage.setItem('cs_theme_v3', isDarkMode ? 'dark' : 'light');
+            } catch(e) { 
+                console.warn("Storage limit reached"); 
+                UI.saveInd.innerHTML = '<i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Storage Full</span>';
+                UI.saveInd.classList.replace('text-emerald-500', 'text-red-500');
+                UI.saveInd.classList.replace('dark:text-emerald-400', 'dark:text-red-400');
+                UI.saveInd.style.opacity = '1';
+                setTimeout(() => {
+                    UI.saveInd.classList.replace('text-red-500', 'text-emerald-500');
+                    UI.saveInd.classList.replace('dark:text-red-400', 'dark:text-emerald-400');
+                    UI.saveInd.innerHTML = '<i data-lucide="check" class="w-3.5 h-3.5"></i> <span class="hidden sm:inline">Saved</span>';
+                }, 3000);
+            }
         }
 
         function initCodeMirror() {
@@ -596,31 +691,31 @@
                 foldGutter: true,
                 gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
                 lineWrapping: true,
-                viewportMargin: 15, // HYPER-OPTIMIZATION: Prevents processing hidden text
-                workTime: 200,
-                extraKeys: { "Ctrl-Space": "autocomplete", "Shift-Alt-F": formatCode }
+                viewportMargin: Infinity,
+                extraKeys: { "Ctrl-Space": "autocomplete", "Shift-Alt-F": formatCode, "Ctrl-F": "findPersistent", "Ctrl-Shift-F": "replace" }
             });
 
-            editor.setValue(currentFile.content);
-            UI.fileSizeInfo.textContent = `${currentFile.content.length} Bytes`; // Fast byte calc
+            if (currentFile.isText) {
+                editor.setValue(currentFile.content);
+                UI.fileSizeInfo.textContent = formatBytes(currentFile.content.length);
+            }
 
             editor.on('change', () => {
                 const active = files.find(f => f.id === activeFileId);
-                if (active) {
+                if (active && active.isText) {
                     active.content = editor.getValue();
                     
-                    // DECOUPLED DEBOUNCING: Stop locking main thread
                     clearTimeout(saveTimer);
-                    saveTimer = setTimeout(saveStateToStorage, 2500); // Wait 2.5s to write to disk
+                    saveTimer = setTimeout(saveStateToStorage, 2000); 
                     
                     clearTimeout(sizeCalcTimer);
                     sizeCalcTimer = setTimeout(() => {
-                        UI.fileSizeInfo.textContent = `${active.content.length} Bytes`;
+                        UI.fileSizeInfo.textContent = formatBytes(active.content.length);
                     }, 500);
 
                     if (isAutoRun) {
                         clearTimeout(compileTimer);
-                        compileTimer = setTimeout(compileAndRun, 1200); // Give user time to finish typing
+                        compileTimer = setTimeout(compileAndRun, 1200);
                     }
                 }
             });
@@ -632,19 +727,31 @@
         }
 
         function getModeForFile(filename) {
-            if (filename.endsWith('.js')) return 'javascript';
-            if (filename.endsWith('.css')) return 'css';
-            if (filename.endsWith('.json')) return 'javascript';
-            return 'htmlmixed';
+            const ext = filename.split('.').pop().toLowerCase();
+            const map = {
+                'js': 'javascript', 'jsx': 'javascript', 'json': 'javascript',
+                'css': 'css', 'html': 'htmlmixed', 'htm': 'htmlmixed'
+            };
+            return map[ext] || 'htmlmixed';
         }
 
         function getFileIcon(filename) {
-            if (filename.endsWith('.html')) return '<i data-lucide="file-code-2" class="w-4 h-4 text-amber-400"></i>';
-            if (filename.endsWith('.css')) return '<i data-lucide="file-type-2" class="w-4 h-4 text-cyan-400"></i>';
-            if (filename.endsWith('.js')) return '<i data-lucide="file-json" class="w-4 h-4 text-yellow-400"></i>';
-            if (filename.endsWith('.json')) return '<i data-lucide="file-text" class="w-4 h-4 text-emerald-400"></i>';
-            return '<i data-lucide="file" class="w-4 h-4 text-slate-400"></i>';
+            if (filename.endsWith('.html')) return '<i data-lucide="file-code-2" class="w-4 h-4 text-orange-500 dark:text-orange-400"></i>';
+            if (filename.endsWith('.css')) return '<i data-lucide="file-type-2" class="w-4 h-4 text-cyan-500 dark:text-cyan-400"></i>';
+            if (filename.match(/\.jsx?$/)) return '<i data-lucide="file-json" class="w-4 h-4 text-yellow-500 dark:text-yellow-400"></i>';
+            if (filename.endsWith('.json')) return '<i data-lucide="file-text" class="w-4 h-4 text-emerald-500 dark:text-emerald-400"></i>';
+            if (filename.match(/\.(png|jpe?g|gif|svg|webp)$/i)) return '<i data-lucide="image" class="w-4 h-4 text-fuchsia-500 dark:text-fuchsia-400"></i>';
+            return '<i data-lucide="file" class="w-4 h-4 opacity-50"></i>';
         }
+        
+        function formatBytes(bytes) {
+            if(bytes === 0) return '0 Bytes';
+            const k = 1024, sizes = ['Bytes', 'KB', 'MB'], i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        function triggerFind() { if (editor) editor.execCommand('findPersistent'); }
+        function triggerReplace() { if (editor) editor.execCommand('replace'); }
 
         function renderExplorerTree() {
             const tree = document.getElementById('explorerTree');
@@ -654,11 +761,11 @@
             files.filter(f => f.name.toLowerCase().includes(filter)).forEach(file => {
                 const isActive = file.id === activeFileId;
                 const item = document.createElement('div');
-                item.className = `p-2 rounded-xl text-xs font-medium flex items-center justify-between cursor-pointer studio-btn group ${isActive ? 'bg-indigo-500/20 text-white font-bold border border-indigo-500/30' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'}`;
+                item.className = `p-2 rounded-lg text-sm font-medium flex items-center justify-between cursor-pointer group transition-colors ${isActive ? 'bg-indigo-500/10 dark:bg-indigo-500/20 text-indigo-600 dark:text-white border border-indigo-500/20 dark:border-indigo-500/30' : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 border border-transparent'}`;
                 item.innerHTML = `<div class="flex items-center gap-2 truncate">${getFileIcon(file.name)}<span class="truncate">${file.name}</span></div>
-                    <div class="hidden group-hover:flex items-center gap-1">
-                        <button onclick="event.stopPropagation(); renameFilePrompt('${file.id}')" class="p-1 text-slate-400 hover:text-white"><i data-lucide="edit-2" class="w-3 h-3"></i></button>
-                        ${files.length > 1 ? `<button onclick="event.stopPropagation(); deleteFile('${file.id}')" class="p-1 text-slate-400 hover:text-red-400"><i data-lucide="trash" class="w-3 h-3"></i></button>` : ''}
+                    <div class="hidden group-hover:flex items-center gap-1 shrink-0">
+                        <button onclick="event.stopPropagation(); renameFilePrompt('${file.id}')" class="p-1 opacity-70 hover:opacity-100 transition-colors" data-tooltip="Rename"><i data-lucide="edit-2" class="w-3.5 h-3.5"></i></button>
+                        ${files.length > 1 ? `<button onclick="event.stopPropagation(); deleteFile('${file.id}')" class="p-1 text-red-500 dark:text-red-400 opacity-70 hover:opacity-100 transition-colors" data-tooltip="Delete"><i data-lucide="trash" class="w-3.5 h-3.5"></i></button>` : ''}
                     </div>`;
                 item.onclick = () => switchActiveFile(file.id);
                 tree.appendChild(item);
@@ -666,20 +773,13 @@
             lucide.createIcons({ root: tree });
         }
 
-        function renderTabs() {
-            const container = document.getElementById('tabsContainer');
-            container.innerHTML = '';
-
-            files.forEach(file => {
-                const isActive = file.id === activeFileId;
-                const tab = document.createElement('div');
-                tab.className = `px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 cursor-pointer studio-btn shrink-0 ${isActive ? 'bg-white/15 text-white border border-white/20 shadow-sm' : 'text-slate-400 hover:bg-white/5'}`;
-                tab.innerHTML = `${getFileIcon(file.name)}<span>${file.name}</span>
-                    ${files.length > 1 ? `<button onclick="event.stopPropagation(); deleteFile('${file.id}')" class="p-0.5 hover:text-red-400 rounded"><i data-lucide="x" class="w-3 h-3"></i></button>` : ''}`;
-                tab.onclick = () => switchActiveFile(file.id);
-                container.appendChild(tab);
-            });
-            lucide.createIcons({ root: container });
+        function updateActiveFileHeader(file) {
+            const fileDisplay = document.getElementById('activeFileDisplay');
+            if (file) {
+                fileDisplay.innerHTML = `${getFileIcon(file.name)}<span>${file.name}</span>`;
+                lucide.createIcons({ root: fileDisplay });
+                document.getElementById('currentLangInfo').textContent = file.isText ? file.name.split('.').pop().toUpperCase() : 'BIN';
+            }
         }
 
         function switchActiveFile(id) {
@@ -687,25 +787,59 @@
             activeFileId = id;
             const file = files.find(f => f.id === activeFileId);
             
-            if (file && editor) {
-                editor.setOption('mode', getModeForFile(file.name));
-                editor.setValue(file.content);
-                document.getElementById('currentLangInfo').textContent = file.name.split('.').pop().toUpperCase();
-                UI.fileSizeInfo.textContent = `${file.content.length} Bytes`;
+            const editorWrapper = document.getElementById('editorWrapper');
+            const binaryViewer = document.getElementById('binaryViewer');
+            
+            if (file) {
+                if (file.name.endsWith('.html')) lastHtmlFileId = file.id; // Track HTML context
+                updateActiveFileHeader(file);
+                
+                // Play quick fade animation for smooth transitions
+                editorWrapper.classList.remove('animate-quick-fade');
+                binaryViewer.classList.remove('animate-quick-fade');
+                void editorWrapper.offsetWidth; // trigger reflow
+                
+                if (file.isText) {
+                    editorWrapper.style.display = 'block';
+                    binaryViewer.style.display = 'none';
+                    editorWrapper.classList.add('animate-quick-fade');
+                    
+                    if (editor) {
+                        editor.setOption('mode', getModeForFile(file.name));
+                        editor.setValue(file.content);
+                    }
+                    UI.fileSizeInfo.textContent = formatBytes(file.content.length);
+                } else {
+                    editorWrapper.style.display = 'none';
+                    binaryViewer.style.display = 'flex';
+                    binaryViewer.classList.add('animate-quick-fade');
+                    
+                    const viewerContent = document.getElementById('binaryViewerContent');
+                    if (file.mimeType && file.mimeType.startsWith('image/')) {
+                        viewerContent.innerHTML = `<img src="${file.content}" class="max-w-full max-h-[60vh] object-contain rounded-lg shadow-xl border border-black/10 dark:border-white/10">`;
+                    } else {
+                        viewerContent.innerHTML = `<i data-lucide="file-warning" class="w-12 h-12 opacity-50 mb-3"></i><p class="text-sm opacity-70">Binary preview not supported.</p><p class="text-xs opacity-50 mt-1">(${file.name})</p>`;
+                        lucide.createIcons({ root: viewerContent });
+                    }
+                    
+                    // Approximate base64 size to bytes
+                    const sizeInBytes = Math.floor((file.content.length - file.content.indexOf(',') - 1) * 0.75);
+                    UI.fileSizeInfo.textContent = formatBytes(sizeInBytes);
+                }
             }
 
             renderExplorerTree();
-            renderTabs();
             saveStateToStorage();
+            if(isMobile()) toggleSidebar(); // auto-close on mobile
         }
 
         function createNewFilePrompt() {
-            modals.prompt("Create New File", "index.html", (val) => {
+            modals.prompt("Create New File", "script.js", (val) => {
                 if (!val) return;
                 let name = val.trim();
-                if (files.some(f => f.name.toLowerCase() === name.toLowerCase())) return alert("File exists.");
+                if (files.some(f => f.name.toLowerCase() === name.toLowerCase())) return alert("File already exists.");
                 const newId = Date.now().toString();
-                files.push({ id: newId, name: name, content: `/* File: ${name} */\n` });
+                files.push({ id: newId, name: name, isText: true, content: `/* File: ${name} */\n` });
                 switchActiveFile(newId);
                 compileAndRun();
             });
@@ -719,10 +853,9 @@
                 file.name = val.trim();
                 if (activeFileId === id && editor) {
                     editor.setOption('mode', getModeForFile(file.name));
-                    document.getElementById('currentLangInfo').textContent = file.name.split('.').pop().toUpperCase();
+                    updateActiveFileHeader(file);
                 }
                 renderExplorerTree();
-                renderTabs();
                 saveStateToStorage();
                 compileAndRun();
             });
@@ -731,19 +864,47 @@
         function deleteFile(id) {
             if (files.length <= 1) return;
             files = files.filter(f => f.id !== id);
-            if (activeFileId === id) switchActiveFile(files[0].id);
-            else { renderExplorerTree(); renderTabs(); saveStateToStorage(); }
+            if (activeFileId === id || lastHtmlFileId === id) {
+                if(lastHtmlFileId === id) lastHtmlFileId = null;
+                switchActiveFile(files[0].id);
+            } else { 
+                renderExplorerTree(); 
+                saveStateToStorage(); 
+            }
             compileAndRun();
         }
 
         function compileAndRun() {
+            // Visual feedback
             UI.runBtn.classList.add('scale-95');
             setTimeout(() => UI.runBtn.classList.remove('scale-95'), 150);
+            UI.iframe.style.opacity = '0.5';
 
-            let htmlFile = files.find(f => f.name.endsWith('.html')) || files[0];
-            let htmlContent = htmlFile.content;
+            // Intelligent HTML resolution:
+            // 1. If active file is HTML, use it.
+            // 2. Otherwise, if we have a last remembered HTML file, use it.
+            // 3. Otherwise, fallback to the first HTML file found in the project.
+            let htmlFile = null;
+            const activeFile = files.find(f => f.id === activeFileId);
+            
+            if (activeFile && activeFile.name.endsWith('.html')) {
+                htmlFile = activeFile;
+            } else if (lastHtmlFileId) {
+                htmlFile = files.find(f => f.id === lastHtmlFileId) || files.find(f => f.name.endsWith('.html'));
+            } else {
+                htmlFile = files.find(f => f.name.endsWith('.html'));
+            }
 
-            files.filter(f => f.name.endsWith('.css')).forEach(css => {
+            if (!htmlFile || !htmlFile.isText) {
+                UI.iframe.srcdoc = "<h3 style='font-family:sans-serif;color:#888;text-align:center;margin-top:2rem;'>Please select or create an HTML file to preview.</h3>";
+                setTimeout(() => { UI.iframe.style.opacity = '1'; }, 100);
+                return;
+            }
+
+            let htmlContent = htmlFile.content || "";
+
+            // Inject CSS dynamically
+            files.filter(f => f.isText && f.name.endsWith('.css')).forEach(css => {
                 const styleTag = `<style data-file="${css.name}">\n${css.content}\n</style>`;
                 if (htmlContent.includes(`href="${css.name}"`)) {
                     htmlContent = htmlContent.replace(new RegExp(`<link[^>]*href=["']${css.name}["'][^>]*>`, 'gi'), styleTag);
@@ -752,8 +913,10 @@
                 }
             });
 
-            files.filter(f => f.name.endsWith('.js')).forEach(js => {
-                const scriptTag = `<script data-file="${js.name}">\n${js.content}\n<\/script>`;
+            // Inject JS/JSX dynamically
+            files.filter(f => f.isText && f.name.match(/\.jsx?$/)).forEach(js => {
+                const typeAttr = js.name.endsWith('.jsx') ? 'type="text/babel"' : '';
+                const scriptTag = `<script ${typeAttr} data-file="${js.name}">\n${js.content}\n<\/script>`;
                 if (htmlContent.includes(`src="${js.name}"`)) {
                     htmlContent = htmlContent.replace(new RegExp(`<script[^>]*src=["']${js.name}["'][^>]*><\/script>`, 'gi'), scriptTag);
                 } else if (!htmlContent.includes(js.content)) {
@@ -761,20 +924,33 @@
                 }
             });
 
-            // HYPER-OPTIMIZATION: Circular JSON Proofing
+            // Replace Binary File References (Images/Fonts)
+            files.filter(f => !f.isText).forEach(binFile => {
+                const safeName = binFile.name.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+                const regex = new RegExp(`(["'])${safeName}(["'])`, 'gi');
+                htmlContent = htmlContent.replace(regex, `$1${binFile.content}$2`);
+            });
+
+            // Enhanced Console Interceptor for better object formatting & error handling
             const consoleInterceptor = `
             <script>
             (function(){
-                const safeStringify = (obj) => {
+                const safeStringify = (obj, depth = 0) => {
+                    if (depth > 3) return '[Deep Object]';
                     try {
+                        if (typeof obj === 'function') return '[Function: ' + (obj.name || 'anonymous') + ']';
+                        if (obj instanceof Error) return obj.toString();
+                        if (obj instanceof HTMLElement) return '<' + obj.tagName.toLowerCase() + (obj.id ? '#' + obj.id : '') + '>';
+                        
                         const seen = new WeakSet();
                         return JSON.stringify(obj, (k, v) => {
                             if (typeof v === "object" && v !== null) {
                                 if (seen.has(v)) return "[Circular]";
                                 seen.add(v);
                             }
+                            if (typeof v === 'function') return '[Function]';
                             return v;
-                        });
+                        }, 2);
                     } catch(e) { return String(obj); }
                 };
                 const send = (type, args) => {
@@ -784,16 +960,19 @@
                         args: Array.from(args).map(a => typeof a === 'object' ? safeStringify(a) : String(a)) 
                     }, '*');
                 };
-                ['log', 'warn', 'error', 'info'].forEach(method => {
+                ['log', 'warn', 'error', 'info', 'dir'].forEach(method => {
                     const orig = console[method];
                     console[method] = function(...args) {
-                        send(method, args);
+                        send(method === 'dir' ? 'log' : method, args);
                         orig.apply(console, args);
                     };
                 });
                 window.onerror = function(msg, url, line) {
-                    send('error', [msg + ' (Line ' + line + ')']);
+                    send('error', ['Uncaught Error: ' + msg + ' (Line ' + line + ')']);
                     return false;
+                };
+                window.onunhandledrejection = function(e) {
+                    send('error', ['Unhandled Promise Rejection: ' + (e.reason || e)]);
                 };
             })();
             <\/script>`;
@@ -801,9 +980,15 @@
             if (htmlContent.includes('<head>')) htmlContent = htmlContent.replace('<head>', '<head>\n' + consoleInterceptor);
             else htmlContent = consoleInterceptor + htmlContent;
 
+            // Apply Source
             UI.iframe.srcdoc = htmlContent;
-            UI.urlDisplay.textContent = `https://compile-studio.local/${htmlFile.name}`;
             
+            // Generate pseudo-URL for aesthetics
+            const projectName = document.getElementById('projectTitleInput').value.replace(/\s+/g, '-').toLowerCase();
+            UI.urlDisplay.textContent = `localhost:3000/${htmlFile.name}?project=${projectName}`;
+            
+            // UI Updates
+            setTimeout(() => { UI.iframe.style.opacity = '1'; }, 100);
             UI.saveInd.style.opacity = '1';
             setTimeout(() => UI.saveInd.style.opacity = '0', 1500);
         }
@@ -812,11 +997,21 @@
 
         function appendConsoleLog(type, args) {
             const entry = document.createElement('div');
-            entry.className = `console-entry py-1 px-2 rounded flex items-start gap-2 ${type === 'error' ? 'text-red-400 bg-red-500/10' : (type === 'warn' ? 'text-amber-400 bg-amber-500/10' : 'text-slate-300')}`;
-            const message = args.join(' ');
-            entry.innerHTML = `<span class="opacity-50 text-[10px]">[${type.toUpperCase()}]</span> <span class="break-words flex-1">${message}</span>`;
+            let colorClass = 'opacity-80';
+            let bgClass = 'hover:bg-black/5 dark:hover:bg-white/5';
+            let icon = '<span class="text-indigo-500 dark:text-indigo-400 font-bold mr-1">›</span>';
+
+            if (type === 'error') { colorClass = 'text-red-500 dark:text-red-400'; bgClass = 'bg-red-500/10 border-l-2 border-red-500'; icon = '<i data-lucide="x-circle" class="w-3.5 h-3.5 text-red-500 inline mr-1"></i>'; }
+            if (type === 'warn') { colorClass = 'text-amber-500 dark:text-amber-400'; bgClass = 'bg-amber-500/10 border-l-2 border-amber-500'; icon = '<i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-amber-500 inline mr-1"></i>'; }
+            if (type === 'info') { colorClass = 'text-cyan-600 dark:text-cyan-400'; icon = '<i data-lucide="info" class="w-3.5 h-3.5 text-cyan-500 inline mr-1"></i>'; }
+
+            entry.className = `py-1.5 px-3 rounded flex items-start font-mono ${colorClass} ${bgClass} transition-colors border-b border-black/5 dark:border-white/5 whitespace-pre-wrap`;
+            
+            let message = args.join(' ').replace(/\\n/g, '<br>');
+            entry.innerHTML = `<div class="shrink-0 mt-0.5">${icon}</div><div class="flex-1 break-words">${message}</div>`;
             
             UI.consoleLogList.appendChild(entry);
+            lucide.createIcons({ root: entry });
             UI.consoleLogList.scrollTop = UI.consoleLogList.scrollHeight;
         }
 
@@ -836,98 +1031,143 @@
         }
 
         function filterLogs(type) {
-            document.querySelectorAll('#consoleLogList .console-entry').forEach(el => {
-                if (type === 'all' || el.textContent.includes(`[${type.toUpperCase()}]`)) el.style.display = 'flex';
+            Array.from(UI.consoleLogList.children).forEach(el => {
+                if (type === 'all') el.style.display = 'flex';
+                else if (type === 'error' && el.classList.contains('text-red-500')) el.style.display = 'flex';
+                else if (type === 'warn' && el.classList.contains('text-amber-500')) el.style.display = 'flex';
                 else el.style.display = 'none';
             });
         }
 
         function toggleConsole() {
-            const chevron = document.getElementById('consoleChevron');
-            if (UI.consolePane.classList.contains('h-8') || UI.consolePane.style.height === '32px') {
+            const isCollapsed = UI.consolePane.classList.contains('h-8');
+            if (isCollapsed) {
                 UI.consolePane.classList.remove('h-8');
-                UI.consolePane.style.height = UI.consolePane.dataset.lastHeight || '176px';
+                UI.consolePane.style.height = UI.consolePane.dataset.lastHeight || (isMobile() ? '150px' : '192px');
                 UI.consolePane.style.flex = `0 0 ${UI.consolePane.style.height}`;
-                chevron.style.transform = 'rotate(0deg)';
+                UI.consoleChevron.style.transform = 'rotate(0deg)';
+                UI.consoleInputWrapper.classList.remove('hidden');
             } else {
-                UI.consolePane.dataset.lastHeight = UI.consolePane.style.height || '176px';
-                UI.consolePane.classList.remove('h-44');
+                UI.consolePane.dataset.lastHeight = UI.consolePane.style.height;
+                UI.consolePane.classList.remove('h-48');
                 UI.consolePane.style.height = '32px';
                 UI.consolePane.style.flex = '0 0 32px';
-                chevron.style.transform = 'rotate(-180deg)';
+                UI.consoleChevron.style.transform = 'rotate(-180deg)';
+                UI.consoleInputWrapper.classList.add('hidden');
             }
-            if(editor) setTimeout(() => editor.refresh(), 300);
         }
 
         function setupSplitters() {
-            const splitterV = document.getElementById('splitterV');
-            const splitterH = document.getElementById('splitterH');
+            const splitterMain = document.getElementById('splitterMain');
+            const splitterConsole = document.getElementById('splitterConsole');
 
-            let isDraggingV = false;
-            let isDraggingH = false;
-            let rafId = null;
+            let isDraggingMain = false;
+            let isDraggingConsole = false;
 
-            splitterV.addEventListener('mousedown', () => { isDraggingV = true; splitterV.classList.add('dragging'); UI.iframe.style.pointerEvents = 'none'; });
-            splitterH.addEventListener('mousedown', () => { 
-                isDraggingH = true; splitterH.classList.add('dragging'); UI.iframe.style.pointerEvents = 'none';
-                if (UI.consolePane.style.height === '32px') toggleConsole(); 
-            });
+            if(!isMobile()) {
+                splitterMain.addEventListener('mousedown', () => { isDraggingMain = true; splitterMain.classList.add('dragging'); UI.iframe.style.pointerEvents = 'none'; });
+                splitterConsole.addEventListener('mousedown', () => { 
+                    isDraggingConsole = true; splitterConsole.classList.add('dragging'); UI.iframe.style.pointerEvents = 'none';
+                    if (UI.consolePane.classList.contains('h-8')) toggleConsole(); 
+                });
 
-            // HYPER-OPTIMIZATION: requestAnimationFrame for buttery smooth 60fps layout drag
-            document.addEventListener('mousemove', (e) => {
-                if (!isDraggingV && !isDraggingH) return;
-                if (rafId) cancelAnimationFrame(rafId);
-                
-                rafId = requestAnimationFrame(() => {
-                    if (isDraggingV) {
-                        const width = UI.mainWorkspace.offsetWidth;
-                        const p = (e.clientX / width) * 100;
+                document.addEventListener('mousemove', (e) => {
+                    if (!isDraggingMain && !isDraggingConsole) return;
+                    
+                    if (isDraggingMain) {
+                        const containerWidth = UI.mainWorkspace.offsetWidth - (UI.sidebar.offsetWidth || 0) - 56;
+                        const offset = e.clientX - UI.editorPane.getBoundingClientRect().left;
+                        const p = (offset / containerWidth) * 100;
                         if (p > 15 && p < 85) {
                             UI.editorPane.style.flex = `0 0 ${p}%`;
                             UI.previewPane.style.flex = `0 0 ${100 - p}%`;
                         }
                     }
-                    if (isDraggingH) {
+                    if (isDraggingConsole) {
                         const rect = UI.previewPane.getBoundingClientRect();
                         let h = rect.bottom - e.clientY;
                         if (h < 32) h = 32;
-                        if (h > rect.height - 50) h = rect.height - 50;
-                        UI.consolePane.classList.remove('h-44');
+                        if (h > rect.height - 100) h = rect.height - 100;
+                        UI.consolePane.classList.remove('h-48');
                         UI.consolePane.style.height = `${h}px`;
                         UI.consolePane.style.flex = `0 0 ${h}px`;
                     }
                 });
-            });
+                
+                document.addEventListener('mouseup', () => { 
+                    if (isDraggingMain || isDraggingConsole) {
+                        isDraggingMain = isDraggingConsole = false;
+                        splitterMain.classList.remove('dragging'); 
+                        splitterConsole.classList.remove('dragging');
+                        UI.iframe.style.pointerEvents = 'auto';
+                        if (editor) editor.refresh();
+                    }
+                });
+            }
+        }
+
+        function setPreviewDevice(mode) {
+            currentDevice = mode;
+            UI.iframe.className = 'transition-all duration-500 ease-[var(--spring)] bg-white';
             
-            document.addEventListener('mouseup', () => { 
-                if (isDraggingV || isDraggingH) {
-                    isDraggingV = isDraggingH = false;
-                    splitterV.classList.remove('dragging'); 
-                    splitterH.classList.remove('dragging');
-                    UI.iframe.style.pointerEvents = 'auto';
-                    if (editor) editor.refresh();
+            if (mode === 'mobile') UI.iframe.classList.add('preview-mobile');
+            else if (mode === 'tablet') UI.iframe.classList.add('preview-tablet');
+            else UI.iframe.classList.add('w-full', 'h-full', 'border-0');
+            
+            if (isLandscape && mode !== 'desktop') UI.iframe.classList.add('landscape');
+
+            // Update UI buttons active state
+            const btns = ['devBtnDesktop', 'devBtnTablet', 'devBtnMobile'];
+            btns.forEach(id => {
+                const btn = document.getElementById(id);
+                if (btn) {
+                    btn.classList.remove('bg-black/10', 'dark:bg-white/15', 'shadow-sm', 'opacity-100');
+                    btn.classList.add('opacity-60');
+                    if (id.toLowerCase().includes(mode)) {
+                        btn.classList.add('bg-black/10', 'dark:bg-white/15', 'shadow-sm', 'opacity-100');
+                        btn.classList.remove('opacity-60');
+                    }
                 }
             });
         }
 
-        function setPreviewDevice(mode) {
-            UI.iframe.className = 'transition-all duration-300 border-0 bg-white';
-            if (mode === 'mobile') UI.iframe.className = 'preview-mobile';
-            if (mode === 'tablet') UI.iframe.className = 'preview-tablet';
-            if (mode === 'desktop') UI.iframe.className = 'w-full h-full border-0 bg-white';
+        function toggleOrientation() {
+            isLandscape = !isLandscape;
+            setPreviewDevice(currentDevice);
+            const btn = document.getElementById('btnOrientation');
+            if(btn) {
+                if(isLandscape) btn.classList.add('bg-black/10', 'dark:bg-white/15', 'opacity-100');
+                else btn.classList.remove('bg-black/10', 'dark:bg-white/15', 'opacity-100');
+            }
         }
 
-        function openDetachedPreview() {
-            const win = window.open('', '_blank');
-            win.document.write((files.find(f => f.name.endsWith('.html')) || files[0]).content);
-            win.document.close();
+        function setPreviewZoom(delta) {
+            previewZoom += delta;
+            if (previewZoom < 0.3) previewZoom = 0.3;
+            if (previewZoom > 3.0) previewZoom = 3.0;
+            
+            document.getElementById('iframeWrapper').style.transform = `scale(${previewZoom})`;
+            document.getElementById('zoomLevelDisplay').textContent = `${Math.round(previewZoom * 100)}%`;
+        }
+
+        function resetPreviewZoom() {
+            previewZoom = 1;
+            document.getElementById('iframeWrapper').style.transform = `scale(${previewZoom})`;
+            document.getElementById('zoomLevelDisplay').textContent = `100%`;
         }
 
         function toggleSidebar() {
-            const sidebar = document.getElementById('fileExplorerPanel');
             isSidebarOpen = !isSidebarOpen;
-            sidebar.style.display = isSidebarOpen ? 'flex' : 'none';
-            setTimeout(() => { if(editor) editor.refresh(); }, 300);
+            if (isMobile()) {
+                if (isSidebarOpen) {
+                    UI.sidebar.classList.remove('-translate-x-full');
+                } else {
+                    UI.sidebar.classList.add('-translate-x-full');
+                }
+            } else {
+                UI.sidebar.style.display = isSidebarOpen ? 'flex' : 'none';
+                setTimeout(() => { if(editor) editor.refresh(); }, 50);
+            }
         }
 
         function formatCode() {
@@ -935,42 +1175,124 @@
             const code = editor.getValue();
             const file = files.find(f => f.id === activeFileId);
             let formatted = code;
-            if (file.name.endsWith('.js')) formatted = js_beautify(code, { indent_size: 2 });
-            else if (file.name.endsWith('.css')) formatted = css_beautify(code, { indent_size: 2 });
-            else formatted = html_beautify(code, { indent_size: 2 });
-            editor.setValue(formatted);
+            try {
+                if (file.name.match(/\.jsx?$/) || file.name.endsWith('.json')) formatted = js_beautify(code, { indent_size: 4, space_in_empty_paren: true });
+                else if (file.name.endsWith('.css')) formatted = css_beautify(code, { indent_size: 4 });
+                else formatted = html_beautify(code, { indent_size: 4, wrap_line_length: 120 });
+                editor.setValue(formatted);
+            } catch(e) { console.warn("Formatting failed", e); }
         }
 
         async function exportProjectZip() {
-            const zip = new JSZip();
-            files.forEach(f => zip.file(f.name, f.content));
-            const blob = await zip.generateAsync({ type: 'blob' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `${document.getElementById('projectTitleInput').value.replace(/\s+/g, '_')}.zip`;
-            a.click();
+            try {
+                const zip = new JSZip();
+                
+                // Add all text files natively, convert base64 back for binary files
+                files.forEach(f => {
+                    if (f.isText) {
+                        zip.file(f.name, f.content);
+                    } else {
+                        // Extract base64 data to write properly to zip
+                        const base64Data = f.content.split(',')[1];
+                        if(base64Data) zip.file(f.name, base64Data, {base64: true});
+                    }
+                });
+                
+                const blob = await zip.generateAsync({ type: 'blob' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                const title = document.getElementById('projectTitleInput').value.replace(/[^a-z0-9]/gi, '_').toLowerCase() || 'project';
+                a.download = `${title}.zip`;
+                a.click();
+            } catch(e) { alert("Failed to generate ZIP"); }
         }
 
         function triggerFileInput() { document.getElementById('importFileInput').click(); }
 
         function handleFileImport(e) {
+            const MAX_FILE_SIZE = 10 * 1024 * 1024; // Expanded to 10MB limit
+
             Array.from(e.target.files).forEach(file => {
+                if (file.size > MAX_FILE_SIZE) {
+                    alert(`File "${file.name}" is too large. Maximum size is 10MB.`);
+                    return;
+                }
+
+                // Determine file type strictly
+                const isText = file.type.startsWith('text/') || 
+                               file.type === 'application/json' ||
+                               file.name.match(/\.(js|json|css|html|xml|svg|txt|md|jsx|ts|tsx)$/i) !== null;
+                               
                 const r = new FileReader();
                 r.onload = (evt) => {
-                    files.push({ id: Date.now().toString(), name: file.name, content: evt.target.result });
-                    renderExplorerTree(); renderTabs(); saveStateToStorage();
+                    files.push({ 
+                        id: Date.now().toString() + Math.random(), 
+                        name: file.name, 
+                        isText: isText,
+                        mimeType: file.type || 'application/octet-stream',
+                        content: evt.target.result 
+                    });
+                    renderExplorerTree(); 
+                    saveStateToStorage();
+                    
+                    // If HTML, optionally jump to it.
+                    if (file.name.endsWith('.html') && !lastHtmlFileId) {
+                        compileAndRun();
+                    }
                 };
-                r.readAsText(file);
+                
+                // Handle Safely to prevent raw binary dumps rendering natively
+                if (isText) r.readAsText(file);
+                else r.readAsDataURL(file); // Convert images/fonts to base64 immediately
             });
+            e.target.value = ''; // Reset input
         }
+
+        const modals = {
+            openRaw: (el) => {
+                el.classList.remove('hidden');
+                setTimeout(() => el.classList.remove('opacity-0'), 10);
+                const card = el.querySelector('div[class*="transform"]');
+                if(card) { card.classList.remove('scale-95'); card.classList.add('scale-100'); }
+            },
+            closeRaw: (el) => {
+                el.classList.add('opacity-0');
+                const card = el.querySelector('div[class*="transform"]');
+                if(card) { card.classList.remove('scale-100'); card.classList.add('scale-95'); }
+                setTimeout(() => el.classList.add('hidden'), 200);
+            },
+            close: (id) => modals.closeRaw(document.getElementById(id)),
+            showCDN: () => modals.openRaw(document.getElementById('cdnModal')),
+            showTemplates: () => modals.openRaw(document.getElementById('templatesModal')),
+            showShortcuts: () => alert("Shortcuts:\nCtrl+K: Command Palette\nCtrl+S: Save & Run\nCtrl+B: Toggle Sidebar\nShift+Alt+F: Format Code\nESC: Close Overlays\nCtrl+F: Find\nCtrl+Shift+F: Replace"),
+            prompt: (title, defaultVal, callback) => {
+                document.getElementById('inputModalTitle').textContent = title;
+                const field = document.getElementById('inputModalField');
+                field.value = defaultVal;
+                modals.openRaw(document.getElementById('inputModal'));
+                setTimeout(() => { field.focus(); field.select(); }, 100);
+                document.getElementById('inputModalConfirmBtn').onclick = () => { callback(field.value); modals.close('inputModal'); };
+            },
+            showResetPrompt: () => {
+                if (confirm("Reset environment and delete all saved local files?")) { 
+                    localStorage.removeItem('cs_files_v3');
+                    localStorage.removeItem('cs_active_id_v3');
+                    localStorage.removeItem('cs_project_title_v3');
+                    localStorage.removeItem('cs_theme_v3');
+                    location.reload(); 
+                }
+            }
+        };
 
         const palette = {
             toggle: () => {
                 const el = document.getElementById('commandPalette');
-                el.classList.toggle('active');
-                if (el.classList.contains('active')) {
+                if (el.classList.contains('hidden')) {
+                    modals.openRaw(el);
                     document.getElementById('paletteInput').focus();
                     filterPaletteCommands();
+                } else {
+                    modals.closeRaw(el);
                 }
             }
         };
@@ -981,62 +1303,58 @@
             results.innerHTML = '';
             const commands = [
                 { name: 'Compile & Run Code', action: compileAndRun, icon: 'play' },
+                { name: 'Find in Active File', action: triggerFind, icon: 'search' },
+                { name: 'Replace in Active File', action: triggerReplace, icon: 'replace' },
                 { name: 'Format Active File', action: formatCode, icon: 'wand-2' },
                 { name: 'Create New File', action: createNewFilePrompt, icon: 'file-plus' },
                 { name: 'Export Project as ZIP', action: exportProjectZip, icon: 'download' },
-                { name: 'Inject CDN Library', action: modals.showCDN, icon: 'box' },
-                { name: 'Load Starter Template', action: modals.showTemplates, icon: 'layout-template' }
+                { name: 'Inject CDN / Library', action: modals.showCDN, icon: 'box' },
+                { name: 'Load Starter Template', action: modals.showTemplates, icon: 'layout-template' },
+                { name: 'Toggle File Explorer', action: toggleSidebar, icon: 'sidebar' },
+                { name: 'Toggle Console', action: toggleConsole, icon: 'terminal' },
+                { name: 'Toggle Dark/Light Theme', action: () => { document.getElementById('darkThemeToggle').click(); }, icon: 'moon' }
             ];
             commands.filter(c => c.name.toLowerCase().includes(input)).forEach(c => {
                 const btn = document.createElement('button');
-                btn.className = 'p-2.5 rounded-xl hover:bg-white/10 text-left text-xs font-semibold text-white flex items-center gap-3 studio-btn';
-                btn.innerHTML = `<i data-lucide="${c.icon}" class="w-4 h-4 text-indigo-400"></i> ${c.name}`;
+                btn.className = 'p-3 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-left text-sm font-semibold flex items-center gap-3 studio-btn transition-colors';
+                btn.innerHTML = `<i data-lucide="${c.icon}" class="w-4 h-4 text-indigo-500 dark:text-indigo-400"></i> ${c.name}`;
                 btn.onclick = () => { c.action(); palette.toggle(); };
                 results.appendChild(btn);
             });
             lucide.createIcons({ root: results });
         }
 
-        const modals = {
-            close: (id) => document.getElementById(id).classList.remove('active'),
-            showCDN: () => document.getElementById('cdnModal').classList.add('active'),
-            showTemplates: () => document.getElementById('templatesModal').classList.add('active'),
-            showShortcuts: () => alert("Shortcuts:\nCtrl+K: Command Palette\nCtrl+S: Run Code\nCtrl+B: Toggle Sidebar\nShift+Alt+F: Format Code\nESC: Close Menus/Overlays"),
-            prompt: (title, defaultVal, callback) => {
-                document.getElementById('inputModalTitle').textContent = title;
-                const field = document.getElementById('inputModalField');
-                field.value = defaultVal;
-                document.getElementById('inputModal').classList.add('active');
-                setTimeout(() => { field.focus(); field.select(); }, 50);
-                document.getElementById('inputModalConfirmBtn').onclick = () => { callback(field.value); modals.close('inputModal'); };
-            },
-            showResetPrompt: () => {
-                if (confirm("Reset layout and code to default template?")) { localStorage.clear(); location.reload(); }
-            }
-        };
-
         function injectCDN(type) {
             const cdns = {
                 tailwind: '<script src="https://cdn.tailwindcss.com"><\/script>',
-                bootstrap: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">',
-                react: '<script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>\n<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>',
+                bootstrap: '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">',
+                react: '<script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>\n  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>\n  <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>',
                 vue: '<script src="https://unpkg.com/vue@3/dist/vue.global.js"><\/script>',
                 three: '<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>',
                 gsap: '<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>'
             };
-            const htmlFile = files.find(f => f.name.endsWith('.html'));
+            const targetHtmlId = lastHtmlFileId || files.find(f => f.name.endsWith('.html'))?.id;
+            const htmlFile = files.find(f => f.id === targetHtmlId);
+
             if (htmlFile && cdns[type]) {
-                htmlFile.content = htmlFile.content.replace('<head>', `<head>\n  ${cdns[type]}`);
-                if (activeFileId === htmlFile.id) editor.setValue(htmlFile.content);
-                modals.close('cdnModal'); compileAndRun();
+                htmlFile.content = htmlFile.content.replace('</head>', `  ${cdns[type]}\n</head>`);
+                if (activeFileId === htmlFile.id && editor) editor.setValue(htmlFile.content);
+                modals.close('cdnModal'); 
+                compileAndRun();
+            } else {
+                alert("Please create or open an HTML file first.");
             }
         }
 
         function loadTemplate(type) {
             if (DEFAULT_TEMPLATES[type]) {
                 files = JSON.parse(JSON.stringify(DEFAULT_TEMPLATES[type]));
+                lastHtmlFileId = files.find(f => f.name.endsWith('.html'))?.id || null;
                 switchActiveFile(files[0].id);
-                modals.close('templatesModal'); compileAndRun();
+                modals.close('templatesModal'); 
+                compileAndRun();
+                document.getElementById('projectTitleInput').value = `${type.charAt(0).toUpperCase() + type.slice(1)} Project`;
+                saveStateToStorage();
             }
         }
 
@@ -1053,6 +1371,7 @@
             document.documentElement.classList.toggle('dark', isDarkMode);
             document.documentElement.classList.toggle('light-theme', !isDarkMode);
             if (editor) editor.setOption('theme', isDarkMode ? 'dracula' : 'neo');
+            saveStateToStorage();
         }
     </script>
 </body>
