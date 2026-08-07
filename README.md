@@ -1,6 +1,6 @@
 <div align="center">
 
-# Compile Studio (CS v4.2 Production)
+# Compile Studio (CS v5.0 Production)
 
 
 ### **A Zero-Latency, Browser-Native Web Development Environment**
