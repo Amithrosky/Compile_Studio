@@ -1,14 +1,13 @@
 <div align="center">
 
-██████╗ ██████╗ ███╗   ███╗██████╗ ██╗██╗     ███████╗
-██╔════╝██╔═══██╗████╗ ████║██╔══██╗██║██║     ██╔════╝
-██║     ██║   ██║██╔████╔██║██████╔╝██║██║     █████╗
+# ⚡ Compile Studio Pro
 
-██║     ██║   ██║██║╚██╔╝██║██╔═══╝ ██║██║     ██╔══╝
+**A high-performance, browser-native IDE for real-time web development.**
 
-╚██████╗╚██████╔╝██║ ╚═╝ ██║██║     ██║███████╗███████╗
-╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚═╝╚══════╝╚══════╝
-S T U D I O   P R O
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](#license)
+[![Built with Tailwind](https://img.shields.io/badge/UI-Tailwind_CSS-38B2AC?logo=tailwind-css)](https://tailwindcss.com)
+[![Editor: CodeMirror](https://img.shields.io/badge/Editor-CodeMirror_5-3178C6)](https://codemirror.net)
+[![JSZip](https://img.shields.io/badge/Export-JSZip-FFD43B)](https://stuk.github.io/jszip/)
 
 
 ### **A Zero-Latency, Browser-Native Web Development Environment**
