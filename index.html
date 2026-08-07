@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Compile Studio Web</title>
-    <meta name="description" content="A powerful, browser-based development environment for HTML, CSS, and JavaScript.">
+    <meta name="description" content="A powerful, browser-based development environment for HTML, CSS, and JavaScript with P2P Hosting.">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -80,6 +80,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify-css.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.7/beautify.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- PeerJS for WebRTC / P2P Connections -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
 
     <style>
         :root {
@@ -91,7 +94,6 @@
             --text-secondary: #94a3b8;
         }
 
-        /* Light Theme Core Overrides */
         .light-theme {
             --glass-bg: rgba(255, 255, 255, 0.85);
             --glass-border: rgba(0, 0, 0, 0.12);
@@ -108,7 +110,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Glassmorphism Utilities */
         .glass {
             background: var(--glass-bg);
             backdrop-filter: blur(16px) saturate(180%);
@@ -116,15 +117,9 @@
             border: 1px solid var(--glass-border);
         }
 
-        .light-theme .glass {
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
-        }
+        .light-theme .glass { box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); }
 
-        .studio-btn {
-            transition: all 0.2s var(--smooth);
-            cursor: pointer;
-            position: relative;
-        }
+        .studio-btn { transition: all 0.2s var(--smooth); cursor: pointer; position: relative; }
         .studio-btn:active { transform: scale(0.95); }
         
         [data-tooltip]::after {
@@ -147,39 +142,22 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             border: 1px solid rgba(255,255,255,0.1);
         }
-        [data-tooltip]:hover::after {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        [data-tooltip]:hover::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* Splitters */
-        .splitter-v, .splitter-h {
-            background: var(--glass-border);
-            transition: background 0.2s;
-            position: relative;
-            z-index: 30;
-        }
+        .splitter-v, .splitter-h { background: var(--glass-border); transition: background 0.2s; position: relative; z-index: 30; }
         .splitter-v { width: 4px; cursor: col-resize; }
         .splitter-h { height: 4px; cursor: row-resize; }
-        .splitter-v:hover, .splitter-v.dragging,
-        .splitter-h:hover, .splitter-h.dragging { background: #6366f1; }
+        .splitter-v:hover, .splitter-v.dragging, .splitter-h:hover, .splitter-h.dragging { background: #6366f1; }
 
         .CodeMirror {
-            position: absolute !important;
-            inset: 0 !important;
-            height: 100% !important;
-            width: 100% !important;
-            background: transparent !important;
-            font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace !important;
-            font-size: 14px;
-            line-height: 1.6;
+            position: absolute !important; inset: 0 !important; height: 100% !important; width: 100% !important;
+            background: transparent !important; font-family: 'SF Mono', Menlo, Monaco, Consolas, monospace !important; font-size: 14px; line-height: 1.6;
         }
         .CodeMirror-gutters { background: rgba(0,0,0,0.15) !important; border-right: 1px solid var(--glass-border) !important; }
         .light-theme .CodeMirror-gutters { background: rgba(0,0,0,0.03) !important; border-right: 1px solid var(--glass-border) !important; }
-        
         .CodeMirror-activeline-background { background: rgba(255, 255, 255, 0.04) !important; }
         .light-theme .CodeMirror-activeline-background { background: rgba(0, 0, 0, 0.04) !important; }
-
         .CodeMirror-dialog { background: rgba(30, 41, 59, 0.95) !important; backdrop-filter: blur(8px); color: #f8fafc !important; border-bottom: 1px solid rgba(255,255,255,0.1) !important; padding: 10px 16px !important; z-index: 100; }
         .CodeMirror-dialog input { background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.2) !important; color: white !important; border-radius: 4px; padding: 4px 8px !important; outline: none; font-family: inherit; }
         .CodeMirror-dialog button { background: rgba(255,255,255,0.1) !important; border: 1px solid rgba(255,255,255,0.05) !important; color: white !important; border-radius: 4px; padding: 4px 10px !important; cursor: pointer; margin-left: 6px; }
@@ -187,7 +165,6 @@
         .preview-mobile { width: 375px !important; height: 667px !important; margin: auto !important; border-radius: 2.5rem !important; border: 14px solid #0f172a !important; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important; outline: 2px solid rgba(255,255,255,0.1); }
         .preview-tablet { width: 768px !important; height: 90% !important; margin: auto !important; border-radius: 1.5rem !important; border: 12px solid #0f172a !important; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5) !important; outline: 2px solid rgba(255,255,255,0.1); }
         .light-theme .preview-mobile, .light-theme .preview-tablet { outline-color: rgba(0,0,0,0.15); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.2) !important; }
-
         .preview-mobile.landscape { width: 667px !important; height: 375px !important; }
         .preview-tablet.landscape { width: 1024px !important; height: 768px !important; max-height: 90vh !important; }
 
@@ -198,17 +175,34 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Grid background for preview area */
-        #iframeWrapperOuter {
-            background-color: transparent;
-            background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
-            background-size: 20px 20px;
+        #iframeWrapperOuter { background-color: transparent; background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px); background-size: 20px 20px; }
+        .light-theme #iframeWrapperOuter { background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px); }
+
+        /* Viewer Mode overrides */
+        body.viewer-mode header,
+        body.viewer-mode aside,
+        body.viewer-mode #fileExplorerPanel,
+        body.viewer-mode #editorPane,
+        body.viewer-mode #splitterMain,
+        body.viewer-mode #splitterConsole,
+        body.viewer-mode #consolePane,
+        body.viewer-mode #previewHeader {
+            display: none !important;
         }
-        .light-theme #iframeWrapperOuter {
-            background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+        body.viewer-mode #previewPane {
+            border: none;
+            width: 100vw;
+            height: 100vh;
+            flex: 1 1 100%;
+        }
+        body.viewer-mode #mainWorkspace {
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
+
 <body class="selection:bg-indigo-500/30 font-sans h-[100dvh] w-screen overflow-hidden flex flex-col transition-colors duration-300">
 
     <div id="loadingScreen" class="fixed inset-0 z-[999999] bg-slate-950 flex flex-col items-center justify-center transition-opacity duration-700">
@@ -256,6 +250,12 @@
                 <span class="hidden lg:inline">Command Palette</span>
                 <kbd class="hidden lg:inline-block px-1.5 py-0.5 rounded bg-black/10 dark:bg-black/40 text-[10px] font-mono">Ctrl+K</kbd>
             </button>
+            
+            <button onclick="P2P.initHost()" class="studio-btn px-2 md:px-3 py-1.5 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs font-semibold hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center gap-1.5" data-tooltip="Deploy P2P">
+                <i data-lucide="radio" class="w-3.5 h-3.5"></i>
+                <span class="hidden md:inline">Live Share</span>
+            </button>
+
             <button onclick="modals.showTemplates()" class="studio-btn px-2 md:px-3 py-1.5 rounded-xl bg-black/5 dark:bg-white/5 border border-black/10 dark:border-white/10 text-xs font-semibold hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1.5" data-tooltip="Templates">
                 <i data-lucide="layout-template" class="w-3.5 h-3.5 text-fuchsia-500 dark:text-fuchsia-400"></i>
                 <span class="hidden md:inline">Templates</span>
@@ -277,12 +277,11 @@
     </header>
 
     <main id="mainWorkspace" class="flex-1 flex flex-col md:flex-row overflow-hidden relative w-full h-full">
-        
         <!-- ACTIVITY BAR (Desktop) -->
         <aside class="hidden md:flex w-14 border-r border-white/10 glass flex-col items-center py-4 gap-4 shrink-0 z-20">
             <button onclick="toggleSidebar()" class="studio-btn p-2.5 rounded-xl bg-black/10 dark:bg-white/10 hover:bg-black/20 dark:hover:bg-white/20 transition-colors" data-tooltip="Explorer (Ctrl+B)"><i data-lucide="files" class="w-5 h-5"></i></button>
             <button onclick="modals.showCDN()" class="studio-btn p-2.5 rounded-xl opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Packages"><i data-lucide="layers" class="w-5 h-5"></i></button>
-            <button onclick="modals.showShortcuts()" class="studio-btn p-2.5 rounded-xl opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Shortcuts"><i data-lucide="keyboard" class="w-5 h-5"></i></button>
+            <button onclick="P2P.initHost()" class="studio-btn p-2.5 rounded-xl opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 text-amber-500" data-tooltip="Live P2P Share"><i data-lucide="radio" class="w-5 h-5"></i></button>
             <div class="mt-auto flex flex-col gap-3">
                 <button onclick="exportProjectZip()" class="studio-btn p-2.5 rounded-xl text-emerald-500 dark:text-emerald-400 hover:bg-emerald-500/15 transition-colors" data-tooltip="Export .ZIP"><i data-lucide="download" class="w-5 h-5"></i></button>
             </div>
@@ -309,26 +308,17 @@
         </nav>
 
         <section id="editorPane" class="flex-1 flex flex-col min-w-[200px] min-h-[300px] relative bg-black/5 dark:bg-black/30">
-            <!-- Active File Header & Tools (Replaces Tabs) -->
             <div class="h-11 border-b border-black/10 dark:border-white/10 glass flex items-center justify-between px-3 shrink-0">
-                <div class="flex items-center gap-2 font-mono text-sm font-semibold" id="activeFileDisplay">
-                    <!-- Populated dynamically -->
-                </div>
+                <div class="flex items-center gap-2 font-mono text-sm font-semibold" id="activeFileDisplay"></div>
                 <div class="flex items-center gap-1 bg-black/5 dark:bg-black/40 p-0.5 rounded-lg border border-black/10 dark:border-white/10">
                     <button onclick="triggerFind()" class="studio-btn px-2 py-1 rounded-md text-xs opacity-70 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1" data-tooltip="Find (Ctrl+F)"><i data-lucide="search" class="w-3.5 h-3.5"></i></button>
                     <button onclick="triggerReplace()" class="studio-btn px-2 py-1 rounded-md text-xs opacity-70 hover:opacity-100 hover:bg-black/10 dark:hover:bg-white/10 flex items-center gap-1" data-tooltip="Replace (Ctrl+Shift+F)"><i data-lucide="replace" class="w-3.5 h-3.5"></i></button>
                 </div>
             </div>
-
-            <!-- Main Editor Area -->
             <div class="flex-1 relative w-full h-full" id="editorWrapper"><textarea id="codeEditor"></textarea></div>
-            
-            <!-- Binary/Image Viewer -->
             <div id="binaryViewer" class="absolute inset-0 top-11 bottom-8 bg-white/90 dark:bg-black/80 hidden items-center justify-center p-4 z-20 backdrop-blur-sm">
                 <div id="binaryViewerContent" class="text-center flex flex-col items-center"></div>
             </div>
-
-            <!-- Status Bar -->
             <footer class="h-8 border-t border-black/10 dark:border-white/10 glass px-3 flex items-center justify-between text-[10px] sm:text-[11px] font-mono opacity-70 shrink-0">
                 <div class="flex items-center gap-3 sm:gap-4">
                     <span id="cursorPosInfo" class="hidden sm:inline">Ln 1, Col 1</span>
@@ -346,17 +336,14 @@
         <div id="splitterMain" class="splitter-h md:splitter-v hidden md:block"></div>
 
         <section id="previewPane" class="flex-1 flex flex-col min-w-[250px] min-h-[300px] relative border-t md:border-t-0 border-white/10">
-            <!-- Preview Header Toolbar -->
-            <header class="h-11 border-b border-black/10 dark:border-white/10 glass px-2 sm:px-3 flex items-center justify-between gap-2 shrink-0 z-10">
+            <header id="previewHeader" class="h-11 border-b border-black/10 dark:border-white/10 glass px-2 sm:px-3 flex items-center justify-between gap-2 shrink-0 z-10">
                 <div class="flex items-center gap-1">
                     <button onclick="reloadPreview()" class="studio-btn p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 opacity-70 hover:opacity-100" data-tooltip="Reload"><i data-lucide="rotate-cw" class="w-4 h-4"></i></button>
                 </div>
-                
                 <div class="flex-1 max-w-sm bg-black/5 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-3 py-1.5 flex items-center gap-2 text-[11px] font-mono shadow-inner overflow-hidden">
                     <i data-lucide="lock" class="w-3 h-3 text-emerald-500 dark:text-emerald-400 shrink-0"></i>
                     <span id="urlDisplay" class="truncate opacity-80 select-all">localhost:3000</span>
                 </div>
-
                 <div class="flex items-center gap-1 bg-black/5 dark:bg-black/40 p-0.5 rounded-xl border border-black/10 dark:border-white/10 hidden sm:flex" id="deviceBtnGroup">
                     <button onclick="setPreviewDevice('desktop')" id="devBtnDesktop" class="studio-btn px-2.5 py-1 rounded-lg text-xs bg-black/10 dark:bg-white/15 shadow-sm flex items-center gap-1"><i data-lucide="monitor" class="w-3.5 h-3.5"></i></button>
                     <button onclick="setPreviewDevice('tablet')" id="devBtnTablet" class="studio-btn px-2.5 py-1 rounded-lg text-xs opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1"><i data-lucide="tablet" class="w-3.5 h-3.5"></i></button>
@@ -364,7 +351,6 @@
                     <div class="w-px h-4 bg-black/20 dark:bg-white/20 mx-1"></div>
                     <button onclick="toggleOrientation()" id="btnOrientation" class="studio-btn px-2.5 py-1 rounded-lg text-xs opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5 flex items-center gap-1" data-tooltip="Rotate"><i data-lucide="smartphone-nfc" class="w-3.5 h-3.5"></i></button>
                 </div>
-
                 <div class="flex items-center gap-1 bg-black/5 dark:bg-black/40 p-0.5 rounded-xl border border-black/10 dark:border-white/10">
                     <button onclick="setPreviewZoom(-0.1)" class="studio-btn p-1.5 rounded-lg opacity-60 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5" data-tooltip="Zoom Out"><i data-lucide="zoom-out" class="w-3.5 h-3.5"></i></button>
                     <span id="zoomLevelDisplay" class="text-[10px] font-mono opacity-80 px-1 w-10 text-center select-none">100%</span>
@@ -373,17 +359,14 @@
                 </div>
             </header>
 
-            <!-- Iframe Execution Container -->
             <div class="flex-1 relative overflow-hidden flex items-center justify-center transition-colors" id="iframeWrapperOuter">
                 <div id="iframeWrapper" class="w-full h-full flex items-center justify-center transition-transform duration-200 origin-center">
                     <iframe id="previewFrame" class="w-full h-full border-0 bg-white shadow-2xl transition-all duration-300 ease-[var(--spring)]" sandbox="allow-scripts allow-modals allow-pointer-lock allow-popups allow-same-origin"></iframe>
                 </div>
             </div>
 
-            <!-- Horizontal Splitter -->
             <div id="splitterConsole" class="splitter-h"></div>
 
-            <!-- Console Drawer -->
             <footer id="consolePane" class="h-8 md:h-48 border-t border-black/10 dark:border-white/10 glass flex flex-col shrink-0 relative transition-[height] duration-300 bg-white/80 dark:bg-black/60 backdrop-blur-xl">
                 <div class="h-8 border-b border-black/5 dark:border-white/10 px-3 flex items-center justify-between bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 transition-colors text-xs font-semibold shrink-0 cursor-pointer select-none" onclick="toggleConsole(event)">
                     <div class="flex items-center gap-3">
@@ -408,7 +391,6 @@
         </section>
     </main>
 
-    <!-- Settings Menu -->
     <div id="settingsMenu" class="absolute top-14 right-4 w-64 glass rounded-2xl p-2 border border-black/10 dark:border-white/10 shadow-2xl z-50 hidden flex-col gap-1 animate-quick-fade origin-top-right">
         <div class="px-3 py-2 text-[10px] font-bold opacity-60 uppercase tracking-widest border-b border-black/10 dark:border-white/10 mb-1">Preferences</div>
         <label class="p-2.5 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 flex items-center justify-between cursor-pointer studio-btn group transition-colors">
@@ -425,7 +407,6 @@
         </button>
     </div>
 
-    <!-- Command Palette -->
     <div id="commandPalette" class="fixed inset-0 z-50 items-start justify-center pt-[15vh] bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
         <div class="w-full max-w-xl mx-4 glass rounded-2xl border border-black/10 dark:border-white/20 shadow-2xl overflow-hidden flex flex-col transform scale-95 transition-transform duration-200" id="paletteCard">
             <div class="p-4 border-b border-black/10 dark:border-white/10 flex items-center gap-3 bg-black/5 dark:bg-white/5">
@@ -437,7 +418,6 @@
         </div>
     </div>
 
-    <!-- CDN Manager Modal -->
     <div id="cdnModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
         <div class="w-full max-w-lg glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 md:p-8 flex flex-col gap-6 transform scale-95 transition-transform duration-200">
             <div class="flex items-center justify-between">
@@ -456,7 +436,6 @@
         </div>
     </div>
 
-    <!-- Templates Modal -->
     <div id="templatesModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
         <div class="w-full max-w-2xl glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 md:p-8 flex flex-col gap-6 transform scale-95 transition-transform duration-200">
             <div class="flex items-center justify-between">
@@ -485,7 +464,6 @@
         </div>
     </div>
 
-    <!-- General Text Input Prompt -->
     <div id="inputModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
         <div class="w-full max-w-sm glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 flex flex-col gap-5 transform scale-95 transition-transform duration-200">
             <h3 id="inputModalTitle" class="text-lg font-bold tracking-tight">System Prompt</h3>
@@ -493,6 +471,35 @@
             <div class="flex gap-3 mt-2">
                 <button onclick="modals.close('inputModal')" class="flex-1 py-2.5 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-sm font-semibold studio-btn transition-colors border border-black/10 dark:border-white/10">Cancel</button>
                 <button id="inputModalConfirmBtn" class="flex-1 py-2.5 rounded-xl bg-indigo-500 hover:bg-indigo-400 text-sm font-bold text-white studio-btn transition-colors shadow-lg shadow-indigo-500/25">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="p2pModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 dark:bg-black/60 backdrop-blur-sm hidden opacity-0 transition-opacity duration-200">
+        <div class="w-full max-w-md glass rounded-3xl border border-black/10 dark:border-white/20 shadow-2xl p-6 md:p-8 flex flex-col gap-6 transform scale-95 transition-transform duration-200">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="p-2 bg-amber-500/20 rounded-xl"><i data-lucide="radio" class="w-5 h-5 text-amber-500 dark:text-amber-400 animate-pulse"></i></div>
+                    <h3 class="text-lg font-bold tracking-tight">P2P Live Deployment</h3>
+                </div>
+                <button onclick="modals.close('p2pModal')" class="p-2 rounded-xl bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 opacity-70 hover:opacity-100 transition-colors"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            
+            <p class="text-sm opacity-70 leading-relaxed">Your IDE state is now hosted directly from your browser via WebRTC. Share this link to allow others to view your live preview in real-time.</p>
+            
+            <div class="flex flex-col gap-2">
+                <label class="text-[10px] font-bold uppercase tracking-widest opacity-60">Shareable URL</label>
+                <div class="flex items-center gap-2">
+                    <input type="text" id="p2pLinkInput" readonly value="Generating link..." class="flex-1 bg-black/10 dark:bg-black/50 border border-black/10 dark:border-white/10 rounded-xl px-4 py-2.5 text-xs font-mono focus:outline-none focus:border-amber-500 transition-colors shadow-inner w-full">
+                    <button onclick="P2P.copyLink()" id="p2pCopyBtn" class="p-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-white shadow-lg shadow-amber-500/25 studio-btn flex-shrink-0" data-tooltip="Copy Link">
+                        <i data-lucide="copy" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-2 flex items-center justify-between text-xs font-mono bg-black/5 dark:bg-white/5 p-3 rounded-xl border border-black/10 dark:border-white/10">
+                <span id="p2pStatus" class="flex items-center gap-2"><i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Connecting to Signaling Server...</span>
+                <span id="p2pPeerCount" class="font-bold opacity-60">0 Peers</span>
             </div>
         </div>
     </div>
@@ -522,7 +529,7 @@
 
         let files = [];
         let activeFileId = '1';
-        let lastHtmlFileId = null; // Tracks the last edited HTML file for precise previewing
+        let lastHtmlFileId = null; 
         let editor = null;
         let isAutoRun = true;
         let isDarkMode = true;
@@ -538,8 +545,137 @@
         
         const isMobile = () => window.innerWidth < 768;
 
+        const P2P = {
+            peer: null,
+            connections: [],
+            isHost: false,
+            isViewer: false,
+            hostId: null,
+
+            initHost: function() {
+                modals.openRaw(document.getElementById('p2pModal'));
+                
+                if (this.peer && !this.peer.destroyed) return; // Prevent recreation
+
+                document.getElementById('p2pStatus').innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Connecting to Signaling Server...`;
+                lucide.createIcons();
+
+                this.peer = new Peer();
+
+                this.peer.on('open', (id) => {
+                    const url = new URL(window.location.href);
+                    url.searchParams.set('host', id);
+                    document.getElementById('p2pLinkInput').value = url.href;
+                    document.getElementById('p2pStatus').innerHTML = `<i data-lucide="radio" class="w-3.5 h-3.5 text-amber-500 animate-pulse"></i> <span class="text-emerald-500 font-bold tracking-wide">Live! Waiting for peers...</span>`;
+                    lucide.createIcons();
+                    this.isHost = true;
+                });
+
+                this.peer.on('connection', (conn) => {
+                    this.connections.push(conn);
+                    this.updatePeerCount();
+                    
+                    conn.on('open', () => {
+                        // Immediately sync current full state to the newly connected viewer
+                        conn.send({ type: 'SYNC', files: files, activeFileId: activeFileId, lastHtmlFileId: lastHtmlFileId });
+                    });
+
+                    conn.on('close', () => {
+                        this.connections = this.connections.filter(c => c !== conn);
+                        this.updatePeerCount();
+                    });
+                });
+
+                this.peer.on('error', (err) => {
+                    document.getElementById('p2pStatus').innerHTML = `<i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-red-500"></i> <span class="text-red-500">Connection error: ${err.type}</span>`;
+                    lucide.createIcons();
+                });
+            },
+
+            copyLink: function() {
+                const el = document.getElementById('p2pLinkInput');
+                el.select();
+                document.execCommand('copy');
+                
+                const btn = document.getElementById('p2pCopyBtn');
+                const orig = btn.innerHTML;
+                btn.innerHTML = `<i data-lucide="check" class="w-4 h-4"></i>`;
+                btn.classList.add('bg-emerald-500');
+                btn.classList.remove('bg-amber-500', 'hover:bg-amber-400');
+                lucide.createIcons();
+                
+                setTimeout(() => {
+                    btn.innerHTML = orig;
+                    btn.classList.remove('bg-emerald-500');
+                    btn.classList.add('bg-amber-500', 'hover:bg-amber-400');
+                }, 2000);
+            },
+
+            updatePeerCount: function() {
+                const el = document.getElementById('p2pPeerCount');
+                if(el) el.textContent = `${this.connections.length} Peer(s) Connected`;
+            },
+
+            broadcast: function() {
+                if (!this.isHost || this.connections.length === 0) return;
+                const data = { type: 'SYNC', files: files, activeFileId: activeFileId, lastHtmlFileId: lastHtmlFileId };
+                this.connections.forEach(conn => {
+                    if (conn.open) conn.send(data);
+                });
+            },
+
+            initViewer: function(hostId) {
+                this.isViewer = true;
+                this.hostId = hostId;
+                
+                // Switch to restricted viewing layout
+                document.body.classList.add('viewer-mode');
+                
+                // Add status overlay
+                const overlay = document.createElement('div');
+                overlay.id = 'viewerOverlay';
+                overlay.className = 'fixed top-4 right-4 z-50 glass px-4 py-2.5 rounded-xl border border-white/10 text-xs font-mono shadow-lg flex items-center gap-2 transition-colors';
+                overlay.innerHTML = `<i data-lucide="radio" class="w-4 h-4 text-amber-500 animate-pulse"></i> <span class="opacity-80">Connecting to Host...</span>`;
+                document.body.appendChild(overlay);
+                lucide.createIcons();
+
+                this.peer = new Peer();
+                this.peer.on('open', () => {
+                    const conn = this.peer.connect(hostId);
+                    
+                    conn.on('open', () => {
+                        overlay.innerHTML = `<i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i> <span class="font-bold text-emerald-400">Live P2P Sync Active</span>`;
+                        overlay.classList.add('bg-emerald-500/10', 'border-emerald-500/20');
+                        lucide.createIcons();
+                    });
+                    
+                    conn.on('data', (data) => {
+                        if (data.type === 'SYNC') {
+                            files = data.files;
+                            activeFileId = data.activeFileId;
+                            lastHtmlFileId = data.lastHtmlFileId;
+                            // Recompile the preview using the synced files
+                            compileAndRun();
+                        }
+                    });
+
+                    conn.on('close', () => {
+                        overlay.innerHTML = `<i data-lucide="x-circle" class="w-4 h-4 text-red-500"></i> <span class="text-red-400">Host Disconnected</span>`;
+                        overlay.classList.remove('bg-emerald-500/10', 'border-emerald-500/20');
+                        overlay.classList.add('bg-red-500/10', 'border-red-500/20');
+                        lucide.createIcons();
+                    });
+                });
+                
+                this.peer.on('error', (err) => {
+                     overlay.innerHTML = `<i data-lucide="alert-triangle" class="w-4 h-4 text-red-500"></i> <span class="text-red-400">Connection Failed</span>`;
+                     overlay.classList.add('bg-red-500/10', 'border-red-500/20');
+                     lucide.createIcons();
+                });
+            }
+        };
+
         document.addEventListener("DOMContentLoaded", () => {
-            // Cache DOM Elements strictly
             UI.editorPane = document.getElementById('editorPane');
             UI.previewPane = document.getElementById('previewPane');
             UI.consolePane = document.getElementById('consolePane');
@@ -555,25 +691,34 @@
             UI.consoleInputWrapper = document.getElementById('consoleInputWrapper');
             UI.consoleChevron = document.getElementById('consoleChevron');
 
-            loadStateFromStorage();
-            initCodeMirror();
+            // Detect Viewer Mode via URL query params
+            const params = new URLSearchParams(window.location.search);
+            const hostId = params.get('host');
             
-            // Initial render
-            const startFile = files.find(f => f.id === activeFileId) || files[0];
-            updateActiveFileHeader(startFile);
+            if (hostId) {
+                // Execute Viewer Mode Flow
+                P2P.initViewer(hostId);
+                // We'll receive files via WebRTC, just initialize basic UI
+                lucide.createIcons();
+            } else {
+                // Execute Host / IDE Mode Flow
+                loadStateFromStorage();
+                initCodeMirror();
+                
+                const startFile = files.find(f => f.id === activeFileId) || files[0];
+                updateActiveFileHeader(startFile);
 
-            renderExplorerTree();
-            setupSplitters();
-            lucide.createIcons();
-            compileAndRun();
+                renderExplorerTree();
+                setupSplitters();
+                lucide.createIcons();
+                compileAndRun();
 
-            // Mobile specific setups
-            if (isMobile()) {
-                UI.sidebar.classList.add('-translate-x-full');
-                document.getElementById('splitterMain').style.display = 'none';
+                if (isMobile()) {
+                    UI.sidebar.classList.add('-translate-x-full');
+                    document.getElementById('splitterMain').style.display = 'none';
+                }
             }
 
-            // Animate and remove loading screen
             const progressBar = document.getElementById('loadingProgress');
             if(progressBar) setTimeout(() => progressBar.style.width = '100%', 150);
             
@@ -586,14 +731,12 @@
                 }
             }, 1200);
 
-            // Listen to Sandbox Messages
             window.addEventListener('message', (e) => {
                 if (e.data && e.data.source === 'cs-console-proxy') {
                     appendConsoleLog(e.data.type, e.data.args);
                 }
             });
 
-            // Global Keybindings
             document.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     document.querySelectorAll('.fixed.z-50').forEach(el => modals.closeRaw(el));
@@ -604,22 +747,22 @@
                 if ((e.ctrlKey || e.metaKey) && e.key === 'b') { e.preventDefault(); toggleSidebar(); }
                 if ((e.ctrlKey || e.metaKey) && e.key === 's') { 
                     e.preventDefault(); 
-                    saveStateToStorage();
-                    compileAndRun(); 
+                    if (!P2P.isViewer) {
+                        saveStateToStorage();
+                        compileAndRun(); 
+                    }
                 }
             });
 
-            // Close settings on outside click
             document.addEventListener('mousedown', (e) => {
                 const menu = document.getElementById('settingsMenu');
                 const btn = document.getElementById('settingsBtn');
-                if (!menu.classList.contains('hidden') && !menu.contains(e.target) && !btn.contains(e.target)) {
+                if (menu && !menu.classList.contains('hidden') && !menu.contains(e.target) && (!btn || !btn.contains(e.target))) {
                     menu.classList.add('hidden');
                     menu.classList.remove('flex');
                 }
             });
             
-            // Auto resize CodeMirror on container change (Fixes hidden code bug)
             const resizeObserver = new ResizeObserver(() => {
                 if(editor) requestAnimationFrame(() => editor.refresh());
             });
@@ -644,7 +787,6 @@
                     toggleStudioTheme();
                 }
                 
-                // Set initial lastHtmlFileId
                 const startFile = files.find(f => f.id === activeFileId);
                 if(startFile && startFile.name.endsWith('.html')) lastHtmlFileId = startFile.id;
 
@@ -754,6 +896,7 @@
         function triggerReplace() { if (editor) editor.execCommand('replace'); }
 
         function renderExplorerTree() {
+            if (P2P.isViewer) return;
             const tree = document.getElementById('explorerTree');
             const filter = document.getElementById('fileSearchInput').value.toLowerCase();
             tree.innerHTML = '';
@@ -791,13 +934,12 @@
             const binaryViewer = document.getElementById('binaryViewer');
             
             if (file) {
-                if (file.name.endsWith('.html')) lastHtmlFileId = file.id; // Track HTML context
+                if (file.name.endsWith('.html')) lastHtmlFileId = file.id; 
                 updateActiveFileHeader(file);
                 
-                // Play quick fade animation for smooth transitions
                 editorWrapper.classList.remove('animate-quick-fade');
                 binaryViewer.classList.remove('animate-quick-fade');
-                void editorWrapper.offsetWidth; // trigger reflow
+                void editorWrapper.offsetWidth; 
                 
                 if (file.isText) {
                     editorWrapper.style.display = 'block';
@@ -822,7 +964,6 @@
                         lucide.createIcons({ root: viewerContent });
                     }
                     
-                    // Approximate base64 size to bytes
                     const sizeInBytes = Math.floor((file.content.length - file.content.indexOf(',') - 1) * 0.75);
                     UI.fileSizeInfo.textContent = formatBytes(sizeInBytes);
                 }
@@ -830,7 +971,8 @@
 
             renderExplorerTree();
             saveStateToStorage();
-            if(isMobile()) toggleSidebar(); // auto-close on mobile
+            if(isMobile()) toggleSidebar(); 
+            P2P.broadcast();
         }
 
         function createNewFilePrompt() {
@@ -875,15 +1017,12 @@
         }
 
         function compileAndRun() {
-            // Visual feedback
-            UI.runBtn.classList.add('scale-95');
-            setTimeout(() => UI.runBtn.classList.remove('scale-95'), 150);
+            if (UI.runBtn) {
+                UI.runBtn.classList.add('scale-95');
+                setTimeout(() => UI.runBtn.classList.remove('scale-95'), 150);
+            }
             UI.iframe.style.opacity = '0.5';
 
-            // Intelligent HTML resolution:
-            // 1. If active file is HTML, use it.
-            // 2. Otherwise, if we have a last remembered HTML file, use it.
-            // 3. Otherwise, fallback to the first HTML file found in the project.
             let htmlFile = null;
             const activeFile = files.find(f => f.id === activeFileId);
             
@@ -903,7 +1042,6 @@
 
             let htmlContent = htmlFile.content || "";
 
-            // Inject CSS dynamically
             files.filter(f => f.isText && f.name.endsWith('.css')).forEach(css => {
                 const styleTag = `<style data-file="${css.name}">\n${css.content}\n</style>`;
                 if (htmlContent.includes(`href="${css.name}"`)) {
@@ -913,7 +1051,6 @@
                 }
             });
 
-            // Inject JS/JSX dynamically
             files.filter(f => f.isText && f.name.match(/\.jsx?$/)).forEach(js => {
                 const typeAttr = js.name.endsWith('.jsx') ? 'type="text/babel"' : '';
                 const scriptTag = `<script ${typeAttr} data-file="${js.name}">\n${js.content}\n<\/script>`;
@@ -924,14 +1061,12 @@
                 }
             });
 
-            // Replace Binary File References (Images/Fonts)
             files.filter(f => !f.isText).forEach(binFile => {
                 const safeName = binFile.name.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
                 const regex = new RegExp(`(["'])${safeName}(["'])`, 'gi');
                 htmlContent = htmlContent.replace(regex, `$1${binFile.content}$2`);
             });
 
-            // Enhanced Console Interceptor for better object formatting & error handling
             const consoleInterceptor = `
             <script>
             (function(){
@@ -980,17 +1115,22 @@
             if (htmlContent.includes('<head>')) htmlContent = htmlContent.replace('<head>', '<head>\n' + consoleInterceptor);
             else htmlContent = consoleInterceptor + htmlContent;
 
-            // Apply Source
             UI.iframe.srcdoc = htmlContent;
             
-            // Generate pseudo-URL for aesthetics
-            const projectName = document.getElementById('projectTitleInput').value.replace(/\s+/g, '-').toLowerCase();
-            UI.urlDisplay.textContent = `localhost:3000/${htmlFile.name}?project=${projectName}`;
+            if (!P2P.isViewer && document.getElementById('projectTitleInput')) {
+                const projectName = document.getElementById('projectTitleInput').value.replace(/\s+/g, '-').toLowerCase();
+                UI.urlDisplay.textContent = `localhost:3000/${htmlFile.name}?project=${projectName}`;
+            }
             
-            // UI Updates
             setTimeout(() => { UI.iframe.style.opacity = '1'; }, 100);
-            UI.saveInd.style.opacity = '1';
-            setTimeout(() => UI.saveInd.style.opacity = '0', 1500);
+            
+            if(UI.saveInd) {
+                UI.saveInd.style.opacity = '1';
+                setTimeout(() => UI.saveInd.style.opacity = '0', 1500);
+            }
+            
+            // Push active state over WebRTC whenever a change triggers compilation
+            P2P.broadcast();
         }
 
         function reloadPreview() { compileAndRun(); }
@@ -1058,6 +1198,7 @@
         }
 
         function setupSplitters() {
+            if (P2P.isViewer) return;
             const splitterMain = document.getElementById('splitterMain');
             const splitterConsole = document.getElementById('splitterConsole');
 
@@ -1116,7 +1257,6 @@
             
             if (isLandscape && mode !== 'desktop') UI.iframe.classList.add('landscape');
 
-            // Update UI buttons active state
             const btns = ['devBtnDesktop', 'devBtnTablet', 'devBtnMobile'];
             btns.forEach(id => {
                 const btn = document.getElementById(id);
@@ -1187,12 +1327,10 @@
             try {
                 const zip = new JSZip();
                 
-                // Add all text files natively, convert base64 back for binary files
                 files.forEach(f => {
                     if (f.isText) {
                         zip.file(f.name, f.content);
                     } else {
-                        // Extract base64 data to write properly to zip
                         const base64Data = f.content.split(',')[1];
                         if(base64Data) zip.file(f.name, base64Data, {base64: true});
                     }
@@ -1210,7 +1348,7 @@
         function triggerFileInput() { document.getElementById('importFileInput').click(); }
 
         function handleFileImport(e) {
-            const MAX_FILE_SIZE = 10 * 1024 * 1024; // Expanded to 10MB limit
+            const MAX_FILE_SIZE = 10 * 1024 * 1024; 
 
             Array.from(e.target.files).forEach(file => {
                 if (file.size > MAX_FILE_SIZE) {
@@ -1218,7 +1356,6 @@
                     return;
                 }
 
-                // Determine file type strictly
                 const isText = file.type.startsWith('text/') || 
                                file.type === 'application/json' ||
                                file.name.match(/\.(js|json|css|html|xml|svg|txt|md|jsx|ts|tsx)$/i) !== null;
@@ -1235,17 +1372,15 @@
                     renderExplorerTree(); 
                     saveStateToStorage();
                     
-                    // If HTML, optionally jump to it.
                     if (file.name.endsWith('.html') && !lastHtmlFileId) {
                         compileAndRun();
                     }
                 };
                 
-                // Handle Safely to prevent raw binary dumps rendering natively
                 if (isText) r.readAsText(file);
-                else r.readAsDataURL(file); // Convert images/fonts to base64 immediately
+                else r.readAsDataURL(file); 
             });
-            e.target.value = ''; // Reset input
+            e.target.value = '';
         }
 
         const modals = {
@@ -1279,7 +1414,7 @@
                     localStorage.removeItem('cs_active_id_v3');
                     localStorage.removeItem('cs_project_title_v3');
                     localStorage.removeItem('cs_theme_v3');
-                    location.reload(); 
+                    location.href = window.location.href.split('?')[0]; 
                 }
             }
         };
@@ -1303,6 +1438,7 @@
             results.innerHTML = '';
             const commands = [
                 { name: 'Compile & Run Code', action: compileAndRun, icon: 'play' },
+                { name: 'Live Share via P2P', action: () => P2P.initHost(), icon: 'radio' },
                 { name: 'Find in Active File', action: triggerFind, icon: 'search' },
                 { name: 'Replace in Active File', action: triggerReplace, icon: 'replace' },
                 { name: 'Format Active File', action: formatCode, icon: 'wand-2' },
