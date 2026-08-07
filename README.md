@@ -59,6 +59,7 @@ It features an in-memory Virtual File System (VFS), an isolated `iframe` runtime
 ## 🏗️ System Architecture
 
 * **Vacant**
+
 ---
 
 ## 🔬 Deep Dive Specifications
