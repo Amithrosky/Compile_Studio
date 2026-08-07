@@ -1,6 +1,6 @@
 <div align="center">
 
-# ⚡ Compile Studio Pro
+# Compile Studio (CS v4.2 Production)
 
 
 ### **A Zero-Latency, Browser-Native Web Development Environment**
