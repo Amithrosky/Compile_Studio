@@ -109,5 +109,5 @@ Since Compile Studio Pro is fully client-side, setup takes under 10 seconds.
 1. Open the link: [https://amithrosky.github.io/Compile_Studio/](https://amithrosky.github.io/Compile_Studio/)
 
 ```bash
-(https://amithrosky.github.io/Compile_Studio/?)
+https://amithrosky.github.io/Compile_Studio/
   
