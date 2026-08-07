@@ -58,35 +58,24 @@ It features an in-memory Virtual File System (VFS), an isolated `iframe` runtime
 
 ## 🏗️ System Architecture
 
-┌────────────────────────────────────────────────────────────────────────┐
-│                        COMPILE STUDIO PRO IDE                          │
-├───────────────────┬───────────────────────────────┬────────────────────┤
-│   FILE TREE / VFS │      CODEMIRROR 5 EDITOR      │ COMMAND PALETTE    │
-│   (LocalStorage)  │   (Syntax, Folding, Beautify) │ (Ctrl + K)         │
-└─────────┬─────────┴───────────────┬───────────────┴─────────┬──────────┘
-│                         │                         │
-▼                         ▼                         ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                      EXECUTION ENGINE (Sandbox)                        │
-│                                                                        │
-│   ┌────────────────────────────────────────────────────────────────┐   │
-│   │                    Isolated  Container                  │   │
-│   │   • Dynamic HTML/CSS Rendering                                 │   │
-│   │   • JavaScript Execution Context                               │   │
-│   │   • CDN Package Injection (React, Three.js, GSAP)              │   │
-│   └───────────────────────────────┬────────────────────────────────┘   │
-└───────────────────────────────────┼────────────────────────────────────┘
-│ PostMessage Interceptor
-▼
-┌────────────────────────────────────────────────────────────────────────┐
-│                       CONSOLE DRAWER & REPL                            │
-│   • Log/Warn/Error Filtering   • Unhandled Exception Capture           │
-│   • Dynamic JS Evaluator       • Interactive Output Window             │
-└────────────────────────────────────────────────────────────────────────┘
+```mermaid
+graph TD
+    subgraph IDE ["Compile Studio Pro IDE"]
+        VFS["File Tree / VFS<br/>(LocalStorage)[cite: 1]"]
+        Editor["CodeMirror 5 Editor<br/>(Syntax, Folding, Beautify)[cite: 1]"]
+        Palette["Command Palette<br/>(Ctrl + K)[cite: 1]"]
+    end
 
+    IDE ==> Sandbox["Execution Engine (Sandbox)[cite: 1]"]
 
----
+    subgraph Sandbox ["Execution Engine"]
+        Container["Isolated iframe Container[cite: 1]"]
+        Container --> Render["Dynamic HTML/CSS Rendering[cite: 1]"]
+        Container --> JS["JavaScript Execution Context[cite: 1]"]
+        Container --> CDN["CDN Package Injection<br/>(React, Three.js, GSAP)[cite: 1]"]
+    end
 
+    Container -- PostMessage Interceptor[cite: 1] --> Console["Console Drawer & REPL[cite: 1]<br/>• Log/Warn/Error Filtering[cite: 1]<br/>• Unhandled Exception Capture[cite: 1]<br/>• Dynamic JS Evaluator[cite: 1]"]
 ## 🔬 Deep Dive Specifications
 
 ### 1. Editor & Syntax Engine
