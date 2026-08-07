@@ -106,6 +106,8 @@ It features an in-memory Virtual File System (VFS), an isolated `iframe` runtime
 Since Compile Studio Pro is fully client-side, setup takes under 10 seconds.
 
 ### Direct Launch
-1. Open the link:
-  https://amithrosky.github.io/Compile_Studio/? ```bash
+1. Open the link: (https://amithrosky.github.io/Compile_Studio/)
+
+```bash
+# Your commands here
   
